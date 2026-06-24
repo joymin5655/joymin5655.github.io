@@ -31,10 +31,36 @@ const { cs, ui, backHref, altHref, altLabel } = Astro.props;
         <a class="btn" href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
       ))}
     </div>
+    {cs.metrics && (
+      <div class="case-metrics">
+        {cs.metrics.map((m) => (
+          <div class="metric">
+            <span class="metric-value">{m.value}</span>
+            <span class="metric-label">{m.label}</span>
+          </div>
+        ))}
+      </div>
+    )}
   </div>
 </header>
 
 <main>
+  {cs.timeline && (
+    <section class="case-timeline-sec">
+      <div class="wrap">
+        <p class="eyebrow">{ui.modern}</p>
+        <div class="case-timeline">
+          {cs.timeline.map((t) => (
+            <div class="ct-item">
+              <span class="ct-date">{t.date}</span>
+              <span class="ct-label">{t.label}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   <section class="case-sections">
     <div class="wrap">
       {cs.sections.map((s, i) => (

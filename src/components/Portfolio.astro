@@ -2,7 +2,7 @@
 import type { Locale } from '../data/site';
 interface Props { data: Locale; }
 const { data } = Astro.props;
-const { hero, about, projects, skills, timeline, credentials, contact, nav } = data;
+const { hero, metrics, about, principles, projects, skills, timeline, credentials, contact, nav } = data;
 ---
 
 <nav class="nav">
@@ -10,6 +10,7 @@ const { hero, about, projects, skills, timeline, credentials, contact, nav } = d
     <a class="brand" href={data.lang === 'ko' ? '/' : '/en/'}>Yongmin <b>Cho</b></a>
     <div class="links">
       <a class="navlink" href="#about">{nav.about}</a>
+      <a class="navlink" href="#principles">{nav.principles}</a>
       <a class="navlink" href="#projects">{nav.projects}</a>
       <a class="navlink" href="#skills">{nav.skills}</a>
       <a class="navlink" href="#timeline">{nav.timeline}</a>
@@ -33,6 +34,17 @@ const { hero, about, projects, skills, timeline, credentials, contact, nav } = d
 </header>
 
 <main>
+  <section class="metrics-strip">
+    <div class="wrap">
+      {metrics.map((m) => (
+        <div class="metric">
+          <span class="metric-value">{m.value}</span>
+          <span class="metric-label">{m.label}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
   <section id="about" class="about">
     <div class="wrap">
       <p class="eyebrow">{about.heading}</p>
@@ -43,6 +55,22 @@ const { hero, about, projects, skills, timeline, credentials, contact, nav } = d
         ))}
       </div>
       <p class="motto">{about.motto}</p>
+    </div>
+  </section>
+
+  <section id="principles" class="principles">
+    <div class="wrap">
+      <p class="eyebrow">{principles.heading}</p>
+      <h2 class="section-title">{principles.heading}</h2>
+      <div class="principles-grid">
+        {principles.items.map((p, i) => (
+          <div class="principle">
+            <span class="principle-num">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+          </div>
+        ))}
+      </div>
     </div>
   </section>
 

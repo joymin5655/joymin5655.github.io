@@ -16,6 +16,8 @@ export type CaseStudy = {
   name: string;
   tagline: string;
   overview: string;
+  metrics?: { value: string; label: string }[];
+  timeline?: { date: string; label: string }[];
   sections: { title: string; hard: string; solution: string; tech: string[]; lesson: string }[];
   modernTech: { name: string; why: string }[];
   meta: { title: string; description: string };
@@ -27,7 +29,7 @@ export type Locale = {
   altHref: string;
   altLabel: string;
   meta: { title: string; description: string };
-  nav: { about: string; projects: string; skills: string; timeline: string; contact: string };
+  nav: { about: string; principles: string; projects: string; skills: string; timeline: string; contact: string };
   hero: {
     name: string;
     role: string;
@@ -35,7 +37,9 @@ export type Locale = {
     sub: string;
     ctas: { label: string; url: string; primary?: boolean }[];
   };
+  metrics: { value: string; label: string }[];
   about: { heading: string; lead: string; pillars: { title: string; body: string }[]; motto: string };
+  principles: { heading: string; items: { title: string; body: string }[] };
   projects: { heading: string; items: Project[] };
   skills: { heading: string; groups: { group: string; items: string[] }[] };
   timeline: { heading: string; items: { period: string; title: string; body: string }[] };
@@ -57,7 +61,7 @@ export const site: Record<'ko' | 'en', Locale> = {
       description:
         '프로덕션 AI 에이전트와 멀티런타임 거버넌스 하네스를 혼자 끝까지 만드는 AI 에이전트·인프라 엔지니어. AirLens · Agent.',
     },
-    nav: { about: '소개', projects: '프로젝트', skills: '기술', timeline: '여정', contact: '연락처' },
+    nav: { about: '소개', principles: '원칙', projects: '프로젝트', skills: '기술', timeline: '여정', contact: '연락처' },
     hero: {
       name: '조용민',
       role: 'AI 에이전트 · 인프라 엔지니어',
@@ -88,6 +92,23 @@ export const site: Record<'ko' | 'en', Locale> = {
         },
       ],
       motto: 'Context is the weapon · Defense-in-depth · Distill, don’t copy.',
+    },
+    metrics: [
+      { value: '1,261', label: '커밋 · 3.5개월 단독 (AirLens)' },
+      { value: '71%', label: 'feat · fix · refactor 비중' },
+      { value: '10+', label: '융합 데이터 소스' },
+      { value: '5', label: 'ML 엔진 (AirLens)' },
+      { value: '3', label: 'AI 런타임 통합 (Agent)' },
+    ],
+    principles: {
+      heading: '엔지니어링 원칙',
+      items: [
+        { title: '맥락이 무기다 · Context over knowledge', body: 'LLM 시대엔 지식이 아니라 구조화된 개인 맥락이 차별점입니다. 그래서 경험·판단·도메인 지식을 자체 구축한 타입 지식그래프(130 원자노드 · 0 lint)로 구조화해 어떤 모델에서도 재사용합니다.' },
+        { title: "복사 말고 증류 · Distill, don't copy", body: '미증류 문서를 그대로 쌓으면 그래프가 오염되고 통계가 거짓이 됩니다. 외부 자료는 원자 단위로 증류하고, 미증류 소스는 따로 격리합니다.' },
+        { title: '도구가 아니라 워크플로를 갈아엎어라 · Workflow redesign', body: 'AI를 기존 워크플로에 얹는 건 한계가 명확합니다. 계획→구현→리뷰→테스트→배포 파이프라인 전체를 AI 중심으로 재설계할 때 차이가 납니다.' },
+        { title: '다층 방어 · Defense in depth', body: '하나의 통제는 반드시 뚫립니다. gitleaks → CI → 훅 → 정책 게이트처럼 독립 레이어를 엮어, 한 층이 놓친 걸 다음 층이 잡게 합니다.' },
+        { title: '불확실성을 숨기지 마라 · Glass-box honesty', body: '단일 예측값은 과신을 부릅니다. 모든 ML 출력에 p10~p90 구간과 데이터 품질 배지를 노출해, 불확실성을 제품의 일부로 만듭니다.' },
+      ],
     },
     projects: {
       heading: '대표 프로젝트',
@@ -174,7 +195,7 @@ export const site: Record<'ko' | 'en', Locale> = {
       description:
         'AI Agent / Infrastructure Engineer who solo-builds production AI agents and a multi-runtime governance harness. AirLens · Agent.',
     },
-    nav: { about: 'About', projects: 'Projects', skills: 'Skills', timeline: 'Journey', contact: 'Contact' },
+    nav: { about: 'About', principles: 'Principles', projects: 'Projects', skills: 'Skills', timeline: 'Journey', contact: 'Contact' },
     hero: {
       name: 'Yongmin Cho',
       role: 'AI Agent · Infrastructure Engineer',
@@ -205,6 +226,23 @@ export const site: Record<'ko' | 'en', Locale> = {
         },
       ],
       motto: 'Context is the weapon · Defense-in-depth · Distill, don’t copy.',
+    },
+    metrics: [
+      { value: '1,261', label: 'commits · solo · 3.5 months (AirLens)' },
+      { value: '71%', label: 'feat · fix · refactor share' },
+      { value: '10+', label: 'fused data sources' },
+      { value: '5', label: 'ML engines (AirLens)' },
+      { value: '3', label: 'AI runtimes unified (Agent)' },
+    ],
+    principles: {
+      heading: 'Engineering Principles',
+      items: [
+        { title: 'Context over knowledge', body: "In the LLM era the edge isn't knowledge — it's structured personal context. I encode my experience, judgment, and domain knowledge into a self-built typed knowledge graph (130 atomic nodes, 0 lint findings) so it stays reusable across any model." },
+        { title: "Distill, don't copy", body: 'Piling up undigested documents pollutes the graph and turns its statistics into lies. I distill external material into atomic notes and quarantine raw sources separately.' },
+        { title: 'Workflow redesign over tool adoption', body: 'Bolting AI onto an existing workflow has a hard ceiling. The difference comes from redesigning the whole pipeline — plan → build → review → test → deploy — around AI.' },
+        { title: 'Defense in depth', body: 'A single control always breaks. I chain independent layers (gitleaks → CI → hook → policy gate) so the next catches what the last one missed.' },
+        { title: 'Glass-box honesty', body: 'Single-point predictions breed overconfidence. Every ML output exposes a p10–p90 band and a data-quality badge, making uncertainty part of the product.' },
+      ],
     },
     projects: {
       heading: 'Featured Projects',
@@ -309,7 +347,20 @@ export const caseStudies: Record<
         name: 'AirLens',
         tagline: '대기질 인텔리전스 SaaS · 단독 개발 · 라이브',
         overview:
-          'AirLens는 위성·지상 10여 개 데이터 소스를 통합해 PM2.5를 추정하고, 정책 효과를 인과추론으로 분석하며, GPT-4o 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 대기질 인텔리전스 플랫폼입니다. 데이터 파이프라인부터 ML·프론트엔드·배포까지 혼자 구축해 라이브로 운영하고 있습니다. 그 과정에서 가장 까다로웠던 세 가지 문제와 해결 방식입니다.',
+          'AirLens는 위성·지상 10여 개 데이터 소스를 통합해 PM2.5를 추정하고, 정책 효과를 인과추론으로 분석하며, GPT-4o 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 대기질 인텔리전스 플랫폼입니다. 데이터 파이프라인부터 ML·프론트엔드·배포까지 혼자 구축해 라이브로 운영하고 있습니다. 가장 까다로웠던 문제들과 해결 방식, 그리고 진행 중 도입한 최신 기술입니다.',
+        metrics: [
+          { value: '1,261', label: '커밋 · 단독' },
+          { value: '3.5개월', label: '2026-03 → 06' },
+          { value: '71%', label: 'feat · fix · refactor' },
+          { value: '10+', label: '데이터 소스' },
+          { value: '5', label: 'ML 엔진' },
+        ],
+        timeline: [
+          { date: '2026-03', label: '첫 커밋 · PostHog·Sentry 관측 도입' },
+          { date: '2026-04', label: 'DINOv2 → ONNX 내보내기 (Camera AI 엣지 추론)' },
+          { date: '2026-05', label: 'npm workspaces 모노레포 마이그레이션 · TFT ONNX 추론 배선' },
+          { date: '2026-06', label: 'pgvector 하이브리드 RAG + Haiku 재랭킹 · TFT 실데이터 배선 · SDID 6→53 · GPT-4o Edge' },
+        ],
         sections: [
           {
             title: '정책 효과 분석이 “데이터의 함정”에 빠진 문제 (SDID 인과추론)',
@@ -340,6 +391,16 @@ export const caseStudies: Record<
             tech: ['Supabase RLS', '권한 매트릭스 적대적 검증', 'pgvector 하이브리드 RAG'],
             lesson:
               '보안 정책은 “많이”가 아니라 “정확히”입니다. 정리하면서도 단 한 명의 권한도 바뀌지 않았음을 증명할 수 있어야 합니다.',
+          },
+          {
+            title: '사진 한 장으로 PM2.5 추정 (Camera AI)',
+            hard:
+              '사진으로 대기질을 추정하려면 두 가지가 까다로웠습니다. (1) “정확히 38.2 µg/m³”라는 절대값보다 “이 정도로 나쁨”이라는 순서가 더 자연스럽고 견고하며, (2) 수억 파라미터의 비전 트랜스포머를 서버가 아니라 브라우저·모바일 엣지에서 돌려야 했습니다.',
+            solution:
+              'DINOv2 파운데이션 모델을 백본으로 쓰고, 분류도 회귀도 아닌 CORN 서수회귀 헤드로 “순서”를 학습시켰습니다. 학습한 모델은 ONNX로 내보내 엣지에서 추론하고, glass-box 원칙대로 단일 값이 아니라 불확실성 구간을 함께 노출합니다.',
+            tech: ['DINOv2', 'CORN 서수회귀', 'ONNX Runtime', 'Glass-box 불확실성'],
+            lesson:
+              '문제의 본질(절대값이 아니라 순서)에 맞는 모델 형식을 고르고, 추론이 일어날 위치(엣지)까지 설계에 넣어야 합니다.',
           },
         ],
         modernTech: [
@@ -425,7 +486,20 @@ export const caseStudies: Record<
         name: 'AirLens',
         tagline: 'Air-quality intelligence SaaS · Solo · Live',
         overview:
-          'AirLens fuses 10+ satellite & ground data sources to estimate PM2.5, analyzes policy impact via causal inference, and turns natural-language questions into code and insight through a GPT-4o agent. I built it solo — from data pipeline to ML, frontend, and deployment — and run it live. Here are the three hardest problems and how I solved them.',
+          'AirLens fuses 10+ satellite & ground data sources to estimate PM2.5, analyzes policy impact via causal inference, and turns natural-language questions into code and insight through a GPT-4o agent. I built it solo — from data pipeline to ML, frontend, and deployment — and run it live. Here are the hardest problems, how I solved them, and the modern tech I adopted along the way.',
+        metrics: [
+          { value: '1,261', label: 'commits · solo' },
+          { value: '3.5 mo', label: '2026-03 → 06' },
+          { value: '71%', label: 'feat · fix · refactor' },
+          { value: '10+', label: 'data sources' },
+          { value: '5', label: 'ML engines' },
+        ],
+        timeline: [
+          { date: '2026-03', label: 'First commit · PostHog & Sentry observability' },
+          { date: '2026-04', label: 'DINOv2 → ONNX export (Camera AI edge inference)' },
+          { date: '2026-05', label: 'npm workspaces monorepo migration · TFT ONNX inference wiring' },
+          { date: '2026-06', label: 'pgvector hybrid RAG + Haiku re-ranking · TFT real-data wiring · SDID 6→53 · GPT-4o Edge' },
+        ],
         sections: [
           {
             title: 'When policy-impact analysis fell into a “data trap” (SDID causal inference)',
@@ -456,6 +530,16 @@ export const caseStudies: Record<
             tech: ['Supabase RLS', 'adversarial access matrix', 'pgvector hybrid RAG'],
             lesson:
               'Security policy is about being precise, not abundant. Even while consolidating, you must be able to prove not a single user’s access changed.',
+          },
+          {
+            title: 'Estimating PM2.5 from a single photo (Camera AI)',
+            hard:
+              'Estimating air quality from a photo was tricky for two reasons: (1) an ordering ("this bad") is more natural and robust than an absolute "38.2 µg/m³", and (2) a vision transformer with hundreds of millions of parameters had to run on the browser/mobile edge, not a server.',
+            solution:
+              'I used a DINOv2 foundation model as the backbone with a CORN ordinal-regression head — neither pure classification nor regression — to learn the ordering, exported it to ONNX for edge inference, and exposed an uncertainty band rather than a single value, per the glass-box principle.',
+            tech: ['DINOv2', 'CORN ordinal regression', 'ONNX Runtime', 'Glass-box uncertainty'],
+            lesson:
+              'Pick a model formulation that matches the true nature of the problem (ordering, not an absolute value), and design for where inference actually runs (the edge).',
           },
         ],
         modernTech: [

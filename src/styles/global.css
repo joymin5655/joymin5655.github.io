@@ -247,3 +247,45 @@ h2.section-title {
 .modern-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.3rem; }
 .modern-item h3 { font-family: var(--mono); font-size: 0.92rem; color: var(--accent); margin-bottom: 0.45rem; }
 .modern-item p { color: var(--muted); font-size: 0.9rem; }
+
+/* ── Metrics strip (landing + case header) ───────────────────── */
+.metrics-strip { padding-block: clamp(1.6rem, 4vw, 2.4rem); border-block: 1px solid var(--border); }
+.metrics-strip .wrap { display: grid; gap: 1rem 1.5rem; grid-template-columns: repeat(2, 1fr); text-align: center; }
+@media (min-width: 720px) { .metrics-strip .wrap { grid-template-columns: repeat(5, 1fr); } }
+.metric { display: flex; flex-direction: column; gap: 0.25rem; }
+.metric-value {
+  font-size: clamp(1.8rem, 4.5vw, 2.6rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1;
+  background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.metric-label { font-size: 0.78rem; color: var(--muted); line-height: 1.35; }
+.case-metrics {
+  display: grid; gap: 0.9rem 1.4rem; grid-template-columns: repeat(3, 1fr);
+  margin-top: 2rem; padding-top: 1.6rem; border-top: 1px solid var(--border); text-align: center;
+}
+@media (min-width: 640px) { .case-metrics { grid-template-columns: repeat(5, 1fr); } }
+
+/* ── Engineering principles ──────────────────────────────────── */
+.principles-grid { display: grid; gap: 1rem; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .principles-grid { grid-template-columns: repeat(2, 1fr); } }
+.principle {
+  position: relative; background: var(--surface); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.5rem 1.4rem; overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.principle:hover { transform: translateY(-3px); border-color: var(--border-strong); }
+.principle-num {
+  position: absolute; top: 0.8rem; right: 1.1rem;
+  font-family: var(--mono); font-size: 1.5rem; font-weight: 700; color: #ffffff0f;
+}
+.principle h3 { font-size: 1rem; letter-spacing: -0.01em; margin-bottom: 0.55rem; padding-right: 2rem; }
+.principle p { color: var(--muted); font-size: 0.92rem; }
+
+/* ── Case-study tech-adoption timeline ───────────────────────── */
+.case-timeline-sec { padding-block: clamp(2rem, 5vw, 3rem) 0; }
+.case-timeline { display: grid; gap: 0.7rem; margin-top: 1rem; }
+.ct-item {
+  display: grid; grid-template-columns: 5.5rem 1fr; gap: 0.9rem; align-items: start;
+  padding: 0.7rem 0.9rem; background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px;
+}
+.ct-date { font-family: var(--mono); font-size: 0.8rem; color: var(--accent); padding-top: 0.05rem; }
+.ct-label { color: var(--muted); font-size: 0.9rem; }

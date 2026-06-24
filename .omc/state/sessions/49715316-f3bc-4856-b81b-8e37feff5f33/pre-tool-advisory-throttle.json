@@ -2,29 +2,25 @@
   "version": 1,
   "entries": {
     "79a93d4a2f8f50b95f852280616242fee1855dc99a3c75211917f55e72e95fae": {
-      "last_emitted_at_ms": 1782306979624,
+      "last_emitted_at_ms": 1782316662591,
       "message": "Use parallel execution for independent tasks. Use run_in_background for long operations (npm install, builds, tests)."
     },
-    "445ed27a3872b681d98190bae61ccb84954e1bc4e140df5370be958dee776b3a": {
-      "last_emitted_at_ms": 1782306913568,
-      "message": "Verify changes work after editing. Test functionality before marking complete."
+    "1246dfce043cdc143dd97557510ef343e4342a25fea7882194364fdccf1d0454": {
+      "last_emitted_at_ms": 1782315569860,
+      "message": "Spawning agent: Explore (inherit) | Task: AirLens·Oracle ML 볼트 깊이 채굴"
     },
-    "77e3ca002136d2cbc3f7d04be92c79534e4071849bee74f7b37736b9984cdd33": {
-      "last_emitted_at_ms": 1782306306864,
-      "message": "Spawning agent: Explore (inherit) | Task: Second brain insight 노드 채굴"
+    "efa448cd23dbf42b06f4a80f066702b69d7bce0166a84af2efe9f64ced15268f": {
+      "last_emitted_at_ms": 1782315557609,
+      "message": "Spawning agent: Explore (inherit) | Task: 세컨드브레인 정체성·원칙 채굴"
     },
-    "f02493101ba54d42b1562243149119410f3d41f49cd928926a5699e856fa9415": {
-      "last_emitted_at_ms": 1782306294266,
-      "message": "Spawning agent: Explore (inherit) | Task: Agent 하네스 도전·해결·최신기술 채굴"
-    },
-    "e194aab22c6954864434287ab3e70961e2d89236683e0c1bf12fb415d342a336": {
-      "last_emitted_at_ms": 1782306280497,
-      "message": "Spawning agent: Explore (inherit) | Task: AirLens 도전·해결·최신기술 채굴"
+    "30338777c2b9a47d81ed5accecaa26a7f2827e87d01fa008ddd2d156f404d021": {
+      "last_emitted_at_ms": 1782315544553,
+      "message": "Spawning agent: Explore (inherit) | Task: 커밋 정량 지표 채굴"
     },
     "466399dafa2d20f60587180bad0a07358eb7f2bce724df0ff682f038ad33f5ad": {
-      "last_emitted_at_ms": 1782306255864,
+      "last_emitted_at_ms": 1782315519029,
       "message": "Read multiple files in parallel when possible for faster analysis."
     }
   },
-  "updated_at": "2026-06-24T13:16:19.624Z"
+  "updated_at": "2026-06-24T15:57:42.591Z"
 }

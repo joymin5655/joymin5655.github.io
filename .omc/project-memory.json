@@ -1,0 +1,122 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1782315643069,
+  "projectRoot": "/Volumes/WD_BLACK/00_Active/joymin5655.github.io",
+  "techStack": {
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": ">=22.12.0",
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "astro",
+        "version": "5.0.0",
+        "category": "fullstack"
+      }
+    ],
+    "packageManager": "npm",
+    "runtime": "Node.js 22.12.0"
+  },
+  "build": {
+    "buildCommand": "cd /Volumes/WD_BLACK/00_Active/joymin5655.github.io && npm run build 2>&1 | tail -14; echo \"===== CHECKS =====\"; echo \"--- phone(0) / forbidden(0) ---\"; grep -rEo \"010[- ]?[0-9]{4}[- ]?[0-9]{4}|2294[- ]?4641\" dist | wc -l | tr -d ' '; grep -riE \"\\b(gcp|nginx|flutter)\\b\" dist | wc -l | tr -d ' '; echo \"--- published numbers present ---\"; for n in \"1,261\" \"71%\" \"130\" \"10+\" \"Camera AI\" \"엔지니어링 원칙\" \"Engineering Principles\" \"2026-03\"; do c=$(grep -rl \"$n\" dist | wc -l | tr -d ' '); echo \"$n : $c files\"; done; echo \"--- suspect numbers must be ABSENT (expect 0) ---\"; for n in \"1,718\" \"1093\" \"3740\" \"278 \" \"534 \"; do echo \"$n : $(grep -rEo \"$n\" dist 2>/dev/null | wc -l | tr -d ' ')\"; done",
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": "npm run dev",
+    "scripts": {
+      "dev": "astro dev",
+      "build": "astro build",
+      "preview": "astro preview",
+      "astro": "astro"
+    }
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": "type-based"
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [
+      "public",
+      "src"
+    ],
+    "gitBranches": null
+  },
+  "customNotes": [],
+  "directoryMap": {
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 3,
+      "lastAccessed": 1782315643050,
+      "keyFiles": [
+        "favicon.ico",
+        "favicon.svg",
+        "index.html"
+      ]
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 2,
+      "lastAccessed": 1782315643053,
+      "keyFiles": [
+        "favicon.ico",
+        "favicon.svg"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 0,
+      "lastAccessed": 1782315643057,
+      "keyFiles": []
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 2,
+      "lastAccessed": 1782315643058,
+      "keyFiles": [
+        "CaseStudy.astro",
+        "Portfolio.astro"
+      ]
+    },
+    "src/data": {
+      "path": "src/data",
+      "purpose": "Data files",
+      "fileCount": 1,
+      "lastAccessed": 1782315643059,
+      "keyFiles": [
+        "site.ts"
+      ]
+    },
+    "src/pages": {
+      "path": "src/pages",
+      "purpose": "Page components",
+      "fileCount": 1,
+      "lastAccessed": 1782315643059,
+      "keyFiles": [
+        "index.astro"
+      ]
+    }
+  },
+  "hotPaths": [],
+  "userDirectives": []
+}
