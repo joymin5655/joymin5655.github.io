@@ -1,0 +1,21 @@
+---
+import Base from '../../layouts/Base.astro';
+import CaseStudy from '../../components/CaseStudy.astro';
+import { caseStudies } from '../../data/site';
+
+export function getStaticPaths() {
+  return Object.keys(caseStudies.ko.items).map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const loc = caseStudies.ko;
+const cs = loc.items[slug as string];
+---
+<Base
+  data={{ lang: 'ko', meta: cs.meta }}
+  path={`/projects/${slug}`}
+  altKo={`/projects/${slug}`}
+  altEn={`/en/projects/${slug}`}
+>
+  <CaseStudy cs={cs} ui={loc.ui} backHref="/#projects" altHref={`/en/projects/${slug}`} altLabel="EN" />
+</Base>

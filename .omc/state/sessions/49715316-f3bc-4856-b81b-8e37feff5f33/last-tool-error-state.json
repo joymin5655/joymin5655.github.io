@@ -1,0 +1,7 @@
+{
+  "tool_name": "mcp__plugin_context-mode_context-mode__ctx_batch_execute",
+  "tool_input_preview": "{\"commands\":[{\"label\":\"list insights\",\"command\":\"ls -1 /Volumes/WD_BLACK/00_Active/2_BRAIN/Brain_2_ym/wiki/insights/ 2>/dev/null\"},{\"label\":\"list concepts\",\"command\":\"ls -1 /Volumes/WD_BLACK/00_Active...",
+  "error": "MCP error -32602: Input validation error: Invalid arguments for tool ctx_batch_execute: [\n  {\n    \"code\": \"too_small\",\n    \"minimum\": 1,\n    \"type\": \"array\",\n    \"inclusive\": true,\n    \"exact\": false,\n    \"message\": \"Array must contain at least 1 element(s)\",\n    \"path\": [\n      \"queries\"\n    ]\n  }\n]",
+  "timestamp": "2026-06-24T13:05:29.274Z",
+  "retry_count": 1
+}

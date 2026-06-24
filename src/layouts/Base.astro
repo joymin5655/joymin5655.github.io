@@ -1,12 +1,16 @@
 ---
 import '../styles/global.css';
-import type { Locale } from '../data/site';
 
-interface Props { data: Locale; }
-const { data } = Astro.props;
+interface Props {
+  data: { lang: 'ko' | 'en'; meta: { title: string; description: string } };
+  path?: string;  // path of THIS page, e.g. '/projects/airlens'
+  altKo?: string; // hreflang ko path
+  altEn?: string; // hreflang en path
+}
+const { data, path, altKo = '/', altEn = '/en/' } = Astro.props;
 
 const origin = 'https://joymin5655.github.io';
-const url = data.lang === 'ko' ? `${origin}/` : `${origin}/en/`;
+const url = `${origin}${path ?? (data.lang === 'ko' ? '/' : '/en/')}`;
 ---
 <!doctype html>
 <html lang={data.lang}>
@@ -17,9 +21,9 @@ const url = data.lang === 'ko' ? `${origin}/` : `${origin}/en/`;
     <title>{data.meta.title}</title>
     <meta name="description" content={data.meta.description} />
     <link rel="canonical" href={url} />
-    <link rel="alternate" hreflang="ko" href={`${origin}/`} />
-    <link rel="alternate" hreflang="en" href={`${origin}/en/`} />
-    <link rel="alternate" hreflang="x-default" href={`${origin}/`} />
+    <link rel="alternate" hreflang="ko" href={`${origin}${altKo}`} />
+    <link rel="alternate" hreflang="en" href={`${origin}${altEn}`} />
+    <link rel="alternate" hreflang="x-default" href={`${origin}${altKo}`} />
 
     <meta property="og:type" content="website" />
     <meta property="og:title" content={data.meta.title} />

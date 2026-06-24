@@ -58,8 +58,13 @@ const { hero, about, projects, skills, timeline, credentials, contact, nav } = d
             <p class="tag">{proj.tag}</p>
             <p class="blurb">{proj.blurb}</p>
             <div class="chips">{proj.stack.map((s) => <span class="chip">{s}</span>)}</div>
-            {proj.links.length > 0 && (
+            {(proj.links.length > 0 || proj.slug) && (
               <div class="links">
+                {proj.slug && (
+                  <a class="case-link" href={`${data.lang === 'ko' ? '' : '/en'}/projects/${proj.slug}`}>
+                    {data.lang === 'ko' ? '케이스스터디' : 'Case study'} →
+                  </a>
+                )}
                 {proj.links.map((l) => (
                   <a href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
                 ))}
