@@ -1,0 +1,139 @@
+---
+import type { Locale } from '../data/site';
+interface Props { data: Locale; }
+const { data } = Astro.props;
+const { hero, about, projects, skills, timeline, credentials, contact, nav } = data;
+---
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href={data.lang === 'ko' ? '/' : '/en/'}>Yongmin <b>Cho</b></a>
+    <div class="links">
+      <a class="navlink" href="#about">{nav.about}</a>
+      <a class="navlink" href="#projects">{nav.projects}</a>
+      <a class="navlink" href="#skills">{nav.skills}</a>
+      <a class="navlink" href="#timeline">{nav.timeline}</a>
+      <a class="navlink" href="#contact">{nav.contact}</a>
+      <a class="lang" href={data.altHref} aria-label="language">{data.altLabel}</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="role">{hero.role}</p>
+    <h1>{hero.name}<br /><span class="grad">{hero.tagline}</span></h1>
+    <p class="sub">{hero.sub}</p>
+    <div class="ctas">
+      {hero.ctas.map((c) => (
+        <a class={`btn ${c.primary ? 'primary' : ''}`} href={c.url} target={c.url.startsWith('#') ? undefined : '_blank'} rel={c.url.startsWith('#') ? undefined : 'noopener'}>{c.label}</a>
+      ))}
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="about" class="about">
+    <div class="wrap">
+      <p class="eyebrow">{about.heading}</p>
+      <p class="lead">{about.lead}</p>
+      <div class="pillars">
+        {about.pillars.map((p) => (
+          <div class="pillar"><h3>{p.title}</h3><p>{p.body}</p></div>
+        ))}
+      </div>
+      <p class="motto">{about.motto}</p>
+    </div>
+  </section>
+
+  <section id="projects" class="projects">
+    <div class="wrap">
+      <p class="eyebrow">{projects.heading}</p>
+      <h2 class="section-title">{projects.heading}</h2>
+      <div class="projects-grid">
+        {projects.items.map((proj) => (
+          <article class={`card ${proj.flagship ? 'flagship' : ''}`}>
+            <span class="badge">{proj.flagship ? '★ Flagship' : 'Project'}</span>
+            <h3>{proj.name}</h3>
+            <p class="tag">{proj.tag}</p>
+            <p class="blurb">{proj.blurb}</p>
+            <div class="chips">{proj.stack.map((s) => <span class="chip">{s}</span>)}</div>
+            {proj.links.length > 0 && (
+              <div class="links">
+                {proj.links.map((l) => (
+                  <a href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="skills">
+    <div class="wrap">
+      <p class="eyebrow">{skills.heading}</p>
+      <h2 class="section-title">{skills.heading}</h2>
+      <div class="skills-grid">
+        {skills.groups.map((g) => (
+          <div class="skillgroup">
+            <h3>{g.group}</h3>
+            <div class="items">{g.items.map((i) => <span class="chip">{i}</span>)}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="timeline" class="journey">
+    <div class="wrap">
+      <p class="eyebrow">{timeline.heading}</p>
+      <h2 class="section-title">{timeline.heading}</h2>
+      <div class="timeline">
+        {timeline.items.map((t) => (
+          <div class="tl-item">
+            <p class="period">{t.period}</p>
+            <h3>{t.title}</h3>
+            <p>{t.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="credentials" class="credentials">
+    <div class="wrap">
+      <p class="eyebrow">{credentials.heading}</p>
+      <h2 class="section-title">{credentials.heading}</h2>
+      <div class="cred-grid">
+        {credentials.groups.map((g) => (
+          <div class="credgroup">
+            <h3>{g.label}</h3>
+            <ul>{g.items.map((i) => <li>{i}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap">
+      <p class="eyebrow">{contact.heading}</p>
+      <h2 class="section-title">{contact.heading}</h2>
+      <p class="lead">{contact.lead}</p>
+      <div class="links">
+        {contact.items.map((c) => (
+          <a href={c.url} target={c.url.startsWith('mailto') ? undefined : '_blank'} rel="noopener">{c.label}</a>
+        ))}
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <span>© 2026 Yongmin Cho (조용민)</span>
+    <span class="mono">Built with Astro · Deployed on GitHub Pages</span>
+  </div>
+</footer>

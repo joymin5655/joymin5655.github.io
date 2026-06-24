@@ -1,0 +1,9 @@
+---
+import Base from '../../layouts/Base.astro';
+import Portfolio from '../../components/Portfolio.astro';
+import { site } from '../../data/site';
+const data = site.en;
+---
+<Base data={data}>
+  <Portfolio data={data} />
+</Base>
