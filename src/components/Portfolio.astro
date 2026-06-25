@@ -1,5 +1,6 @@
 ---
 import type { Locale } from '../data/site';
+import GooeyText from './GooeyText.astro';
 interface Props { data: Locale; }
 const { data } = Astro.props;
 const { hero, metrics, about, principles, projects, skills, timeline, credentials, contact, nav } = data;
@@ -24,6 +25,7 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
   <div class="wrap">
     <p class="role">{hero.role}</p>
     <h1>{hero.name}<br /><span class="grad">{hero.tagline}</span></h1>
+    <GooeyText texts={hero.gooey} class="hero-gooey" id="hero-gooey" />
     <p class="sub">{hero.sub}</p>
     <div class="ctas">
       {hero.ctas.map((c) => (

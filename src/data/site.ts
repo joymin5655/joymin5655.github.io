@@ -35,6 +35,7 @@ export type Locale = {
     role: string;
     tagline: string;
     sub: string;
+    gooey: string[]; // rotating morphing line; edit this array to pick which sentences cycle (≥2)
     ctas: { label: string; url: string; primary?: boolean }[];
   };
   metrics: { value: string; label: string }[];
@@ -67,6 +68,8 @@ export const site: Record<'ko' | 'en', Locale> = {
       role: 'AI 에이전트 · 인프라 엔지니어',
       tagline: '기능이 아니라, 시스템을 만듭니다.',
       sub: '프로덕션 AI 에이전트를 만들고, 안정적으로 배포·운영·거버넌스하는 시스템까지 혼자 끝까지 설계합니다.',
+      // ↓ gooey 모핑 라인에서 순환할 문장. 필요한 것만 남기고 지우세요 (최소 2개).
+      gooey: ['프로덕션 AI 에이전트', '멀티런타임 거버넌스', 'ML · 물리 기반 모델링', '데이터 → ML → 배포, 혼자'],
       ctas: [
         { label: '프로젝트 보기', url: '#projects', primary: true },
         { label: 'AirLens 라이브', url: AIRLENS },
@@ -201,6 +204,8 @@ export const site: Record<'ko' | 'en', Locale> = {
       role: 'AI Agent · Infrastructure Engineer',
       tagline: 'System builder, not feature builder.',
       sub: 'I build production AI agents — and design the whole system that ships, runs, and governs them, end to end and solo.',
+      // ↓ sentences that cycle in the gooey morphing line. Keep only what you want (≥2).
+      gooey: ['Production AI Agents', 'Multi-runtime Governance', 'ML & Physics Modeling', 'Data → ML → Deploy, Solo'],
       ctas: [
         { label: 'View Projects', url: '#projects', primary: true },
         { label: 'AirLens Live', url: AIRLENS },
