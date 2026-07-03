@@ -14,7 +14,7 @@
 - `src/styles/global.css` — 디자인 토큰(다크, accent #25e2f4/#7c6cf0).
 
 ## 진실성 게이트 (필수)
-- 출처 SSOT = `/Volumes/WD_BLACK/10_Reference/취업/master/session_summary_report.md`. 신규 주장은 여기 대조.
+- 출처 SSOT = `/Volumes/WD_BLACK/취업/master/session_summary_report.md`. 신규 주장은 여기 대조.
 - **전화번호 게시 금지. GCP·Nginx·Flutter·Tailwind 미보유 — 표기 금지**(R8).
 - Agent 하네스 수치는 정성 표기(부풀림 금지). 자격증 vs 온라인 수료 구분 유지.
 
@@ -24,4 +24,5 @@
 
 ## 후속 (미완)
 - Phase 5: Three.js 글로브 React island(`metiq-clone` 재사용) + 정적 poster fallback + reduced-motion.
-- 폴리시: OG 이미지(`og.png`), favicon 커스텀, README↔사이트 크로스링크 확인, Lighthouse 패스.
+- 폴리시: README↔사이트 크로스링크 확인, Lighthouse 패스. (OG 이미지·sitemap·robots.txt·JSON-LD·favicon = 2026-07-04 완료.)
+- 보류(사용자 결정 2026-07-04): Contact LinkedIn(검증 URL 확보 후), 이력서 PDF CTA(개인정보 리스크).

@@ -165,8 +165,8 @@ export const site: Record<'ko' | 'en', Locale> = {
         { period: '2023.01 – 05', title: '로지체인 · 기획 인턴', body: '온디바이스 AI·비전 분석 솔루션 신규 사업 제안서 작성. 구조·시각 개선 제안이 채택되어 제안 통과에 기여 — 기획만으로는 닿지 못하는 “구현”의 벽을 느낀 시점.' },
         { period: '2023.08 – 2024.01', title: 'KT AIVLE School · AI 개발자 트랙 (840h)', body: '빅프로젝트에서 프론트엔드를 주도했으나 배포 단계에서 실패. “아무리 좋은 모델도 배포되지 않으면 의미가 없다” — 인프라·CI/CD를 파고든 전환점.' },
         { period: '2024.07 – 2025.01', title: '에듀인소프트 · 교육 운영·기획', body: '데이터 자격증(SQLD·ADsP) 과정 운영·진도·정산 행정 + 과정 제안·기획 보조.' },
+        { period: '2024.08 – 2025', title: 'Sigma · Welodata (Google) · AI 데이터 QA·평가', body: '한국어 음성 전사·언어 QA, 광고·검색 적합성 평가 — AI 학습 데이터 파이프라인 (~8개월).' },
         { period: '2026.03 – 현재', title: 'AirLens 제품 개발 (단독) · Agent 하네스', body: '캡스톤 대기질 연구를 상용 SaaS로 고도화. 단독 1,200+ 커밋, GPT-4o 에이전트 탑재, 라이브 운영. 멀티런타임 거버넌스 하네스 Agent 병행 운영.' },
-        { period: '계약', title: 'Sigma · Welodata (Google) · AI 데이터 QA·평가', body: '한국어 음성 전사·언어 QA, 광고·검색 적합성 평가 — AI 학습 데이터 파이프라인 (~8개월).' },
       ],
     },
     credentials: {
@@ -302,8 +302,8 @@ export const site: Record<'ko' | 'en', Locale> = {
         { period: '2023.01 – 05', title: 'Logichain · Planning Intern', body: 'Authored new-business proposals for on-device AI / vision solutions; my structural and visual improvements were adopted, contributing to proposal approval — where I first hit the wall between planning and building.' },
         { period: '2023.08 – 2024.01', title: 'KT AIVLE School · AI Developer Track (840h)', body: 'Led the frontend on the big project but failed at the deployment step. “No matter how good the model, it’s meaningless if it never ships” — the turning point that drove me into infrastructure and CI/CD.' },
         { period: '2024.07 – 2025.01', title: 'Eduinsoft · Education Planning & Operations', body: 'Ran data-certification courses (SQLD · ADsP): student progress & settlement administration, plus proposal and planning support.' },
+        { period: '2024.08 – 2025', title: 'Sigma · Welodata (Google) · AI Data QA & Evaluation', body: 'Korean speech transcription & linguistic QA, ads/search relevance evaluation — AI training-data pipeline (~8 months).' },
         { period: '2026.03 – Present', title: 'AirLens (solo) · Agent harness', body: 'Grew a capstone air-quality study into a production SaaS — 1,200+ solo commits, GPT-4o agent onboard, live. Run the multi-runtime governance harness Agent in parallel.' },
-        { period: 'Contract', title: 'Sigma · Welodata (Google) · AI Data QA & Evaluation', body: 'Korean speech transcription & linguistic QA, ads/search relevance evaluation — AI training-data pipeline (~8 months).' },
       ],
     },
     credentials: {

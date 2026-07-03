@@ -25,12 +25,22 @@ const url = `${origin}${path ?? (data.lang === 'ko' ? '/' : '/en/')}`;
     <link rel="alternate" hreflang="en" href={`${origin}${altEn}`} />
     <link rel="alternate" hreflang="x-default" href={`${origin}${altKo}`} />
 
+    <meta name="theme-color" content="#0a0f1a" />
+
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Yongmin Cho" />
     <meta property="og:title" content={data.meta.title} />
     <meta property="og:description" content={data.meta.description} />
     <meta property="og:url" content={url} />
     <meta property="og:locale" content={data.lang === 'ko' ? 'ko_KR' : 'en_US'} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={`${origin}/og.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Yongmin Cho · AI Agent / Infrastructure Engineer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={data.meta.title} />
+    <meta name="twitter:description" content={data.meta.description} />
+    <meta name="twitter:image" content={`${origin}/og.png`} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -39,6 +49,18 @@ const url = `${origin}${path ?? (data.lang === 'ko' ? '/' : '/en/')}`;
       rel="stylesheet"
     />
     <meta name="generator" content={Astro.generator} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: 'Yongmin Cho',
+        alternateName: '조용민',
+        jobTitle: data.lang === 'ko' ? 'AI 에이전트 · 인프라 엔지니어' : 'AI Agent / Infrastructure Engineer',
+        url: origin,
+        sameAs: ['https://github.com/joymin5655'],
+      })}
+    />
   </head>
   <body>
     <slot />
