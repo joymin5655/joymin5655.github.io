@@ -175,7 +175,7 @@ export const site: Record<'ko' | 'en', Locale> = {
         { label: '학력', items: ['강릉원주대학교 — 헬스케어데이터사이언스 (복수전공) GPA 4.44 / 4.5', '산업경영공학 (주전공) · 전체 GPA 3.68 / 4.5'] },
         { label: '수상', items: ['AIVLE 빅프로젝트 Collaboration상 (KT × 고용노동부)', '정밀의료 메이커톤 사업단장상 (2022)', '청년 일경험사업 최우수상'] },
         { label: '교육', items: ['KT AIVLE School · AI 개발자 트랙 (840h)', '이어드림스쿨 · LLM 부트캠프'] },
-        { label: '자격증', items: ['Microsoft Azure AI Fundamentals (AI-900)', 'Six Sigma Green Belt', 'ITQ (Excel · Word · PPT)', '빅데이터분석기사 (예정)'] },
+        { label: '자격증', items: ['Microsoft Azure AI Fundamentals (AI-900)', 'Six Sigma Green Belt', 'ITQ (Excel · Word · PPT)'] },
         { label: '온라인 수료', items: ['Google AI · IBM Data Science · DeepLearning.AI 등 온라인 과정 수료'] },
       ],
     },
