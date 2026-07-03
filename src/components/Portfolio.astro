@@ -18,6 +18,20 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
       <a class="navlink" href="#contact">{nav.contact}</a>
       <a class="lang" href={data.altHref} aria-label="language">{data.altLabel}</a>
     </div>
+    <details class="mnav">
+      <summary class="mnav-btn" aria-label={data.lang === 'ko' ? '메뉴' : 'Menu'}>
+        <span class="mnav-icon" aria-hidden="true"></span>
+      </summary>
+      <div class="mnav-panel">
+        <a href="#about">{nav.about}</a>
+        <a href="#principles">{nav.principles}</a>
+        <a href="#projects">{nav.projects}</a>
+        <a href="#skills">{nav.skills}</a>
+        <a href="#timeline">{nav.timeline}</a>
+        <a href="#contact">{nav.contact}</a>
+        <a class="mnav-lang" href={data.altHref}>{data.altLabel}</a>
+      </div>
+    </details>
   </div>
 </nav>
 
@@ -38,8 +52,8 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
 <main>
   <section class="metrics-strip">
     <div class="wrap">
-      {metrics.map((m) => (
-        <div class="metric">
+      {metrics.map((m, i) => (
+        <div class="metric reveal" style={`--i:${i}`}>
           <span class="metric-value">{m.value}</span>
           <span class="metric-label">{m.label}</span>
         </div>
@@ -49,11 +63,11 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
 
   <section id="about" class="about">
     <div class="wrap">
-      <p class="eyebrow">{about.heading}</p>
+      <p class="eyebrow">{nav.about}</p>
       <p class="lead">{about.lead}</p>
       <div class="pillars">
-        {about.pillars.map((p) => (
-          <div class="pillar"><h3>{p.title}</h3><p>{p.body}</p></div>
+        {about.pillars.map((p, i) => (
+          <div class="pillar reveal" style={`--i:${i}`}><h3>{p.title}</h3><p>{p.body}</p></div>
         ))}
       </div>
       <p class="motto">{about.motto}</p>
@@ -62,14 +76,13 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
 
   <section id="principles" class="principles">
     <div class="wrap">
-      <p class="eyebrow">{principles.heading}</p>
+      <p class="eyebrow">{nav.principles}</p>
       <h2 class="section-title">{principles.heading}</h2>
-      <div class="principles-grid">
+      <div class="rules">
         {principles.items.map((p, i) => (
-          <div class="principle">
-            <span class="principle-num">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{p.title}</h3>
-            <p>{p.body}</p>
+          <div class="rule reveal" style={`--i:${i}`}>
+            <h3 class="rule-key">{p.title}</h3>
+            <p class="rule-desc">{p.body}</p>
           </div>
         ))}
       </div>
@@ -78,11 +91,11 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
 
   <section id="projects" class="projects">
     <div class="wrap">
-      <p class="eyebrow">{projects.heading}</p>
+      <p class="eyebrow">{nav.projects}</p>
       <h2 class="section-title">{projects.heading}</h2>
       <div class="projects-grid">
-        {projects.items.map((proj) => (
-          <article class={`card ${proj.flagship ? 'flagship' : ''}`}>
+        {projects.items.map((proj, i) => (
+          <article class={`card reveal ${proj.flagship ? 'flagship' : ''}`} style={`--i:${i}`}>
             <span class="badge">{proj.flagship ? '★ Flagship' : 'Project'}</span>
             <h3>{proj.name}</h3>
             <p class="tag">{proj.tag}</p>
@@ -108,13 +121,13 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
 
   <section id="skills" class="skills">
     <div class="wrap">
-      <p class="eyebrow">{skills.heading}</p>
+      <p class="eyebrow">{nav.skills}</p>
       <h2 class="section-title">{skills.heading}</h2>
-      <div class="skills-grid">
-        {skills.groups.map((g) => (
-          <div class="skillgroup">
-            <h3>{g.group}</h3>
-            <div class="items">{g.items.map((i) => <span class="chip">{i}</span>)}</div>
+      <div class="manifest">
+        {skills.groups.map((g, i) => (
+          <div class="manifest-row reveal" style={`--i:${i}`}>
+            <h3 class="manifest-key">{g.group}</h3>
+            <div class="items">{g.items.map((it) => <span class="chip">{it}</span>)}</div>
           </div>
         ))}
       </div>
@@ -123,11 +136,19 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
 
   <section id="timeline" class="journey">
     <div class="wrap">
-      <p class="eyebrow">{timeline.heading}</p>
+      <p class="eyebrow">{nav.timeline}</p>
       <h2 class="section-title">{timeline.heading}</h2>
       <div class="timeline">
-        {timeline.items.map((t) => (
-          <div class="tl-item">
+        {timeline.items.map((t, i) => (
+          <div
+            class:list={[
+              'tl-item',
+              'reveal',
+              t.period.startsWith('2024.08') && 'tl-item--branch',
+              i === timeline.items.length - 1 && 'tl-item--current',
+            ]}
+            style={`--i:${i}`}
+          >
             <p class="period">{t.period}</p>
             <h3>{t.title}</h3>
             <p>{t.body}</p>
@@ -142,8 +163,8 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
       <p class="eyebrow">{credentials.heading}</p>
       <h2 class="section-title">{credentials.heading}</h2>
       <div class="cred-grid">
-        {credentials.groups.map((g) => (
-          <div class="credgroup">
+        {credentials.groups.map((g, i) => (
+          <div class="credgroup reveal" style={`--i:${i}`}>
             <h3>{g.label}</h3>
             <ul>{g.items.map((i) => <li>{i}</li>)}</ul>
           </div>
@@ -154,7 +175,7 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
 
   <section id="contact" class="contact">
     <div class="wrap">
-      <p class="eyebrow">{contact.heading}</p>
+      <p class="eyebrow">{nav.contact}</p>
       <h2 class="section-title">{contact.heading}</h2>
       <p class="lead">{contact.lead}</p>
       <div class="links">
@@ -172,3 +193,31 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
     <span class="mono">Built with Astro · Deployed on GitHub Pages</span>
   </div>
 </footer>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = document.querySelectorAll('.reveal');
+  if (!reduce && 'IntersectionObserver' in window && els.length) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries)
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            io.unobserve(e.target);
+          }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+    els.forEach((el) => io.observe(el));
+    // safety net: never leave content hidden if the observer stalls
+    setTimeout(() => els.forEach((el) => el.classList.add('is-visible')), 3000);
+  }
+
+  const mnav = document.querySelector('.mnav');
+  if (mnav) {
+    mnav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => mnav.removeAttribute('open')));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') mnav.removeAttribute('open');
+    });
+  }
+</script>
