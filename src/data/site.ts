@@ -79,7 +79,7 @@ export const site: Record<'ko' | 'en', Locale> = {
     },
     about: {
       heading: '소개',
-      lead: '기획에서 출발해, AI 제품을 데이터·ML·프론트엔드·배포까지 혼자 출시하는 엔지니어입니다. AI 모델을 “만드는” 데서 멈추지 않고, 그 모델이 안정적으로 사용자에게 닿는 배포·운영·거버넌스 시스템 전체를 설계합니다.',
+      lead: '기획에서 출발해, AI 제품을 데이터·ML·프론트엔드·배포까지 혼자 출시하는 엔지니어입니다. 그 바탕에는 헬스케어 데이터사이언스 복수전공(GPA 4.44)과 산업경영공학에서 다진 통계·모델링·데이터 기반이 있습니다. AI 모델을 “만드는” 데서 멈추지 않고, 그 모델이 안정적으로 사용자에게 닿는 배포·운영·거버넌스 시스템 전체를 설계합니다.',
       pillars: [
         {
           title: '프로덕션 AI 에이전트',
@@ -87,21 +87,22 @@ export const site: Record<'ko' | 'en', Locale> = {
         },
         {
           title: '멀티런타임 거버넌스',
-          body: 'Claude Code · Codex · Gemini 3개 런타임을 단일 YAML 정책으로 제어하는 Agent 하네스 · 다층 시크릿 방어 · 정책 as code.',
+          body: 'Claude Code · Codex · Gemini 3개 런타임을 단일 YAML 정책으로 제어하는 Agent 하네스 · 정책·보안 훅 24 · 에이전트 6 · 스킬 8 · MIT OSS · 다층 시크릿 방어.',
         },
         {
           title: 'ML · 물리 기반 모델링',
-          body: 'GTWR-XGBoost · PINN · SDID 인과추론 · DINOv2 → ONNX 엣지 추론. 불확실성을 정량화하는 글래스박스 접근.',
+          body: 'GTWR-XGBoost · PINN · SDID 인과추론 · DINOv2 → ONNX 엣지 추론. 헬스케어 데이터사이언스 복수전공(GPA 4.44)·정밀의료 메이커톤 수상으로 다진 데이터·인과추론 기반 위에서, 불확실성을 정량화하는 글래스박스 접근.',
         },
       ],
       motto: 'Context is the weapon · Defense-in-depth · Distill, don’t copy.',
     },
     metrics: [
       { value: '1,261', label: '커밋 · 3.5개월 단독 (AirLens)' },
-      { value: '71%', label: 'feat · fix · refactor 비중' },
+      { value: '50여 개국', label: '글로벌 도달 · 30일 6.6만 요청' },
       { value: '10+', label: '융합 데이터 소스' },
       { value: '5', label: 'ML 엔진 (AirLens)' },
       { value: '3', label: 'AI 런타임 통합 (Agent)' },
+      { value: '4.44 / 4.5', label: '헬스케어DS 복수전공 GPA' },
     ],
     principles: {
       heading: '엔지니어링 원칙',
@@ -121,8 +122,8 @@ export const site: Record<'ko' | 'en', Locale> = {
           slug: 'airlens',
           tag: '대기질 인텔리전스 SaaS · 단독 개발',
           blurb:
-            '위성·지상 10+ 데이터 소스를 통합해 PM2.5를 추정하고, GPT-4o 분석 에이전트로 자연어 질의를 코드·인사이트로 변환하는 대기질 인텔리전스 플랫폼. 데이터 파이프라인부터 ML, 프론트엔드, CI/CD 배포까지 혼자 구축해 라이브 운영 중.',
-          stack: ['GPT-4o AnalysisEngine', 'FastAPI', 'Docker', 'Supabase (RLS · pgvector RAG)', 'React 19 / TS', 'ONNX (DINOv2)', 'GTWR-XGBoost · PINN', 'SDID 인과추론', 'GitHub Actions', 'Sentry · PostHog'],
+            '위성·지상 10+ 데이터 소스를 통합해 PM2.5를 추정하고, GPT-4o 분석 에이전트로 자연어 질의를 코드·인사이트로 변환하는 대기질 인텔리전스 플랫폼. 데이터 파이프라인부터 ML, Three.js 3D 글로브 프론트엔드, CI/CD 배포까지 혼자 구축해 글로벌 50여 개국에 라이브 운영 중.',
+          stack: ['GPT-4o AnalysisEngine', 'FastAPI', 'Docker', 'Supabase (RLS · pgvector RAG · Edge Functions 35)', 'React 19 / TS', 'Three.js 3D 글로브', 'ONNX (DINOv2)', 'GTWR-XGBoost · PINN', 'SDID 인과추론', 'GitHub Actions', 'Sentry · PostHog'],
           links: [
             { label: 'airlens.cloud', url: AIRLENS },
             { label: 'GitHub', url: `${GITHUB}/AirLens` },
@@ -134,15 +135,15 @@ export const site: Record<'ko' | 'en', Locale> = {
           slug: 'agent',
           tag: '멀티런타임 에이전트 거버넌스 하네스',
           blurb:
-            'Claude Code · Codex · Gemini 3개 런타임을 단일 YAML 정책으로 제어하는 벤더 중립 하네스. 이식 가능한 보안 훅과 다층 시크릿 방어(gitleaks + pre-commit + pre-push + CI)로 “정책을 코드로” 강제한다. Claude Code 플러그인으로 설치 가능.',
-          stack: ['Policy-as-Code', 'Portable Hooks', 'gitleaks', 'CI/CD Auto-ship', 'Claude Code Plugin'],
+            'Claude Code · Codex · Gemini 3개 런타임을 단일 YAML 정책으로 제어하는 벤더 중립 하네스. 정책·보안 훅 24개·전문 에이전트 6종·스킬 8개를 MIT 오픈소스로 공개·운영한다. 다층 시크릿 방어(gitleaks + pre-commit + pre-push + CI)로 “정책을 코드로” 강제하고, Claude Code 플러그인으로 설치 가능.',
+          stack: ['Policy-as-Code', 'Portable Hooks', 'gitleaks', 'CI/CD Auto-ship', 'Claude Code Plugin', 'MIT OSS'],
           links: [{ label: 'GitHub', url: `${GITHUB}/Agent` }],
         },
         {
           name: '바른자세 지킴이',
           tag: 'KT AIVLE 빅프로젝트 · 6인 팀 · 프론트엔드 ~80% 주도',
           blurb:
-            '웹캠과 MediaPipe Holistic 기반 실시간 자세교정 SaaS. 6인 팀에서 프론트엔드를 약 80% 주도해 실시간 모니터링·Chart.js 통계 대시보드·스트레칭 가이드·챗봇 UI를 구축. 팀의 XGBoost 자세 분류기(자세 4범주·스트레칭 7종)와 LangChain RAG 챗봇을 프론트에 통합. Collaboration상(KT × 고용노동부) 수상.',
+            '웹캠과 MediaPipe Holistic 기반 실시간 자세교정 SaaS. 6인 팀에서 프론트엔드를 약 80% 주도해 실시간 모니터링·Chart.js 통계 대시보드·스트레칭 가이드·챗봇 UI를 구축. 팀의 XGBoost 자세 분류기(자세 4범주·스트레칭 7종)와 LangChain RAG 챗봇을 프론트에 통합. 팀 333커밋 중 83커밋(팀 내 3위)으로 기여, Collaboration상(KT × 고용노동부) 수상.',
           stack: ['Django', 'MediaPipe Holistic', 'Chart.js', 'XGBoost', 'LangChain RAG'],
           links: [],
         },
@@ -215,7 +216,7 @@ export const site: Record<'ko' | 'en', Locale> = {
     },
     about: {
       heading: 'About',
-      lead: 'I started in product planning and now ship AI products end to end — data, ML, frontend, and deployment, solo. I don’t stop at building models; I design the deployment, operation, and governance systems that get them reliably into users’ hands.',
+      lead: 'I started in product planning and now ship AI products end to end — data, ML, frontend, and deployment, solo. That rigor is grounded in a Healthcare Data Science double major (GPA 4.44) and an Industrial Engineering foundation in statistics and modeling. I don’t stop at building models; I design the deployment, operation, and governance systems that get them reliably into users’ hands.',
       pillars: [
         {
           title: 'Production AI Agent',
@@ -223,21 +224,22 @@ export const site: Record<'ko' | 'en', Locale> = {
         },
         {
           title: 'Multi-runtime Governance',
-          body: 'Agent: a harness controlling Claude Code · Codex · Gemini under one YAML policy, with multi-layer secret defense and policy-as-code.',
+          body: 'Agent: a harness controlling Claude Code · Codex · Gemini under one YAML policy — 24 hooks · 6 agents · 8 skills · MIT OSS, with multi-layer secret defense.',
         },
         {
           title: 'ML & Physics Modeling',
-          body: 'GTWR-XGBoost · PINN · SDID causal inference · DINOv2 → ONNX edge inference — a glass-box approach that quantifies uncertainty.',
+          body: 'GTWR-XGBoost · PINN · SDID causal inference · DINOv2 → ONNX edge inference — built on a Healthcare Data Science (GPA 4.44) and Precision-Medicine Maker-thon foundation, a glass-box approach that quantifies uncertainty.',
         },
       ],
       motto: 'Context is the weapon · Defense-in-depth · Distill, don’t copy.',
     },
     metrics: [
       { value: '1,261', label: 'commits · solo · 3.5 months (AirLens)' },
-      { value: '71%', label: 'feat · fix · refactor share' },
+      { value: '50+', label: 'countries reached · 66k req / 30d' },
       { value: '10+', label: 'fused data sources' },
       { value: '5', label: 'ML engines (AirLens)' },
       { value: '3', label: 'AI runtimes unified (Agent)' },
+      { value: '4.44 / 4.5', label: 'Healthcare DS double-major GPA' },
     ],
     principles: {
       heading: 'Engineering Principles',
@@ -257,8 +259,8 @@ export const site: Record<'ko' | 'en', Locale> = {
           slug: 'airlens',
           tag: 'Air-quality intelligence SaaS · Solo',
           blurb:
-            'An air-quality intelligence platform that fuses 10+ satellite & ground data sources to estimate PM2.5, and turns natural-language questions into code and insight via a GPT-4o analysis agent. Built solo from data pipeline to ML, frontend, and CI/CD — live in production.',
-          stack: ['GPT-4o AnalysisEngine', 'FastAPI', 'Docker', 'Supabase (RLS · pgvector RAG)', 'React 19 / TS', 'ONNX (DINOv2)', 'GTWR-XGBoost · PINN', 'SDID causal inference', 'GitHub Actions', 'Sentry · PostHog'],
+            'An air-quality intelligence platform that fuses 10+ satellite & ground data sources to estimate PM2.5, and turns natural-language questions into code and insight via a GPT-4o analysis agent. Built solo from data pipeline to ML, a Three.js 3D globe frontend, and CI/CD — live in 50+ countries.',
+          stack: ['GPT-4o AnalysisEngine', 'FastAPI', 'Docker', 'Supabase (RLS · pgvector RAG · Edge Functions 35)', 'React 19 / TS', 'Three.js 3D globe', 'ONNX (DINOv2)', 'GTWR-XGBoost · PINN', 'SDID causal inference', 'GitHub Actions', 'Sentry · PostHog'],
           links: [
             { label: 'airlens.cloud', url: AIRLENS },
             { label: 'GitHub', url: `${GITHUB}/AirLens` },
@@ -270,15 +272,15 @@ export const site: Record<'ko' | 'en', Locale> = {
           slug: 'agent',
           tag: 'Multi-runtime agent governance harness',
           blurb:
-            'A vendor-neutral harness that controls Claude Code · Codex · Gemini under a single YAML policy. Portable security hooks and multi-layer secret defense (gitleaks + pre-commit + pre-push + CI) enforce policy-as-code. Installable as a Claude Code plugin.',
-          stack: ['Policy-as-Code', 'Portable Hooks', 'gitleaks', 'CI/CD Auto-ship', 'Claude Code Plugin'],
+            'A vendor-neutral harness that controls Claude Code · Codex · Gemini under a single YAML policy — 24 policy/security hooks, 6 specialized agents, and 8 skills, open-sourced under MIT. Multi-layer secret defense (gitleaks + pre-commit + pre-push + CI) enforces policy-as-code; installable as a Claude Code plugin.',
+          stack: ['Policy-as-Code', 'Portable Hooks', 'gitleaks', 'CI/CD Auto-ship', 'Claude Code Plugin', 'MIT OSS'],
           links: [{ label: 'GitHub', url: `${GITHUB}/Agent` }],
         },
         {
           name: 'Posture Keeper',
           tag: 'KT AIVLE Big Project · 6-person team · led ~80% of frontend',
           blurb:
-            'A real-time posture-correction SaaS using webcam + MediaPipe Holistic. On a 6-person team I led ~80% of the frontend — real-time monitoring, a Chart.js statistics dashboard, a stretching guide, and the chatbot UI — integrating the team’s XGBoost posture classifier (4 postures / 7 stretches) and a LangChain RAG chatbot. Won the AIVLE Big Project Collaboration Award (KT × Ministry of Employment & Labor).',
+            'A real-time posture-correction SaaS using webcam + MediaPipe Holistic. On a 6-person team I led ~80% of the frontend — real-time monitoring, a Chart.js statistics dashboard, a stretching guide, and the chatbot UI — integrating the team’s XGBoost posture classifier (4 postures / 7 stretches) and a LangChain RAG chatbot. Contributed 83 of the team’s 333 commits (3rd of 6) and won the AIVLE Big Project Collaboration Award (KT × Ministry of Employment & Labor).',
           stack: ['Django', 'MediaPipe Holistic', 'Chart.js', 'XGBoost', 'LangChain RAG'],
           links: [],
         },
@@ -328,7 +330,7 @@ export const site: Record<'ko' | 'en', Locale> = {
 
 // ── Case studies (challenge → solution → modern tech). Mined from real repo /
 // tech-verification docs / second-brain insights. No commit hashes or internal
-// paths exposed; Agent counts kept qualitative per truthfulness gate.
+// paths exposed. Agent counts (24 hooks · 6 agents · 8 skills) are fact-verifier-checked against the resume SSOT.
 export const caseStudies: Record<
   'ko' | 'en',
   {
@@ -352,13 +354,16 @@ export const caseStudies: Record<
         name: 'AirLens',
         tagline: '대기질 인텔리전스 SaaS · 단독 개발 · 라이브',
         overview:
-          'AirLens는 위성·지상 10여 개 데이터 소스를 통합해 PM2.5를 추정하고, 정책 효과를 인과추론으로 분석하며, GPT-4o 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 대기질 인텔리전스 플랫폼입니다. 데이터 파이프라인부터 ML·프론트엔드·배포까지 혼자 구축해 라이브로 운영하고 있습니다. 가장 까다로웠던 문제들과 해결 방식, 그리고 진행 중 도입한 최신 기술입니다.',
+          'AirLens는 위성·지상 10여 개 데이터 소스를 통합해 PM2.5를 추정하고, 정책 효과를 인과추론으로 분석하며, GPT-4o 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 대기질 인텔리전스 플랫폼입니다. 데이터 파이프라인부터 ML·프론트엔드·배포까지 혼자 구축해 글로벌 50여 개국에 라이브로 운영하고 있습니다. 가장 까다로웠던 문제들과 해결 방식, 그리고 진행 중 도입한 최신 기술입니다.',
         metrics: [
           { value: '1,261', label: '커밋 · 단독' },
           { value: '3.5개월', label: '2026-03 → 06' },
           { value: '71%', label: 'feat · fix · refactor' },
           { value: '10+', label: '데이터 소스' },
           { value: '5', label: 'ML 엔진' },
+          { value: '35', label: 'Edge Functions' },
+          { value: '121', label: 'DB 마이그레이션' },
+          { value: '50+개국', label: '글로벌 도달 · 6.6만 요청/30일' },
         ],
         timeline: [
           { date: '2026-03', label: '첫 커밋 · PostHog·Sentry 관측 도입' },
@@ -491,13 +496,16 @@ export const caseStudies: Record<
         name: 'AirLens',
         tagline: 'Air-quality intelligence SaaS · Solo · Live',
         overview:
-          'AirLens fuses 10+ satellite & ground data sources to estimate PM2.5, analyzes policy impact via causal inference, and turns natural-language questions into code and insight through a GPT-4o agent. I built it solo — from data pipeline to ML, frontend, and deployment — and run it live. Here are the hardest problems, how I solved them, and the modern tech I adopted along the way.',
+          'AirLens fuses 10+ satellite & ground data sources to estimate PM2.5, analyzes policy impact via causal inference, and turns natural-language questions into code and insight through a GPT-4o agent. I built it solo — from data pipeline to ML, frontend, and deployment — and run it live in 50+ countries. Here are the hardest problems, how I solved them, and the modern tech I adopted along the way.',
         metrics: [
           { value: '1,261', label: 'commits · solo' },
           { value: '3.5 mo', label: '2026-03 → 06' },
           { value: '71%', label: 'feat · fix · refactor' },
           { value: '10+', label: 'data sources' },
           { value: '5', label: 'ML engines' },
+          { value: '35', label: 'Edge Functions' },
+          { value: '121', label: 'DB migrations' },
+          { value: '50+', label: 'countries · 66k req/30d' },
         ],
         timeline: [
           { date: '2026-03', label: 'First commit · PostHog & Sentry observability' },
