@@ -16,7 +16,8 @@
 ## 진실성 게이트 (필수)
 - 출처 SSOT = `/Volumes/WD_BLACK/취업/master/session_summary_report.md`. 신규 주장은 여기 대조.
 - **전화번호 게시 금지. GCP·Nginx·Flutter·Tailwind 미보유 — 표기 금지**(R8).
-- Agent 하네스 수치는 정성 표기(부풀림 금지). 자격증 vs 온라인 수료 구분 유지.
+- Agent 하네스 수치는 정성 표기(부풀림 금지). 사설 pre-sanitization 수치(구 24·6·8) 게시 금지 — 공개 repo 기준만.
+- 노출 규칙(2026-07-08 SSOT 동기화): AirLens 커밋 = **"1,200+"만**(실측 HEAD는 상회) · 데이터 소스 = **10**(정확값) · 미검증 항목 게시 금지(온라인 수료 3종·이어드림 LLM 부트캠프·빅데이터분석기사 예정 = 삭제됨) · 자격증 = AI-900·6시그마 GB·ITQ만. 자기참조 수치(브레인 노드 수 등)는 에버그린 표기(재드리프트 방지).
 
 ## Dev / Build
 - `npm run dev` (localhost:4321) · `npm run build` → `dist/` · `npm run preview`.
