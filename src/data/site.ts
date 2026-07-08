@@ -87,7 +87,7 @@ export const site: Record<'ko' | 'en', Locale> = {
         },
         {
           title: '멀티런타임 거버넌스',
-          body: 'Claude Code · Codex · Gemini 3개 런타임을 단일 YAML 정책으로 제어하는 Agent 하네스 · 정책·보안 훅 24 · 에이전트 6 · 스킬 8 · MIT OSS · 다층 시크릿 방어.',
+          body: 'Claude Code · Codex · Gemini 3개 런타임을 단일 YAML 정책으로 제어하는 Agent 하네스 · 정책·보안 훅과 read-only 리뷰어 에이전트 · MIT OSS · 다층 시크릿 방어.',
         },
         {
           title: 'ML · 물리 기반 모델링',
@@ -97,9 +97,9 @@ export const site: Record<'ko' | 'en', Locale> = {
       motto: 'Context is the weapon · Defense-in-depth · Distill, don’t copy.',
     },
     metrics: [
-      { value: '1,261', label: '커밋 · 3.5개월 단독 (AirLens)' },
+      { value: '1,200+', label: '커밋 · 단독 (AirLens)' },
       { value: '50여 개국', label: '글로벌 도달 · 30일 6.6만 요청' },
-      { value: '10+', label: '융합 데이터 소스' },
+      { value: '10', label: '융합 데이터 소스' },
       { value: '5', label: 'ML 엔진 (AirLens)' },
       { value: '3', label: 'AI 런타임 통합 (Agent)' },
       { value: '4.44 / 4.5', label: '헬스케어DS 복수전공 GPA' },
@@ -107,7 +107,7 @@ export const site: Record<'ko' | 'en', Locale> = {
     principles: {
       heading: '엔지니어링 원칙',
       items: [
-        { title: '맥락이 무기다 · Context over knowledge', body: 'LLM 시대엔 지식이 아니라 구조화된 개인 맥락이 차별점입니다. 그래서 경험·판단·도메인 지식을 자체 구축한 타입 지식그래프(130 원자노드 · 0 lint)로 구조화해 어떤 모델에서도 재사용합니다.' },
+        { title: '맥락이 무기다 · Context over knowledge', body: 'LLM 시대엔 지식이 아니라 구조화된 개인 맥락이 차별점입니다. 그래서 경험·판단·도메인 지식을 자체 구축한 타입 지식그래프(lint 0)로 구조화해 어떤 모델에서도 재사용합니다.' },
         { title: "복사 말고 증류 · Distill, don't copy", body: '미증류 문서를 그대로 쌓으면 그래프가 오염되고 통계가 거짓이 됩니다. 외부 자료는 원자 단위로 증류하고, 미증류 소스는 따로 격리합니다.' },
         { title: '도구가 아니라 워크플로를 갈아엎어라 · Workflow redesign', body: 'AI를 기존 워크플로에 얹는 건 한계가 명확합니다. 계획→구현→리뷰→테스트→배포 파이프라인 전체를 AI 중심으로 재설계할 때 차이가 납니다.' },
         { title: '다층 방어 · Defense in depth', body: '하나의 통제는 반드시 뚫립니다. gitleaks → CI → 훅 → 정책 게이트처럼 독립 레이어를 엮어, 한 층이 놓친 걸 다음 층이 잡게 합니다.' },
@@ -122,7 +122,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           slug: 'airlens',
           tag: '대기질 인텔리전스 SaaS · 단독 개발',
           blurb:
-            '위성·지상 10+ 데이터 소스를 통합해 PM2.5를 추정하고, GPT-4o 분석 에이전트로 자연어 질의를 코드·인사이트로 변환하는 대기질 인텔리전스 플랫폼. 데이터 파이프라인부터 ML, Three.js 3D 글로브 프론트엔드, CI/CD 배포까지 혼자 구축해 글로벌 50여 개국에 라이브 운영 중.',
+            '위성·지상 10개 데이터 소스를 통합해 PM2.5를 추정하고, GPT-4o 분석 에이전트로 자연어 질의를 코드·인사이트로 변환하는 대기질 인텔리전스 플랫폼. 데이터 파이프라인부터 ML, Three.js 3D 글로브 프론트엔드, CI/CD 배포까지 혼자 구축해 글로벌 50여 개국에 라이브 운영 중.',
           stack: ['GPT-4o AnalysisEngine', 'FastAPI', 'Docker', 'Supabase (RLS · pgvector RAG · Edge Functions 35)', 'React 19 / TS', 'Three.js 3D 글로브', 'ONNX (DINOv2)', 'GTWR-XGBoost · PINN', 'SDID 인과추론', 'GitHub Actions', 'Sentry · PostHog'],
           links: [
             { label: 'airlens.cloud', url: AIRLENS },
@@ -135,7 +135,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           slug: 'agent',
           tag: '멀티런타임 에이전트 거버넌스 하네스',
           blurb:
-            'Claude Code · Codex · Gemini 3개 런타임을 단일 YAML 정책으로 제어하는 벤더 중립 하네스. 정책·보안 훅 24개·전문 에이전트 6종·스킬 8개를 MIT 오픈소스로 공개·운영한다. 다층 시크릿 방어(gitleaks + pre-commit + pre-push + CI)로 “정책을 코드로” 강제하고, Claude Code 플러그인으로 설치 가능.',
+            'Claude Code · Codex · Gemini 3개 런타임을 단일 YAML 정책으로 제어하는 벤더 중립 하네스. 정책·보안 훅과 read-only 리뷰어 에이전트를 MIT 오픈소스로 공개·운영한다. 다층 시크릿 방어(gitleaks + pre-commit + pre-push + CI)로 “정책을 코드로” 강제하고, Claude Code 플러그인으로 설치 가능.',
           stack: ['Policy-as-Code', 'Portable Hooks', 'gitleaks', 'CI/CD Auto-ship', 'Claude Code Plugin', 'MIT OSS'],
           links: [{ label: 'GitHub', url: `${GITHUB}/Agent` }],
         },
@@ -174,9 +174,8 @@ export const site: Record<'ko' | 'en', Locale> = {
       groups: [
         { label: '학력', items: ['강릉원주대학교 — 헬스케어데이터사이언스 (복수전공) GPA 4.44 / 4.5', '산업경영공학 (주전공) · 전체 GPA 3.68 / 4.5'] },
         { label: '수상', items: ['AIVLE 빅프로젝트 Collaboration상 (KT × 고용노동부)', '정밀의료 메이커톤 사업단장상 (2022)', '청년 일경험사업 최우수상'] },
-        { label: '교육', items: ['KT AIVLE School · AI 개발자 트랙 (840h)', '이어드림스쿨 · LLM 부트캠프'] },
+        { label: '교육', items: ['KT AIVLE School · AI 개발자 트랙 (840h)'] },
         { label: '자격증', items: ['Microsoft Azure AI Fundamentals (AI-900)', 'Six Sigma Green Belt', 'ITQ (Excel · Word · PPT)'] },
-        { label: '온라인 수료', items: ['Google AI · IBM Data Science · DeepLearning.AI 등 온라인 과정 수료'] },
       ],
     },
     contact: {
@@ -224,7 +223,7 @@ export const site: Record<'ko' | 'en', Locale> = {
         },
         {
           title: 'Multi-runtime Governance',
-          body: 'Agent: a harness controlling Claude Code · Codex · Gemini under one YAML policy — 24 hooks · 6 agents · 8 skills · MIT OSS, with multi-layer secret defense.',
+          body: 'Agent: a harness controlling Claude Code · Codex · Gemini under one YAML policy — policy/security hooks and read-only reviewer agents · MIT OSS, with multi-layer secret defense.',
         },
         {
           title: 'ML & Physics Modeling',
@@ -234,9 +233,9 @@ export const site: Record<'ko' | 'en', Locale> = {
       motto: 'Context is the weapon · Defense-in-depth · Distill, don’t copy.',
     },
     metrics: [
-      { value: '1,261', label: 'commits · solo · 3.5 months (AirLens)' },
+      { value: '1,200+', label: 'commits · solo (AirLens)' },
       { value: '50+', label: 'countries reached · 66k req / 30d' },
-      { value: '10+', label: 'fused data sources' },
+      { value: '10', label: 'fused data sources' },
       { value: '5', label: 'ML engines (AirLens)' },
       { value: '3', label: 'AI runtimes unified (Agent)' },
       { value: '4.44 / 4.5', label: 'Healthcare DS double-major GPA' },
@@ -244,7 +243,7 @@ export const site: Record<'ko' | 'en', Locale> = {
     principles: {
       heading: 'Engineering Principles',
       items: [
-        { title: 'Context over knowledge', body: "In the LLM era the edge isn't knowledge — it's structured personal context. I encode my experience, judgment, and domain knowledge into a self-built typed knowledge graph (130 atomic nodes, 0 lint findings) so it stays reusable across any model." },
+        { title: 'Context over knowledge', body: "In the LLM era the edge isn't knowledge — it's structured personal context. I encode my experience, judgment, and domain knowledge into a self-built typed knowledge graph (0 lint findings) so it stays reusable across any model." },
         { title: "Distill, don't copy", body: 'Piling up undigested documents pollutes the graph and turns its statistics into lies. I distill external material into atomic notes and quarantine raw sources separately.' },
         { title: 'Workflow redesign over tool adoption', body: 'Bolting AI onto an existing workflow has a hard ceiling. The difference comes from redesigning the whole pipeline — plan → build → review → test → deploy — around AI.' },
         { title: 'Defense in depth', body: 'A single control always breaks. I chain independent layers (gitleaks → CI → hook → policy gate) so the next catches what the last one missed.' },
@@ -259,7 +258,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           slug: 'airlens',
           tag: 'Air-quality intelligence SaaS · Solo',
           blurb:
-            'An air-quality intelligence platform that fuses 10+ satellite & ground data sources to estimate PM2.5, and turns natural-language questions into code and insight via a GPT-4o analysis agent. Built solo from data pipeline to ML, a Three.js 3D globe frontend, and CI/CD — live in 50+ countries.',
+            'An air-quality intelligence platform that fuses 10 satellite & ground data sources to estimate PM2.5, and turns natural-language questions into code and insight via a GPT-4o analysis agent. Built solo from data pipeline to ML, a Three.js 3D globe frontend, and CI/CD — live in 50+ countries.',
           stack: ['GPT-4o AnalysisEngine', 'FastAPI', 'Docker', 'Supabase (RLS · pgvector RAG · Edge Functions 35)', 'React 19 / TS', 'Three.js 3D globe', 'ONNX (DINOv2)', 'GTWR-XGBoost · PINN', 'SDID causal inference', 'GitHub Actions', 'Sentry · PostHog'],
           links: [
             { label: 'airlens.cloud', url: AIRLENS },
@@ -272,7 +271,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           slug: 'agent',
           tag: 'Multi-runtime agent governance harness',
           blurb:
-            'A vendor-neutral harness that controls Claude Code · Codex · Gemini under a single YAML policy — 24 policy/security hooks, 6 specialized agents, and 8 skills, open-sourced under MIT. Multi-layer secret defense (gitleaks + pre-commit + pre-push + CI) enforces policy-as-code; installable as a Claude Code plugin.',
+            'A vendor-neutral harness that controls Claude Code · Codex · Gemini under a single YAML policy — policy/security hooks and read-only reviewer agents, open-sourced under MIT. Multi-layer secret defense (gitleaks + pre-commit + pre-push + CI) enforces policy-as-code; installable as a Claude Code plugin.',
           stack: ['Policy-as-Code', 'Portable Hooks', 'gitleaks', 'CI/CD Auto-ship', 'Claude Code Plugin', 'MIT OSS'],
           links: [{ label: 'GitHub', url: `${GITHUB}/Agent` }],
         },
@@ -311,9 +310,8 @@ export const site: Record<'ko' | 'en', Locale> = {
       groups: [
         { label: 'Education', items: ['Gangneung-Wonju National University — Healthcare Data Science (Double Major) GPA 4.44 / 4.5', 'Industrial Engineering (Major) · Overall GPA 3.68 / 4.5'] },
         { label: 'Awards', items: ['AIVLE Big Project Collaboration Award (KT × Ministry of Employment & Labor)', 'Business Director Award, Precision-Medicine Maker-thon (2022)', 'Grand Prize, Youth Work-Experience Program'] },
-        { label: 'Training', items: ['KT AIVLE School · AI Developer Track (840h)', 'Yeardream School · LLM Bootcamp'] },
-        { label: 'Certifications', items: ['Microsoft Azure AI Fundamentals (AI-900)', 'Six Sigma Green Belt', 'ITQ (Excel · Word · PPT)', 'Big Data Analysis Engineer (in progress)'] },
-        { label: 'Online Coursework', items: ['Google AI · IBM Data Science · DeepLearning.AI online course completions'] },
+        { label: 'Training', items: ['KT AIVLE School · AI Developer Track (840h)'] },
+        { label: 'Certifications', items: ['Microsoft Azure AI Fundamentals (AI-900)', 'Six Sigma Green Belt', 'ITQ (Excel · Word · PPT)'] },
       ],
     },
     contact: {
@@ -330,7 +328,7 @@ export const site: Record<'ko' | 'en', Locale> = {
 
 // ── Case studies (challenge → solution → modern tech). Mined from real repo /
 // tech-verification docs / second-brain insights. No commit hashes or internal
-// paths exposed. Agent counts (24 hooks · 6 agents · 8 skills) are fact-verifier-checked against the resume SSOT.
+// paths exposed. Harness details are qualitative (public-repo verified, no private counts) — fact-verifier-checked against the resume SSOT.
 export const caseStudies: Record<
   'ko' | 'en',
   {
@@ -356,10 +354,10 @@ export const caseStudies: Record<
         overview:
           'AirLens는 위성·지상 10여 개 데이터 소스를 통합해 PM2.5를 추정하고, 정책 효과를 인과추론으로 분석하며, GPT-4o 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 대기질 인텔리전스 플랫폼입니다. 데이터 파이프라인부터 ML·프론트엔드·배포까지 혼자 구축해 글로벌 50여 개국에 라이브로 운영하고 있습니다. 가장 까다로웠던 문제들과 해결 방식, 그리고 진행 중 도입한 최신 기술입니다.',
         metrics: [
-          { value: '1,261', label: '커밋 · 단독' },
+          { value: '1,200+', label: '커밋 · 단독' },
           { value: '3.5개월', label: '2026-03 → 06' },
           { value: '71%', label: 'feat · fix · refactor' },
-          { value: '10+', label: '데이터 소스' },
+          { value: '10', label: '데이터 소스' },
           { value: '5', label: 'ML 엔진' },
           { value: '35', label: 'Edge Functions' },
           { value: '121', label: 'DB 마이그레이션' },
@@ -496,12 +494,12 @@ export const caseStudies: Record<
         name: 'AirLens',
         tagline: 'Air-quality intelligence SaaS · Solo · Live',
         overview:
-          'AirLens fuses 10+ satellite & ground data sources to estimate PM2.5, analyzes policy impact via causal inference, and turns natural-language questions into code and insight through a GPT-4o agent. I built it solo — from data pipeline to ML, frontend, and deployment — and run it live in 50+ countries. Here are the hardest problems, how I solved them, and the modern tech I adopted along the way.',
+          'AirLens fuses 10 satellite & ground data sources to estimate PM2.5, analyzes policy impact via causal inference, and turns natural-language questions into code and insight through a GPT-4o agent. I built it solo — from data pipeline to ML, frontend, and deployment — and run it live in 50+ countries. Here are the hardest problems, how I solved them, and the modern tech I adopted along the way.',
         metrics: [
-          { value: '1,261', label: 'commits · solo' },
+          { value: '1,200+', label: 'commits · solo' },
           { value: '3.5 mo', label: '2026-03 → 06' },
           { value: '71%', label: 'feat · fix · refactor' },
-          { value: '10+', label: 'data sources' },
+          { value: '10', label: 'data sources' },
           { value: '5', label: 'ML engines' },
           { value: '35', label: 'Edge Functions' },
           { value: '121', label: 'DB migrations' },
