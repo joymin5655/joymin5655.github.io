@@ -1,0 +1,20 @@
+---
+import type { Locale } from '../../data/site';
+import Panel from '../ui/Panel.astro';
+
+interface Props {
+  data: Locale;
+}
+const { data } = Astro.props;
+const { board, observedLabel } = data;
+---
+
+<section id="board">
+  <div class="wrap">
+    <p class="eyebrow sig">OBSERVATORY</p>
+    <h2 class="section-title">{board.heading}</h2>
+    <div class="bento">
+      {board.panels.map((p, i) => <Panel panel={p} observed={observedLabel} index={i} />)}
+    </div>
+  </div>
+</section>

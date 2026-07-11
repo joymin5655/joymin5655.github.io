@@ -1,9 +1,21 @@
 ---
+// Case-study page body — Signal Observatory reskin. Sections carry anchor ids
+// (#sdid, #tft, …) so landing subsystem cards can deep-link.
 import type { CaseStudy } from '../data/site';
 
 interface Props {
   cs: CaseStudy;
-  ui: { back: string; home: string; hard: string; solution: string; tech: string; lesson: string; overview: string; modern: string };
+  ui: {
+    back: string;
+    home: string;
+    hard: string;
+    solution: string;
+    tech: string;
+    lesson: string;
+    overview: string;
+    modern: string;
+    footnote: string;
+  };
   backHref: string;
   altHref: string;
   altLabel: string;
@@ -20,84 +32,102 @@ const { cs, ui, backHref, altHref, altLabel } = Astro.props;
   </div>
 </nav>
 
-<header class="hero case-hero">
+<header class="case-hero">
   <div class="wrap">
-    <p class="role">Case Study · {cs.name}</p>
-    <h1><span class="grad">{cs.name}</span></h1>
+    <p class="eyebrow sig">CASE STUDY</p>
+    <h1><span class="sig">{cs.name}</span></h1>
     <p class="case-tagline">{cs.tagline}</p>
     <p class="sub">{cs.overview}</p>
     <div class="ctas">
-      {cs.links.map((l) => (
-        <a class="btn" href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
-      ))}
+      {
+        cs.links.map((l) => (
+          <a class="btn" href={l.url} target="_blank" rel="noopener">
+            {l.label} ↗
+          </a>
+        ))
+      }
     </div>
-    {cs.metrics && (
-      <div class="case-metrics">
-        {cs.metrics.map((m) => (
-          <div class="metric">
-            <span class="metric-value">{m.value}</span>
-            <span class="metric-label">{m.label}</span>
+    {
+      cs.metrics && (
+        <>
+          <div class="case-metrics">
+            {cs.metrics.map((m) => (
+              <div class="metric">
+                <b>{m.value}</b>
+                <span>{m.label}</span>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-    )}
+          <p class="footnote">{ui.footnote}</p>
+        </>
+      )
+    }
   </div>
 </header>
 
 <main>
-  {cs.timeline && (
-    <section class="case-timeline-sec">
-      <div class="wrap">
-        <p class="eyebrow">{ui.modern}</p>
-        <div class="case-timeline">
-          {cs.timeline.map((t) => (
-            <div class="ct-item">
-              <span class="ct-date">{t.date}</span>
-              <span class="ct-label">{t.label}</span>
-            </div>
-          ))}
+  {
+    cs.timeline && (
+      <section>
+        <div class="wrap">
+          <p class="eyebrow sig">TIMELINE</p>
+          <div class="case-timeline">
+            {cs.timeline.map((t) => (
+              <div class="ct-item">
+                <span class="ct-date">{t.date}</span>
+                <span class="ct-label">{t.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
-    </section>
-  )}
+      </section>
+    )
+  }
 
-  <section class="case-sections">
+  <section>
     <div class="wrap">
-      {cs.sections.map((s, i) => (
-        <article class="case-section">
-          <h2 class="case-h2"><span class="case-num">{String(i + 1).padStart(2, '0')}</span>{s.title}</h2>
-          <div class="case-block hard">
-            <span class="case-label">{ui.hard}</span>
-            <p>{s.hard}</p>
-          </div>
-          <div class="case-block solution">
-            <span class="case-label">{ui.solution}</span>
-            <p>{s.solution}</p>
-          </div>
-          <div class="case-tech">
-            <span class="case-label">{ui.tech}</span>
-            <div class="chips">{s.tech.map((t) => <span class="chip">{t}</span>)}</div>
-          </div>
-          <div class="case-block lesson">
-            <span class="case-label">{ui.lesson}</span>
-            <p>{s.lesson}</p>
-          </div>
-        </article>
-      ))}
+      {
+        cs.sections.map((s, i) => (
+          <article class="case-section" id={s.id}>
+            <h2 class="case-h2">
+              <span class="case-num">{String(i + 1).padStart(2, '0')}</span>
+              {s.title}
+            </h2>
+            <div class="case-block hard">
+              <span class="case-label">{ui.hard}</span>
+              <p>{s.hard}</p>
+            </div>
+            <div class="case-block solution">
+              <span class="case-label">{ui.solution}</span>
+              <p>{s.solution}</p>
+            </div>
+            <div class="case-tech">
+              <span class="case-label">{ui.tech}</span>
+              <div class="chips">{s.tech.map((t) => <span class="chip">{t}</span>)}</div>
+            </div>
+            <div class="case-block lesson">
+              <span class="case-label">{ui.lesson}</span>
+              <p>{s.lesson}</p>
+            </div>
+          </article>
+        ))
+      }
     </div>
   </section>
 
-  <section class="modern">
+  <section>
     <div class="wrap">
-      <p class="eyebrow">{ui.modern}</p>
+      <p class="eyebrow sig">ADOPTED ALONG THE WAY</p>
       <h2 class="section-title">{ui.modern}</h2>
       <div class="modern-grid">
-        {cs.modernTech.map((m) => (
-          <div class="modern-item">
-            <h3>{m.name}</h3>
-            <p>{m.why}</p>
-          </div>
-        ))}
+        {
+          cs.modernTech.map((m) => (
+            <div class="modern-item">
+              <h3>{m.name}</h3>
+              <p>{m.why}</p>
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>

@@ -1,0 +1,26 @@
+---
+import type { Locale } from '../../data/site';
+
+interface Props {
+  data: Locale;
+}
+const { data } = Astro.props;
+const { contact } = data;
+---
+
+<section id="contact" class="contact">
+  <div class="wrap">
+    <p class="eyebrow sig">CONTACT</p>
+    <h2 class="section-title">{contact.heading}</h2>
+    <p class="section-lead">{contact.lead}</p>
+    <div class="links">
+      {
+        contact.items.map((c) => (
+          <a href={c.url} target={c.url.startsWith('mailto') ? undefined : '_blank'} rel="noopener">
+            {c.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

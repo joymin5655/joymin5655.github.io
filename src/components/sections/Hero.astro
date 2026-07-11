@@ -1,0 +1,49 @@
+---
+import type { Locale } from '../../data/site';
+import HeroCanvas from '../HeroCanvas.astro';
+import StatusDot from '../ui/StatusDot.astro';
+
+interface Props {
+  data: Locale;
+}
+const { data } = Astro.props;
+const { hero } = data;
+---
+
+<header class="hero">
+  <HeroCanvas />
+  <div class="wrap">
+    <a class="live" href={hero.live.url} target="_blank" rel="noopener">
+      <StatusDot pulse />
+      {hero.live.label}
+    </a>
+    <p class="eyebrow sig">{hero.role}</p>
+    <h1>{hero.headline.before}<em>{hero.headline.em}</em>{hero.headline.after}</h1>
+    <p class="sub">{hero.sub}</p>
+    <div class="hero-metrics">
+      {
+        hero.metrics.map((m) => (
+          <div class="hm">
+            <b data-count={/^[\d,]+$/.test(m.value) ? m.value : undefined}>{m.value}</b>
+            <span>{m.label}</span>
+          </div>
+        ))
+      }
+    </div>
+    <p class="footnote">{hero.footnote}</p>
+    <div class="ctas">
+      {
+        hero.ctas.map((c) => (
+          <a
+            class:list={['btn', c.primary && 'primary']}
+            href={c.url}
+            target={c.url.startsWith('#') ? undefined : '_blank'}
+            rel={c.url.startsWith('#') ? undefined : 'noopener'}
+          >
+            {c.label}
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</header>

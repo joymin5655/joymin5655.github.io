@@ -1,0 +1,31 @@
+---
+import type { Locale } from '../../data/site';
+
+interface Props {
+  data: Locale;
+}
+const { data } = Astro.props;
+const { timeline } = data;
+---
+
+<section id="timeline">
+  <div class="wrap">
+    <p class="eyebrow sig">JOURNEY</p>
+    <h2 class="section-title">{timeline.heading}</h2>
+    <div class="timeline">
+      {
+        timeline.items.map((t, i) => (
+          <div
+            class:list={['tl-item', 'reveal', i === timeline.items.length - 1 && 'tl-item--current']}
+            style={`--i:${i}`}
+          >
+            <p class="period">{t.period}</p>
+            <h3>{t.title}</h3>
+            <p>{t.body}</p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="edu-line" set:html={timeline.edu} />
+  </div>
+</section>

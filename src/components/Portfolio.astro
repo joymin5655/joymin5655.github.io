@@ -1,19 +1,28 @@
 ---
+// Section orchestrator — content lives in src/data/site.ts, visuals in
+// src/components/sections/*. Signal Observatory v2.
 import type { Locale } from '../data/site';
-import GooeyText from './GooeyText.astro';
-interface Props { data: Locale; }
+import Hero from './sections/Hero.astro';
+import ObservatoryBoard from './sections/ObservatoryBoard.astro';
+import Subsystems from './sections/Subsystems.astro';
+import DataScienceDepth from './sections/DataScienceDepth.astro';
+import Timeline from './sections/Timeline.astro';
+import Contact from './sections/Contact.astro';
+
+interface Props {
+  data: Locale;
+}
 const { data } = Astro.props;
-const { hero, metrics, about, principles, projects, skills, timeline, credentials, contact, nav } = data;
+const { nav } = data;
 ---
 
 <nav class="nav">
   <div class="wrap">
-    <a class="brand" href={data.lang === 'ko' ? '/' : '/en/'}>Yongmin <b>Cho</b></a>
+    <a class="brand" href={data.lang === 'ko' ? '/' : '/en/'}>YONGMIN <b>CHO</b></a>
     <div class="links">
-      <a class="navlink" href="#about">{nav.about}</a>
-      <a class="navlink" href="#principles">{nav.principles}</a>
-      <a class="navlink" href="#projects">{nav.projects}</a>
-      <a class="navlink" href="#skills">{nav.skills}</a>
+      <a class="navlink" href="#board">{nav.board}</a>
+      <a class="navlink" href="#work">{nav.work}</a>
+      <a class="navlink" href="#depth">{nav.depth}</a>
       <a class="navlink" href="#timeline">{nav.timeline}</a>
       <a class="navlink" href="#contact">{nav.contact}</a>
       <a class="lang" href={data.altHref} aria-label="language">{data.altLabel}</a>
@@ -23,10 +32,9 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
         <span class="mnav-icon" aria-hidden="true"></span>
       </summary>
       <div class="mnav-panel">
-        <a href="#about">{nav.about}</a>
-        <a href="#principles">{nav.principles}</a>
-        <a href="#projects">{nav.projects}</a>
-        <a href="#skills">{nav.skills}</a>
+        <a href="#board">{nav.board}</a>
+        <a href="#work">{nav.work}</a>
+        <a href="#depth">{nav.depth}</a>
         <a href="#timeline">{nav.timeline}</a>
         <a href="#contact">{nav.contact}</a>
         <a class="mnav-lang" href={data.altHref}>{data.altLabel}</a>
@@ -35,167 +43,27 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
   </div>
 </nav>
 
-<header class="hero">
-  <div class="wrap">
-    <p class="role">{hero.role}</p>
-    <h1>{hero.name}<br /><span class="grad">{hero.tagline}</span></h1>
-    <GooeyText texts={hero.gooey} class="hero-gooey" id="hero-gooey" />
-    <p class="sub">{hero.sub}</p>
-    <div class="ctas">
-      {hero.ctas.map((c) => (
-        <a class={`btn ${c.primary ? 'primary' : ''}`} href={c.url} target={c.url.startsWith('#') ? undefined : '_blank'} rel={c.url.startsWith('#') ? undefined : 'noopener'}>{c.label}</a>
-      ))}
-    </div>
-  </div>
-</header>
+<Hero data={data} />
 
 <main>
-  <section class="metrics-strip">
-    <div class="wrap">
-      {metrics.map((m, i) => (
-        <div class="metric reveal" style={`--i:${i}`}>
-          <span class="metric-value">{m.value}</span>
-          <span class="metric-label">{m.label}</span>
-        </div>
-      ))}
-    </div>
-  </section>
-
-  <section id="about" class="about">
-    <div class="wrap">
-      <p class="eyebrow">{nav.about}</p>
-      <p class="lead">{about.lead}</p>
-      <div class="pillars">
-        {about.pillars.map((p, i) => (
-          <div class="pillar reveal" style={`--i:${i}`}><h3>{p.title}</h3><p>{p.body}</p></div>
-        ))}
-      </div>
-      <p class="motto">{about.motto}</p>
-    </div>
-  </section>
-
-  <section id="principles" class="principles">
-    <div class="wrap">
-      <p class="eyebrow">{nav.principles}</p>
-      <h2 class="section-title">{principles.heading}</h2>
-      <div class="rules">
-        {principles.items.map((p, i) => (
-          <div class="rule reveal" style={`--i:${i}`}>
-            <h3 class="rule-key">{p.title}</h3>
-            <p class="rule-desc">{p.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section id="projects" class="projects">
-    <div class="wrap">
-      <p class="eyebrow">{nav.projects}</p>
-      <h2 class="section-title">{projects.heading}</h2>
-      <div class="projects-grid">
-        {projects.items.map((proj, i) => (
-          <article class={`card reveal ${proj.flagship ? 'flagship' : ''}`} style={`--i:${i}`}>
-            <span class="badge">{proj.flagship ? '★ Flagship' : 'Project'}</span>
-            <h3>{proj.name}</h3>
-            <p class="tag">{proj.tag}</p>
-            <p class="blurb">{proj.blurb}</p>
-            <div class="chips">{proj.stack.map((s) => <span class="chip">{s}</span>)}</div>
-            {(proj.links.length > 0 || proj.slug) && (
-              <div class="links">
-                {proj.slug && (
-                  <a class="case-link" href={`${data.lang === 'ko' ? '' : '/en'}/projects/${proj.slug}`}>
-                    {data.lang === 'ko' ? '케이스스터디' : 'Case study'} →
-                  </a>
-                )}
-                {proj.links.map((l) => (
-                  <a href={l.url} target="_blank" rel="noopener">{l.label} ↗</a>
-                ))}
-              </div>
-            )}
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section id="skills" class="skills">
-    <div class="wrap">
-      <p class="eyebrow">{nav.skills}</p>
-      <h2 class="section-title">{skills.heading}</h2>
-      <div class="manifest">
-        {skills.groups.map((g, i) => (
-          <div class="manifest-row reveal" style={`--i:${i}`}>
-            <h3 class="manifest-key">{g.group}</h3>
-            <div class="items">{g.items.map((it) => <span class="chip">{it}</span>)}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section id="timeline" class="journey">
-    <div class="wrap">
-      <p class="eyebrow">{nav.timeline}</p>
-      <h2 class="section-title">{timeline.heading}</h2>
-      <div class="timeline">
-        {timeline.items.map((t, i) => (
-          <div
-            class:list={[
-              'tl-item',
-              'reveal',
-              t.period.startsWith('2024.08') && 'tl-item--branch',
-              i === timeline.items.length - 1 && 'tl-item--current',
-            ]}
-            style={`--i:${i}`}
-          >
-            <p class="period">{t.period}</p>
-            <h3>{t.title}</h3>
-            <p>{t.body}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section id="credentials" class="credentials">
-    <div class="wrap">
-      <p class="eyebrow">{credentials.heading}</p>
-      <h2 class="section-title">{credentials.heading}</h2>
-      <div class="cred-grid">
-        {credentials.groups.map((g, i) => (
-          <div class="credgroup reveal" style={`--i:${i}`}>
-            <h3>{g.label}</h3>
-            <ul>{g.items.map((i) => <li>{i}</li>)}</ul>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section id="contact" class="contact">
-    <div class="wrap">
-      <p class="eyebrow">{nav.contact}</p>
-      <h2 class="section-title">{contact.heading}</h2>
-      <p class="lead">{contact.lead}</p>
-      <div class="links">
-        {contact.items.map((c) => (
-          <a href={c.url} target={c.url.startsWith('mailto') ? undefined : '_blank'} rel="noopener">{c.label}</a>
-        ))}
-      </div>
-    </div>
-  </section>
+  <ObservatoryBoard data={data} />
+  <Subsystems data={data} />
+  <DataScienceDepth data={data} />
+  <Timeline data={data} />
+  <Contact data={data} />
 </main>
 
 <footer class="footer">
   <div class="wrap">
     <span>© 2026 Yongmin Cho (조용민)</span>
-    <span class="mono">Built with Astro · Deployed on GitHub Pages</span>
+    <span class="mono">Signal Observatory · Built with Astro · GitHub Pages</span>
   </div>
 </footer>
 
 <script>
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // scroll reveal (html.js gate set in Base.astro)
   const els = document.querySelectorAll('.reveal');
   if (!reduce && 'IntersectionObserver' in window && els.length) {
     const io = new IntersectionObserver(
@@ -213,6 +81,38 @@ const { hero, metrics, about, principles, projects, skills, timeline, credential
     setTimeout(() => els.forEach((el) => el.classList.add('is-visible')), 3000);
   }
 
+  // one-shot counter roll-up for [data-count] numbers (tabular-nums keeps width)
+  const counters = document.querySelectorAll<HTMLElement>('[data-count]');
+  if (!reduce && counters.length) {
+    const fmt = (n: number) => n.toLocaleString('en-US');
+    const run = (el: HTMLElement) => {
+      const raw = el.dataset.count || '';
+      const end = parseInt(raw.replace(/,/g, ''), 10);
+      if (!Number.isFinite(end)) return;
+      const t0 = performance.now();
+      const dur = 900;
+      const tick = (t: number) => {
+        const p = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt(Math.round(end * eased));
+        if (p < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    const cio = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries)
+          if (e.isIntersecting) {
+            run(e.target as HTMLElement);
+            cio.unobserve(e.target);
+          }
+      },
+      { threshold: 0.4 }
+    );
+    counters.forEach((el) => cio.observe(el));
+  }
+
+  // mobile nav
   const mnav = document.querySelector('.mnav');
   if (mnav) {
     mnav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => mnav.removeAttribute('open')));

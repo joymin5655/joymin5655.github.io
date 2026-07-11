@@ -1,0 +1,29 @@
+---
+// Static SVG gauge — sweep animates once via CSS when the parent .reveal
+// becomes visible (see global.css .gauge-arc). Value is decorative-precise:
+// the number itself is rendered as text beside the ring.
+interface Props {
+  value: string;
+  label: string;
+}
+const { value, label } = Astro.props;
+---
+
+<div class="gauge">
+  <svg width="76" height="76" viewBox="0 0 76 76" aria-hidden="true">
+    <circle class="gauge-track" cx="38" cy="38" r="34" fill="none" stroke-width="5"></circle>
+    <circle
+      class="gauge-arc"
+      cx="38"
+      cy="38"
+      r="34"
+      fill="none"
+      stroke-width="5"
+      stroke-linecap="round"
+      transform="rotate(-90 38 38)"></circle>
+  </svg>
+  <div>
+    <div class="pval" style="font-size:1.5rem" data-count={value}>{value}</div>
+    <div class="plabel">{label}</div>
+  </div>
+</div>

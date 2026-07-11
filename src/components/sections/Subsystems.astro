@@ -1,0 +1,82 @@
+---
+import type { Locale } from '../../data/site';
+import StatusDot from '../ui/StatusDot.astro';
+
+interface Props {
+  data: Locale;
+}
+const { data } = Astro.props;
+const { work } = data;
+const f = work.flagship;
+---
+
+<section id="work">
+  <div class="wrap">
+    <p class="eyebrow sig">WORK</p>
+    <h2 class="section-title">{work.heading}</h2>
+    <p class="section-lead">{work.lead}</p>
+
+    <article class="flagship reveal">
+      <div class="flagship-head">
+        <StatusDot pulse />
+        <h3>{f.name}</h3>
+        <span class="flagship-tag">{f.tag}</span>
+      </div>
+      <p>{f.blurb}</p>
+      <div class="flagship-links">
+        <a class="btn primary" href={f.caseHref}>{f.caseLabel}</a>
+        {
+          f.links.map((l) => (
+            <a class="btn" href={l.url} target="_blank" rel="noopener">
+              {l.label}
+            </a>
+          ))
+        }
+      </div>
+      <div class="subsys-grid">
+        {
+          f.subsystems.map((s, i) => (
+            <a
+              class="subsys reveal"
+              style={`--i:${i}`}
+              href={s.href}
+              target={s.href.startsWith('http') ? '_blank' : undefined}
+              rel={s.href.startsWith('http') ? 'noopener' : undefined}
+            >
+              <span class="eyebrow">{s.eyebrow}</span>
+              <h4>{s.title}</h4>
+              <span class="val">{s.value}</span>
+              <p>{s.desc}</p>
+              <span class="go">→</span>
+            </a>
+          ))
+        }
+      </div>
+    </article>
+
+    <div class="work-grid">
+      {
+        work.cards.map((c, i) => (
+          <article class="work-card reveal" style={`--i:${i}`}>
+            <span class="tag">{c.tag}</span>
+            <h3>{c.name}</h3>
+            <p class="blurb">{c.blurb}</p>
+            <div class="chips">{c.chips.map((s) => <span class="chip">{s}</span>)}</div>
+            <div class="links">
+              {c.caseHref && (
+                <a class="ev" href={c.caseHref}>
+                  ↳ CASE STUDY
+                </a>
+              )}
+              {c.links.map((l) => (
+                <a class="ev" href={l.url} target="_blank" rel="noopener">
+                  ↳ {l.label}
+                </a>
+              ))}
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,8 @@
+---
+interface Props {
+  pulse?: boolean;
+}
+const { pulse = false } = Astro.props;
+---
+
+<span class:list={['dot', pulse && 'dot--pulse']} aria-hidden="true"></span>

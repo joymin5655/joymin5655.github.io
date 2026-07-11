@@ -6,8 +6,9 @@ interface Props {
   path?: string;  // path of THIS page, e.g. '/projects/airlens'
   altKo?: string; // hreflang ko path
   altEn?: string; // hreflang en path
+  noindex?: boolean; // reserved stubs (e.g. /writing) stay out of the index
 }
-const { data, path, altKo = '/', altEn = '/en/' } = Astro.props;
+const { data, path, altKo = '/', altEn = '/en/', noindex = false } = Astro.props;
 
 const origin = 'https://joymin5655.github.io';
 const url = `${origin}${path ?? (data.lang === 'ko' ? '/' : '/en/')}`;
@@ -20,12 +21,13 @@ const url = `${origin}${path ?? (data.lang === 'ko' ? '/' : '/en/')}`;
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{data.meta.title}</title>
     <meta name="description" content={data.meta.description} />
+    {noindex && <meta name="robots" content="noindex" />}
     <link rel="canonical" href={url} />
     <link rel="alternate" hreflang="ko" href={`${origin}${altKo}`} />
     <link rel="alternate" hreflang="en" href={`${origin}${altEn}`} />
     <link rel="alternate" hreflang="x-default" href={`${origin}${altKo}`} />
 
-    <meta name="theme-color" content="#0a0f1a" />
+    <meta name="theme-color" content="#0a0c10" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Yongmin Cho" />
@@ -42,12 +44,9 @@ const url = `${origin}${path ?? (data.lang === 'ko' ? '/' : '/en/')}`;
     <meta name="twitter:description" content={data.meta.description} />
     <meta name="twitter:image" content={`${origin}/og.png`} />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- self-hosted fonts only — no CDN (DESIGN.md §2) -->
+    <link rel="preload" href="/fonts/plex-mono/IBMPlexMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="/fonts/pretendard/pretendardvariable-dynamic-subset.css" />
     <script is:inline>
       if (matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window)
         document.documentElement.classList.add('js');

@@ -1,0 +1,30 @@
+---
+import type { Locale } from '../../data/site';
+import EvidenceLink from '../ui/EvidenceLink.astro';
+
+interface Props {
+  data: Locale;
+}
+const { data } = Astro.props;
+const { depth } = data;
+---
+
+<section id="depth">
+  <div class="wrap">
+    <p class="eyebrow sig">METHODS IN PRODUCTION</p>
+    <h2 class="section-title">{depth.heading}</h2>
+    <p class="section-lead">{depth.lead}</p>
+    <div class="depth-table">
+      {
+        depth.rows.map((r, i) => (
+          <div class="depth-row reveal" style={`--i:${i}`}>
+            <span class="depth-method">{r.method}</span>
+            <span class="depth-where">{r.where}</span>
+            <EvidenceLink href={r.evidence.url} label={r.evidence.label} />
+          </div>
+        ))
+      }
+    </div>
+    <p class="depth-note">{depth.note}</p>
+  </div>
+</section>

@@ -1,0 +1,191 @@
+---
+// 2D canvas hero — dotted world map + request arcs (country → Seoul) + 30-day
+// request waveform. Data: static snapshot (observatory.ts) + generated
+// landmass dots (worldDots.ts). Spec: DESIGN.md §4 — rAF single loop, DPR≤2,
+// ≤12 concurrent arcs, stops on tab blur, reduced-motion renders one static
+// frame. The CSS grid fallback behind it covers no-JS / canvas failure.
+---
+
+<div class="hero-canvas" aria-hidden="true">
+  <canvas id="obs-canvas"></canvas>
+</div>
+
+<script>
+  import { worldDots } from '../data/worldDots';
+  import { observatory } from '../data/observatory';
+
+  const canvas = document.getElementById('obs-canvas') as HTMLCanvasElement | null;
+  const ctx = canvas?.getContext('2d');
+
+  if (canvas && ctx) {
+    const snap = observatory.load();
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const DPR = Math.min(devicePixelRatio || 1, 2);
+
+    let W = 0;
+    let H = 0;
+    // projected landmass dots with jitter offsets for mouse repulsion
+    let dots: { x: number; y: number; ox: number; oy: number; a: number }[] = [];
+    let sources: { x: number; y: number; w: number }[] = [];
+    let target = { x: 0, y: 0 };
+    let arcs: { from: { x: number; y: number }; t: number; speed: number }[] = [];
+    let mx = -9999;
+    let my = -9999;
+    let running = false;
+    let raf = 0;
+
+    // deterministic PRNG — visual material only
+    let seed = 20260711;
+    const rnd = () => {
+      seed = (seed * 16807) % 2147483647;
+      return (seed - 1) / 2147483646;
+    };
+
+    // equirectangular projection into the top ~78% of the canvas
+    const proj = (lat: number, lon: number) => ({
+      x: ((lon + 180) / 360) * W,
+      y: ((90 - lat) / 180) * H * 0.86,
+    });
+
+    function resize() {
+      const rect = canvas.parentElement!.getBoundingClientRect();
+      W = rect.width;
+      H = rect.height;
+      canvas.width = W * DPR;
+      canvas.height = H * DPR;
+      ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+
+      seed = 20260711;
+      dots = worldDots.map(([nx, ny]) => ({
+        x: nx * W + (rnd() - 0.5) * 2,
+        y: ny * H * 0.86 + (rnd() - 0.5) * 2,
+        ox: 0,
+        oy: 0,
+        a: 0.18 + rnd() * 0.3,
+      }));
+      sources = snap.countries.map((c) => ({ ...proj(c.lat, c.lon), w: c.w }));
+      target = proj(snap.target.lat, snap.target.lon);
+      arcs = [];
+    }
+
+    function spawnArc() {
+      if (arcs.length >= 12) return;
+      const s = sources[Math.floor(rnd() * sources.length)];
+      if (rnd() > s.w) return; // weight-biased pick
+      arcs.push({ from: { x: s.x, y: s.y }, t: 0, speed: 0.006 + rnd() * 0.006 });
+    }
+
+    function frame(dt: number) {
+      ctx.clearRect(0, 0, W, H);
+
+      // landmass dots + mouse repulsion
+      for (const d of dots) {
+        const dx = d.x - mx;
+        const dy = d.y - my;
+        const dist = Math.hypot(dx, dy);
+        if (dist < 80 && dist > 0.01) {
+          const f = ((80 - dist) / 80) * 7;
+          d.ox += (dx / dist) * f - d.ox * 0.2;
+          d.oy += (dy / dist) * f - d.oy * 0.2;
+        } else {
+          d.ox *= 0.9;
+          d.oy *= 0.9;
+        }
+        ctx.fillStyle = `rgba(138,147,166,${d.a})`;
+        ctx.fillRect(d.x + d.ox - 0.9, d.y + d.oy - 0.9, 1.8, 1.8);
+      }
+
+      // request arcs → Seoul
+      ctx.lineWidth = 1;
+      for (let i = arcs.length - 1; i >= 0; i--) {
+        const a = arcs[i];
+        a.t += a.speed * dt;
+        if (a.t >= 1) {
+          arcs.splice(i, 1);
+          continue;
+        }
+        const cx = (a.from.x + target.x) / 2;
+        const cy = Math.min(a.from.y, target.y) - Math.abs(a.from.x - target.x) * 0.18 - 30;
+        ctx.strokeStyle = `rgba(215,255,63,${0.45 * Math.sin(a.t * Math.PI)})`;
+        ctx.beginPath();
+        ctx.moveTo(a.from.x, a.from.y);
+        ctx.quadraticCurveTo(cx, cy, target.x, target.y);
+        ctx.stroke();
+        // travelling pulse
+        const t = a.t;
+        const px = (1 - t) * (1 - t) * a.from.x + 2 * (1 - t) * t * cx + t * t * target.x;
+        const py = (1 - t) * (1 - t) * a.from.y + 2 * (1 - t) * t * cy + t * t * target.y;
+        ctx.fillStyle = '#d7ff3f';
+        ctx.fillRect(px - 1.5, py - 1.5, 3, 3);
+      }
+
+      // target beacon
+      ctx.fillStyle = 'rgba(215,255,63,0.9)';
+      ctx.beginPath();
+      ctx.arc(target.x, target.y, 2.5, 0, Math.PI * 2);
+      ctx.fill();
+
+      // 30-day request waveform (relative shape — no labeled values)
+      const n = snap.dailyRequests.length;
+      const bw = W / n;
+      const barW = Math.max(2, Math.min(bw - 6, 22));
+      for (let k = 0; k < n; k++) {
+        const h = snap.dailyRequests[k] * Math.min(36, H * 0.1);
+        ctx.fillStyle = k === n - 1 ? 'rgba(215,255,63,0.75)' : 'rgba(90,99,117,0.28)';
+        ctx.fillRect(k * bw + (bw - barW) / 2, H - 10 - h, barW, h);
+      }
+
+      if (rnd() < 0.06) spawnArc();
+    }
+
+    let last = 0;
+    function loop(ts: number) {
+      if (!running) return;
+      const dt = last ? Math.min((ts - last) / 16.67, 3) : 1;
+      last = ts;
+      frame(dt);
+      raf = requestAnimationFrame(loop);
+    }
+    function start() {
+      if (running || reduced) return;
+      running = true;
+      last = 0;
+      raf = requestAnimationFrame(loop);
+    }
+    function stop() {
+      running = false;
+      cancelAnimationFrame(raf);
+    }
+
+    const hero = canvas.closest('.hero');
+    hero?.addEventListener('mousemove', (e) => {
+      const r = canvas.getBoundingClientRect();
+      mx = (e as MouseEvent).clientX - r.left;
+      my = (e as MouseEvent).clientY - r.top;
+    });
+    hero?.addEventListener('mouseleave', () => {
+      mx = -9999;
+      my = -9999;
+    });
+    document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    addEventListener('resize', () => {
+      resize();
+      if (reduced) {
+        for (let i = 0; i < 24; i++) spawnArc(), (arcs[arcs.length - 1].t = rnd());
+        frame(1);
+      }
+    });
+
+    resize();
+    if (reduced) {
+      // single static frame: mid-flight arcs, no loop
+      for (let i = 0; i < 24; i++) {
+        spawnArc();
+        if (arcs.length) arcs[arcs.length - 1].t = rnd();
+      }
+      frame(1);
+    } else {
+      start();
+    }
+  }
+</script>

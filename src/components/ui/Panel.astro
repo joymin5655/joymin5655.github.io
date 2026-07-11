@@ -1,0 +1,42 @@
+---
+// Bento observatory panel — anatomy: header (dot + eyebrow + LAST OBSERVED),
+// value + label, evidence link pinned to the bottom. See DESIGN.md §5.
+import type { Panel } from '../../data/site';
+import StatusDot from './StatusDot.astro';
+import EvidenceLink from './EvidenceLink.astro';
+import Gauge from './Gauge.astro';
+
+interface Props {
+  panel: Panel;
+  observed: string;
+  index: number;
+}
+const { panel: p, observed, index } = Astro.props;
+const numeric = /^[\d,]+$/.test(p.value);
+---
+
+<div class:list={['panel', p.span && `panel--${p.span}`, 'reveal']} style={`--i:${index}`}>
+  <div class="phead">
+    <StatusDot />
+    <span class="eyebrow">{p.eyebrow}</span>
+    <span class="stamp">{observed}</span>
+  </div>
+
+  {
+    p.gauge ? (
+      <Gauge value={p.value} label={p.label} />
+    ) : p.chips ? (
+      <div class="chips">{p.chips.map((c) => <span class="chip">{c}</span>)}</div>
+    ) : (
+      <>
+        <div class:list={['pval', p.tone]} data-count={numeric ? p.value : undefined}>
+          {p.value}
+          {p.unit && <small> {p.unit}</small>}
+        </div>
+        <div class="plabel">{p.label}</div>
+      </>
+    )
+  }
+
+  {p.evidence && <EvidenceLink href={p.evidence.url} label={p.evidence.label} />}
+</div>
