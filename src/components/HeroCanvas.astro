@@ -168,24 +168,31 @@
       my = -9999;
     });
     document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
-    addEventListener('resize', () => {
-      resize();
-      if (reduced) {
-        for (let i = 0; i < 24; i++) spawnArc(), (arcs[arcs.length - 1].t = rnd());
-        frame(1);
-      }
-    });
 
-    resize();
-    if (reduced) {
-      // single static frame: mid-flight arcs, no loop
+    function staticFrame() {
       for (let i = 0; i < 24; i++) {
         spawnArc();
         if (arcs.length) arcs[arcs.length - 1].t = rnd();
       }
       frame(1);
+    }
+    let resizeTimer = 0;
+    addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        resize();
+        if (reduced) staticFrame();
+      }, 150);
+    });
+
+    resize();
+    if (reduced) {
+      // single static frame: mid-flight arcs, no loop
+      staticFrame();
     } else {
       start();
     }
+    // first frame is on canvas — retire the CSS fallback grid
+    canvas.parentElement!.classList.add('is-live');
   }
 </script>

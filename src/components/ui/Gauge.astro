@@ -7,6 +7,7 @@ interface Props {
   label: string;
 }
 const { value, label } = Astro.props;
+const numeric = /^[\d,]+$/.test(value);
 ---
 
 <div class="gauge">
@@ -23,7 +24,7 @@ const { value, label } = Astro.props;
       transform="rotate(-90 38 38)"></circle>
   </svg>
   <div>
-    <div class="pval" style="font-size:1.5rem" data-count={value}>{value}</div>
+    <div class="pval" style="font-size:1.5rem" data-count={numeric ? value : undefined}>{value}</div>
     <div class="plabel">{label}</div>
   </div>
 </div>

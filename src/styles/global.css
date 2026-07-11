@@ -326,8 +326,8 @@ html.js .reveal.is-visible {
   background-size: 48px 48px;
   opacity: 0.5;
 }
-html.js .hero-canvas::before {
-  display: none;
+.hero-canvas.is-live::before {
+  display: none; /* set by HeroCanvas after the first frame renders (incl. reduced-motion static frame) */
 }
 .hero .wrap {
   position: relative;
