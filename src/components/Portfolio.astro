@@ -1,70 +1,269 @@
 ---
-// Section orchestrator — content lives in src/data/site.ts, visuals in
-// src/components/sections/*. Signal Observatory v2.
+// Orbital Console v3 — scene-driven one-page. Content SSOT stays in
+// src/data/site.ts (truth-gated copy); this file is layout + act choreography.
+// The fixed WebGL stage (src/scenes/console/) sits behind these normal-flow
+// sections; scroll position drives the scene's act timeline. Fallback ladder:
+// html.no-3d → static poster background, all content still readable.
 import type { Locale } from '../data/site';
-import Hero from './sections/Hero.astro';
-import ObservatoryBoard from './sections/ObservatoryBoard.astro';
-import Subsystems from './sections/Subsystems.astro';
-import DataScienceDepth from './sections/DataScienceDepth.astro';
-import Timeline from './sections/Timeline.astro';
-import Contact from './sections/Contact.astro';
+import '../styles/console.css';
 
 interface Props {
   data: Locale;
 }
 const { data } = Astro.props;
 const { nav } = data;
+
+const ACT_NAMES = ['ORBIT ENTRY', 'OBSERVATORY', 'AIRLENS ORBIT', 'AGENT GATE', 'TRAJECTORY', 'RE-ENTRY'];
+const ACT_IDS = ['top', 'board', 'work', 'agent', 'timeline', 'contact'];
+
+const metricPanels = data.board.panels.filter((p) => !p.chips);
+const stackPanel = data.board.panels.find((p) => p.chips);
+const agentCard = data.work.cards[0];
+const otherCards = data.work.cards.slice(1);
+const toneClass = (p: { tone?: string; eyebrow: string }) =>
+  p.tone === 'ok' ? 'ok' : p.eyebrow === 'GOVERNANCE' ? 'alert' : p.eyebrow === 'EDGE RUNTIME' ? 'sig' : '';
 ---
 
-<nav class="nav">
-  <div class="wrap">
-    <a class="brand" href={data.lang === 'ko' ? '/' : '/en/'}>YONGMIN <b>CHO</b></a>
-    <div class="links">
-      <a class="navlink" href="#board">{nav.board}</a>
-      <a class="navlink" href="#work">{nav.work}</a>
-      <a class="navlink" href="#depth">{nav.depth}</a>
-      <a class="navlink" href="#timeline">{nav.timeline}</a>
-      <a class="navlink" href="#contact">{nav.contact}</a>
-      <a class="lang" href={data.altHref} aria-label="language">{data.altLabel}</a>
-    </div>
-    <details class="mnav">
-      <summary class="mnav-btn" aria-label={data.lang === 'ko' ? '메뉴' : 'Menu'}>
-        <span class="mnav-icon" aria-hidden="true"></span>
-      </summary>
-      <div class="mnav-panel">
-        <a href="#board">{nav.board}</a>
-        <a href="#work">{nav.work}</a>
-        <a href="#depth">{nav.depth}</a>
-        <a href="#timeline">{nav.timeline}</a>
-        <a href="#contact">{nav.contact}</a>
-        <a class="mnav-lang" href={data.altHref}>{data.altLabel}</a>
-      </div>
-    </details>
-  </div>
+<canvas id="oc-stage" aria-hidden="true"></canvas>
+
+<header class="oc-hud-top">
+  <a class="oc-brand" href={data.lang === 'ko' ? '/' : '/en/'}>YONGMIN <b>CHO</b></a>
+  <span class="oc-live">{data.observedLabel}</span>
+  <nav class="oc-hud-links" aria-label="sections">
+    <a href="#board">{nav.board}</a>
+    <a href="#work">{nav.work}</a>
+    <a href="#depth">{nav.depth}</a>
+    <a href="#timeline">{nav.timeline}</a>
+    <a href="#contact">{nav.contact}</a>
+  </nav>
+  <a class="oc-chip" style="margin-left:12px" href={data.altHref} aria-label="language">{data.altLabel}</a>
+</header>
+
+<nav class="oc-actnav" id="oc-actnav" aria-label="acts">
+  {ACT_IDS.map((id, i) => (
+    <a href={`#${id}`} data-act={i}>
+      <span>{String(i + 1).padStart(2, '0')} {ACT_NAMES[i]}</span><i></i>
+    </a>
+  ))}
 </nav>
+<div class="oc-progress" aria-hidden="true"><i id="oc-progressbar"></i></div>
 
-<Hero data={data} />
+<main class="oc-main">
+  <!-- ACT 1 · HERO -->
+  <section class="oc-act oc-act--hero" id="top" data-act="0">
+    <div class="oc-col">
+      <div class="oc-eyebrow oc-reveal">{data.hero.role}</div>
+      <h1 class="oc-h1 oc-reveal">{data.hero.headline.before}<em>{data.hero.headline.em}</em>{data.hero.headline.after}</h1>
+      <p class="oc-sub oc-reveal">{data.hero.sub}</p>
+      <div class="oc-chips oc-reveal">
+        <a class="oc-chip" href={data.hero.live.url} target="_blank" rel="noopener"><b>{data.hero.live.label}</b></a>
+        {data.hero.metrics.map((m) => (
+          <span class="oc-chip"><b>{m.value}</b> {m.label}</span>
+        ))}
+      </div>
+      <p class="oc-foot oc-reveal">{data.hero.footnote}</p>
+      <div class="oc-ctas oc-reveal">
+        {data.hero.ctas.map((c) => (
+          <a class={`oc-btn ${c.primary ? 'oc-btn--pri' : 'oc-btn--sec'}`} href={c.url}>{c.label}</a>
+        ))}
+      </div>
+    </div>
+  </section>
 
-<main>
-  <ObservatoryBoard data={data} />
-  <Subsystems data={data} />
-  <DataScienceDepth data={data} />
-  <Timeline data={data} />
-  <Contact data={data} />
+  <!-- ACT 2 · OBSERVATORY -->
+  <section class="oc-act" id="board" data-act="1">
+    <div class="oc-col">
+      <h2 class="oc-eyebrow oc-reveal">ACT 02 · {data.board.heading}</h2>
+      <div class="oc-metrics oc-reveal">
+        {metricPanels.map((p) => (
+          <div class="oc-metric">
+            <div class={`v ${toneClass(p)}`}>
+              <span data-count={/^[\d,]+$/.test(p.value) ? p.value : undefined}>{p.value}</span>
+              {p.unit && <span class="u">{p.unit}</span>}
+            </div>
+            <div class="l">{p.label}</div>
+            {p.evidence && (
+              <div class="l"><a href={p.evidence.url} target="_blank" rel="noopener">{p.evidence.label} ↗</a></div>
+            )}
+          </div>
+        ))}
+        {stackPanel?.chips && (
+          <div class="oc-metric">
+            <div class="l" style="margin-top:0">{stackPanel.eyebrow}</div>
+            <div class="oc-tags" style="margin-top:10px">
+              {stackPanel.chips.map((c) => <span class="oc-tag">{c}</span>)}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT 3 · AIRLENS (flagship + DS depth) -->
+  <section class="oc-act" id="work" data-act="2">
+    <div class="oc-col">
+      <div class="oc-eyebrow oc-reveal">ACT 03 · {data.work.heading}</div>
+      <h2 class="oc-h2 oc-reveal">{data.work.flagship.name} — {data.work.flagship.tag}</h2>
+      <div class="oc-panel oc-reveal">
+        <p class="oc-body">{data.work.flagship.blurb}</p>
+        <div class="oc-tags">
+          {data.work.flagship.links.map((l) => (
+            <a class="oc-tag oc-tag--lime" href={l.url} target="_blank" rel="noopener">{l.label}</a>
+          ))}
+          <a class="oc-tag" href={data.work.flagship.caseHref}>{data.work.flagship.caseLabel}</a>
+        </div>
+      </div>
+      <div class="oc-subsys oc-reveal" id="depth">
+        {data.work.flagship.subsystems.map((s) => (
+          <a class="oc-subrow" href={s.href}>
+            <span class="val">{s.value}</span>
+            <span class="ttl">{s.title}</span>
+            <span class="dsc">{s.desc}</span>
+          </a>
+        ))}
+      </div>
+      <div class="oc-panel oc-reveal" style="margin-top:18px">
+        <p class="oc-body"><b>{data.depth.heading}</b> — {data.depth.lead}</p>
+        <div class="oc-tags">
+          {data.depth.rows.map((r) => (
+            <a class="oc-tag" href={r.evidence.url} title={r.where}>{r.method}</a>
+          ))}
+        </div>
+        <p class="oc-foot">{data.depth.note}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT 4 · AGENT GATE -->
+  <section class="oc-act" id="agent" data-act="3">
+    <div class="oc-col">
+      {/* "GOVERNANCE" + gate rows below are locale-invariant HUD dressing (like ACT_NAMES), not site.ts copy */}
+      <div class="oc-eyebrow oc-reveal">ACT 04 · GOVERNANCE</div>
+      <h2 class="oc-h2 oc-reveal">{agentCard.name} — {agentCard.tag}</h2>
+      <div class="oc-panel oc-reveal">
+        <p class="oc-body">{agentCard.blurb}</p>
+        <div class="oc-gaterows" aria-hidden="true">
+          <div class="oc-gaterow"><i></i>plan-approved edit<span class="r">PASS</span></div>
+          <div class="oc-gaterow"><i></i>read-only reviewer<span class="r">PASS</span></div>
+          <div class="oc-gaterow deny"><i></i>git reset --hard<span class="r">DENIED</span></div>
+          <div class="oc-gaterow deny"><i></i>secret file read<span class="r">DENIED</span></div>
+        </div>
+        <div class="oc-tags">
+          {agentCard.chips.map((c) => <span class="oc-tag">{c}</span>)}
+          {agentCard.links.map((l) => (
+            <a class="oc-tag oc-tag--lime" href={l.url} target="_blank" rel="noopener">{l.label}</a>
+          ))}
+          {agentCard.caseHref && (
+            <a class="oc-tag oc-tag--lime" href={agentCard.caseHref}>CASE →</a>
+          )}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ACT 5 · TRAJECTORY -->
+  <section class="oc-act" id="timeline" data-act="4">
+    <div class="oc-col">
+      <h2 class="oc-eyebrow oc-reveal">ACT 05 · {data.timeline.heading}</h2>
+      <div class="oc-miles">
+        {data.timeline.items.map((it) => (
+          <div class="oc-mile oc-reveal">
+            <span class="d">{it.period}</span>
+            <h3>{it.title}</h3>
+            <p>{it.body}</p>
+          </div>
+        ))}
+      </div>
+      <p class="oc-edu oc-reveal" set:html={data.timeline.edu} />
+      {otherCards.map((c) => (
+        <div class="oc-minicard oc-reveal">
+          <span class="tag">{c.tag}</span>
+          <h3>{c.name}</h3>
+          <p>{c.blurb}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- ACT 6 · RE-ENTRY -->
+  <section class="oc-act oc-act--center" id="contact" data-act="5">
+    <div class="oc-col">
+      <div class="oc-eyebrow oc-reveal" style="letter-spacing:0.32em">ACT 06 · {data.contact.heading}</div>
+      <h2 class="oc-h1 oc-reveal" style="font-size:clamp(2rem,4.4vw,3.4rem)">{data.contact.lead}</h2>
+      <div class="oc-ctas oc-reveal" style="justify-content:center">
+        {data.contact.items.map((it, i) => (
+          <a class={`oc-btn ${i === 0 ? 'oc-btn--pri' : 'oc-btn--sec'}`} href={it.url} target={it.url.startsWith('mailto') ? undefined : '_blank'} rel="noopener">{it.label}</a>
+        ))}
+      </div>
+    </div>
+  </section>
 </main>
 
-<footer class="footer">
-  <div class="wrap">
-    <span>© 2026 Yongmin Cho (조용민)</span>
-    <span class="mono">Signal Observatory · Built with Astro · GitHub Pages</span>
-  </div>
+<footer class="oc-footer">
+  <span>© 2026 Yongmin Cho (조용민)</span>
+  <span>Orbital Console · Astro + Three.js · GitHub Pages</span>
 </footer>
 
 <script>
-  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  import { bootConsole } from '../scenes/console/boot';
 
-  // scroll reveal (html.js gate set in Base.astro)
-  const els = document.querySelectorAll('.reveal');
+  const canvas = document.getElementById('oc-stage') as HTMLCanvasElement | null;
+  const acts = [...document.querySelectorAll<HTMLElement>('.oc-act')];
+  const navLinks = [...document.querySelectorAll<HTMLAnchorElement>('#oc-actnav a')];
+  const progressBar = document.getElementById('oc-progressbar');
+
+  /* ── scroll→act timeline (HUD wired before the lazy 3D chunk resolves) ── */
+  if (canvas) {
+    let mids: number[] = [];
+    const measure = () => {
+      mids = acts.map((s) => s.offsetTop + s.offsetHeight / 2);
+    };
+    measure();
+    addEventListener('resize', measure);
+    // layout shifts after boot (font swap, late assets) desync the midpoints
+    if (document.readyState === 'complete') measure();
+    else addEventListener('load', measure);
+    document.fonts?.ready.then(measure);
+
+    const actFNow = () => {
+      const mid = scrollY + innerHeight / 2;
+      if (mid <= mids[0]) return 0;
+      if (mid >= mids[mids.length - 1]) return mids.length - 1;
+      let i = 0;
+      while (i < mids.length - 2 && mid >= mids[i + 1]) i++;
+      return i + (mid - mids[i]) / Math.max(1, mids[i + 1] - mids[i]);
+    };
+
+    const doc = document.documentElement;
+    const paintHud = (f: number) => {
+      const p = Math.min(1, Math.max(0, scrollY / (doc.scrollHeight - innerHeight)));
+      if (progressBar) progressBar.style.width = (p * 100).toFixed(2) + '%';
+      const ci = Math.round(f);
+      navLinks.forEach((a, i) => a.classList.toggle('on', i === ci));
+    };
+
+    // progress bar + act dots respond immediately (also the no-3d path)
+    const cheap = () => paintHud(actFNow());
+    addEventListener('scroll', cheap, { passive: true });
+    cheap();
+
+    bootConsole(canvas).then((handle) => {
+      if (!handle) return; // no-3d keeps the cheap scroll listener
+      removeEventListener('scroll', cheap);
+      let smoothF = actFNow(); // start from the current position, not act 0
+      const sync = () => {
+        smoothF += (actFNow() - smoothF) * 0.09;
+        handle.setActF(smoothF);
+        paintHud(smoothF);
+        requestAnimationFrame(sync);
+      };
+      requestAnimationFrame(sync);
+    });
+  }
+
+  /* ── content reveals (IO, html.js gate from Base.astro) ── */
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const els = document.querySelectorAll('.oc-reveal');
   if (!reduce && 'IntersectionObserver' in window && els.length) {
     const io = new IntersectionObserver(
       (entries) => {
@@ -77,24 +276,23 @@ const { nav } = data;
       { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
     );
     els.forEach((el) => io.observe(el));
-    // safety net: never leave content hidden if the observer stalls
     setTimeout(() => els.forEach((el) => el.classList.add('is-visible')), 3000);
+  } else {
+    els.forEach((el) => el.classList.add('is-visible'));
   }
 
-  // one-shot counter roll-up for [data-count] numbers (tabular-nums keeps width)
+  /* ── counter roll-up ── */
   const counters = document.querySelectorAll<HTMLElement>('[data-count]');
   if (!reduce && counters.length) {
     const fmt = (n: number) => n.toLocaleString('en-US');
     const run = (el: HTMLElement) => {
-      const raw = el.dataset.count || '';
-      const end = parseInt(raw.replace(/,/g, ''), 10);
+      const end = parseInt((el.dataset.count || '').replace(/,/g, ''), 10);
       if (!Number.isFinite(end)) return;
       const t0 = performance.now();
       const dur = 900;
       const tick = (t: number) => {
         const p = Math.min((t - t0) / dur, 1);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = fmt(Math.round(end * eased));
+        el.textContent = fmt(Math.round(end * (1 - Math.pow(1 - p, 3))));
         if (p < 1) requestAnimationFrame(tick);
       };
       requestAnimationFrame(tick);
@@ -110,14 +308,5 @@ const { nav } = data;
       { threshold: 0.4 }
     );
     counters.forEach((el) => cio.observe(el));
-  }
-
-  // mobile nav
-  const mnav = document.querySelector('.mnav');
-  if (mnav) {
-    mnav.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => mnav.removeAttribute('open')));
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') mnav.removeAttribute('open');
-    });
   }
 </script>

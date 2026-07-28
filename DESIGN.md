@@ -1,120 +1,70 @@
-# DESIGN.md — Signal Observatory (redesign/v2)
+# DESIGN.md — Orbital Console (redesign/v3)
 
-> 2026-07-11 확정. 이 문서가 사이트·프로필 README 리스킨의 디자인 SSOT.
+> 2026-07-28 확정. 이 문서가 사이트 디자인 SSOT. (구 v2 "Signal Observatory"를 대체 — 컬러·타이포 토큰과 진실성 규칙은 계승, 레이아웃·모션 문법은 전면 교체.)
 > 콘텐츠 진실성은 `CLAUDE.md` 진실성 게이트 + `/Volumes/WD_BLACK/취업/master/session_summary_report.md`가 우선.
 
 ## 0. 컨셉
 
-**Signal Observatory** — 포트폴리오를 "읽는 문서"가 아니라 **운영 중인 시스템의 관측소**로 만든다.
-실트래픽(55개국/66,307 요청), 고위험 작업 차단(296건/오탐 0), 인프라 규모(121 마이그레이션·35 Edge Functions)가
-계기판·게이지·관측 로그의 형태로 스스로 말하게 한다.
+**Orbital Console** — 포지셔닝("AI를 프로덕션까지, 혼자, 거버넌스와 함께")을 하나의 연속된 3D 공간으로 서사화.
+풀스크린 고정 WebGL 캔버스(vanilla Three.js) 위에 일반 문서 플로우의 HTML 콘텐츠가 흐르고, **스크롤 = 씬 타임라인**. 6막:
 
-세 축의 조합 (사용자 확정):
-1. **모던 컴포넌트 정제** — bento 그리드, 마이크로 모션, 절제된 글로우
-2. **몰입형 인터랙션** — 2D 캔버스 히어로 (점묘 세계지도 + 요청 아크 + 파형)
-3. **라이브 관측 대시보드** — 정적 스냅샷 데이터 + `LAST OBSERVED` 타임스탬프 정직 표기
+| 막 | id | 씬 | 콘텐츠 |
+|---|---|---|---|
+| 01 ORBIT ENTRY | `#top` | 점묘 지구 + fresnel 림 + 요청 아크(55개국→서울) | 헤드라인·실측 칩·CTA |
+| 02 OBSERVATORY | `#board` | 풀백, 지구 축소 | 검증 지표 5타일 + STACK 타일 (카운터 롤업) |
+| 03 AIRLENS ORBIT | `#work` | 궤도 링 3 + 데이터 소스 노드 10 | 플래그십 + 서브시스템 6 + DS Depth |
+| 04 AGENT GATE | `#agent` | 파티클 재배열 → 게이트 회랑(3레인, 위험 파티클 차단·산란) | Agent 하네스 + PASS/DENIED 데모 |
+| 05 TRAJECTORY | `#timeline` | 지구 축소, 항적 라인 + 마일스톤 마커 5 | 타임라인 5 + 학력 1줄 + 바른자세 미니카드 |
+| 06 RE-ENTRY | `#contact` | 지구 재중심, 여명(dawn) 라이팅, 아크 복귀 | 연락 CTA |
 
-**커밋 수치는 화면 어디에도 노출하지 않는다** (사이트·README 공통, 2026-07-11 사용자 결정).
-유일한 예외: gitleaks 서술("1,402커밋 전 이력 스캔, 유출 0")은 스캔 범위 서술로만 허용.
+## 1. WebGL 재결정 (구 v2의 "WebGL 기각" 번복 — 2026-07-28)
 
-## 1. 컬러 토큰 (다크 단일 테마)
+v2는 "3D 글로브는 무겁고 흔해서 기각, 2D 캔버스 히어로"였다. 이번 리디자인에서 사용자가 "3D 애니메이션 중심, 기존 틀 유지 불필요"를 명시 요청 → **번복이 아니라 요구 변경에 따른 재결정**. 원래 CLAUDE.md Phase 5(Three.js 글로브)의 실행이기도 하다.
 
-관측소는 밤에 작동한다 — 다크 단일 커밋. 라이트 대응은 README SVG만(GitHub 렌더 특성).
-구 아이덴티티(cyan #25e2f4 → violet #7c6cf0)는 전면 폐기, 재사용 금지.
+- React/R3F 불도입 — vanilla Three.js 단일 씬 그래프(`src/scenes/console/engine.ts`)가 스크롤 타임라인 관리에 유리.
+- three는 **첫 페인트 후 dynamic import** (lazy chunk ~505KB min / ~150KB gzip) — 초기 로드는 v2 수준 유지.
 
-```css
---bg:        #0A0C10;  /* 옵시디언 슬레이트 — 순검정 아님, 청색 편향 */
---bg-deep:   #06080B;  /* 캔버스 히어로 바닥 */
---panel:     #12151C;  /* bento 패널 표면 */
---panel-2:   #171B24;  /* hover / 중첩 표면 */
---line:      #232936;  /* 괘선·보더 (저채도) */
---grid:      #1A1F2A;  /* 배경 그리드 라인 */
---ink:       #EDEFF4;  /* 본문 */
---muted:     #8A93A6;  /* 보조 텍스트 (청회색 — 액센트 방향 휴 바이어스) */
---faint:     #5A6375;  /* 각주·타임스탬프 */
---signal:    #D7FF3F;  /* 포스포 라임 — 관측 신호. 절제 사용(포인트만) */
---signal-dim:#9DBD2A;  /* signal의 저휘도 변형 (보더·라벨) */
---alert:     #FF6B4A;  /* 경보·차단 게이지 */
---ok:        #43D9AD;  /* 정상 상태 도트·LIVE */
-```
+## 2. 카메라 정책 (사용자 결정 2026-07-28: "지구본 좌우 핑퐁 금지")
 
-규칙:
-- `--signal`은 화면당 1–2곳(헤드라인 키워드, 활성 게이지)만. 넓은 면적 채색 금지.
-- 상태 의미색(`--ok`/`--alert`)과 액센트(`--signal`)는 역할 분리 — 상태색을 장식에 쓰지 않는다.
-- 글로우는 `box-shadow: 0 0 24px rgba(215,255,63,.08)` 수준의 저휘도만.
+- 지구본은 **우측 상시 앵커** (CAM x 전부 > 0, 미세 드리프트만). 막 전환은 **줌·틸트·씬 드레싱**(궤도링·게이트·항적이 지구 주변에 형성)으로만 표현.
+- 콘텐츠 패널은 전부 **좌측 정렬** (`.oc-col`, max 600px).
+- 유일한 예외 = 마지막 06 RE-ENTRY: x→0 단일 센터링 무브(엔딩 연출, 핑퐁 아님).
+- 마우스 패럴랙스 회전 진폭 0.18 (잔흔들림 완화).
 
-## 2. 타이포그래피
+## 3. 폴백 사다리 (`src/scenes/console/boot.ts`)
 
-| 역할 | 폰트 | 비고 |
-|---|---|---|
-| 본문·헤드라인 | **Pretendard Variable** (한글 서브셋 woff2) | `public/fonts/` 셀프호스트, CDN 금지 |
-| 수치·게이지·타임스탬프·eyebrow | **IBM Plex Mono** (Regular/Medium woff2) | 셀프호스트. `font-variant-numeric: tabular-nums` |
+1. `prefers-reduced-motion` 또는 WebGL 불가 → `html.no-3d`: 정적 포스터 그라디언트, 콘텐츠 즉시 표시. 씬 로드 자체를 건너뜀.
+2. 엔진 dynamic import 실패 → 동일 `no-3d` 경로.
+3. 모바일/저사양(`width<860 || deviceMemory<4`) → 파티클 stride 2, 스타 수 축소.
+4. `visibilitychange` → rAF 정지. 탭 복귀 시 재개.
+5. no-3d에서도 진행바·액트 도트는 scroll 리스너로 동작(씬 루프 불필요).
 
-- `font-display: swap` + preload(본문 웨이트만). Google Fonts CDN 링크 제거.
-- 타입 스케일 (clamp, 1.25배율 기반):
-  - `--t-xs: 0.75rem` (각주) · `--t-sm: 0.875rem` · `--t-base: 1rem` · `--t-lg: 1.25rem`
-  - `--t-xl: clamp(1.5rem, 3vw, 1.95rem)` (섹션 타이틀)
-  - `--t-hero: clamp(2.6rem, 6.5vw, 4rem)` (히어로, letter-spacing -0.03em, `text-wrap: balance`)
-- eyebrow/라벨: mono, uppercase, `letter-spacing: 0.14em`, `--faint` 또는 `--signal-dim`.
+주의(실측 2026-07-28): 창이 다른 창에 **가려지면(occluded)** Chrome이 rAF를 ~1fps로 스로틀 → 씬 전환이 기어가는 것처럼 보임. 버그 아님 — 전면 창에서는 60fps.
 
-## 3. 모션 언어
+## 4. 성능 예산
 
-| 패턴 | 스펙 |
-|---|---|
-| 마이크로 (hover) | 180–200ms ease-out. 카드 lift 2px + 보더 `--line`→`--signal-dim` + 저휘도 글로우 |
-| 섹션 진입 | IntersectionObserver 1회 reveal — translateY(12px)+opacity, 500ms, 자식 60ms stagger |
-| 카운터 롤업 | 최초 진입 1회, 900ms, tabular-nums로 폭 고정 |
-| 게이지 스윕 | SVG stroke-dashoffset CSS transition, 최초 진입 1회 |
-| 상태 도트 | `--ok` 2s pulse (LIVE 표시만) |
-| 캔버스 | §4. 탭 blur 시 rAF 정지 |
+- 초기 로드(three 제외) = v2 수준 유지. three = lazy chunk만.
+- 파티클: 지구 점묘 ≤ 8k points (모바일 stride 2로 ≈ 절반), 스타 420(모바일 220).
+- 셰이더 1개(포인트 클라우드, uGateMix로 globe↔corridor 모핑) + fresnel 1개 — draw call 최소.
+- fresnel은 **rim-only 공식** (`1-abs(dot(N,V))`) — metiq 원본 BackSide 공식은 불투명 지구가 중심부를 가리는 전제라 포인트 클라우드에선 청록 블롭이 됨(2026-07-28 실측 수정).
 
-**`prefers-reduced-motion: reduce`** — 모든 트랜지션·애니메이션 즉시 최종 상태, 캔버스는 1프레임 정적 렌더 후 종료. 예외 없음.
+## 5. 스크롤 → actF 동기화 (`Portfolio.astro` 스크립트)
 
-## 4. 캔버스 히어로 (2D Canvas — WebGL 기각)
+- 섹션 midpoint 배열을 뷰포트 중심으로 보간해 actF(0~5) 산출, lerp 0.09로 스무딩.
+- **midpoint는 폰트 스왑 후 재측정 필수** (`document.fonts.ready` + `load` + `resize`) — 부트 시점 측정만으로는 한글 폰트 스왑 후 레이아웃이 변해 최하단에서 actF가 5에 못 미칠 수 있음(2026-07-28 방어 수정).
 
-- 내용: 점묘 세계지도(도트 그리드) + 요청 아크 펄스(국가 좌표 → 서울, 동시 ≤12) + 하단 30일 요청량 파형.
-- 데이터: `src/data/observatory.ts` 정적 스냅샷만. 국가 좌표 ~55점, 일별 요청 30점.
-- 성능 예산: JS ≤15KB gzip, rAF 단일 루프, DPR cap 2, 파티클 ≤300, 탭 blur 정지.
-- 인터랙션: 마우스 근접 시 도트 미세 반발(반경 80px, lerp 복귀).
-- 폴백: reduced-motion → 1프레임 정적 / noscript·canvas 실패 → CSS 그리드 배경.
-- 구현: Astro 일반 `<script>`(Vite 번들). `is:inline` 금지.
+## 6. 컬러·타이포 토큰 (v2 계승)
 
-## 5. 레이아웃 — Bento 관측 보드
+- 다크 단일: bg `#07090D` 계열, accent 포스포 라임 `#D7FF3F`, ok `#43D9AD`, alert `#FF6B4A`, ink `#AEB8C9`.
+- Pretendard(본문) + IBM Plex Mono(수치·라벨) 셀프호스트 — CDN 금지.
+- `.oc-*` 네임스페이스(`src/styles/console.css`). 케이스스터디 페이지의 구 global.css 클래스는 불변.
 
-- 컨테이너 max-width 1120px, 여백 clamp(1rem, 4vw, 2.5rem).
-- bento: CSS Grid, `grid-template-columns: repeat(12, 1fr)`, gap 12px. 패널 스팬 12/6/4/3 조합. 모바일(≤768px) 전부 12.
-- **패널 해부**: 상단 헤더 = 상태 도트 + mono eyebrow + 우측 `LAST OBSERVED 2026-07-11` 타임스탬프(`--faint`). 본문 = 수치(mono, 대형) + 라벨 + EvidenceLink.
-- 라운딩 10px 단일값. 보더 1px `--line`. 그림자 대신 보더+배경 층위로 깊이 표현.
+## 7. 진실성 게이트 (불변 — CLAUDE.md가 SSOT)
 
-## 6. 카피 톤 — 관측 로그
+- 커밋 수치 화면 노출 금지(유일 예외 gitleaks 스캔 범위 서술) · 트래픽 = 요청 단위 + 부인 각주 · 데이터 소스 10 정확값 · GPA 4.44 보류 · 융합전공 · 전화번호 금지 · GCP/Nginx/Flutter/Tailwind 금지.
+- observatory.ts 국가별 가중치는 시각화용 — 수치 라벨로 렌더 금지.
+- act4 PASS/DENIED 행은 디자인 데모(aria-hidden) — 실로그 수치 주장 아님.
 
-- 선언이 아니라 **관측 기록** 톤: "~를 자신합니다" ✕ → "30일간 55개국에서 66,307 요청 처리" ○
-- 모든 트래픽 수치 옆에 각주 상시: **"요청 수 기준, 사용자 수 아님"** — Footnote 컴포넌트로 구조화(누락 불가).
-- 모든 정량 클레임에 EvidenceLink(repo·라이브 URL·로그 근거).
-- 헤드라인(R7, 분석 §5): "AI를 프로덕션까지 도달시키는 엔지니어" / EN: "AI-native engineer who ships to production".
-- 금지: 커밋 수치 노출, "users/사용자"(트래픽 맥락), GCP·Nginx·Flutter·Tailwind, 6개국어, RWS·Telus, 빅데이터분석기사, 외부 도입·고객·매출.
+## 8. 검증 절차 (배포 전)
 
-## 7. 프로필 README SVG 적응 노트
-
-- SMIL 애니메이션만(JS·외부 CSS/폰트 불가 — GitHub camo). 폰트는 `font-family="ui-monospace, monospace"` 시스템 스택.
-- 팔레트: 다크 기준 §1 그대로 쓰되, GitHub 라이트 모드 렌더 대비 확인 — 배경을 SVG 내부에서 직접 채운다(투명 배경 금지).
-- 커밋 기반 위젯 제거: github-readme-stats 커밋 카드 삭제(top-langs만 유지), contribution snake 삭제.
-- metrics SVG의 커밋 수치 → 운영 관측치(요청·차단·마이그레이션·Edge Functions)로 교체.
-
-## 8. 데이터 어댑터 (라이브 교체 예약)
-
-```ts
-interface ObservatorySnapshot {
-  observedAt: string;            // "2026-07-11" — 화면에 상시 표기
-  windowDays: number;            // 30
-  totalRequests: number;         // 66307
-  countryCount: number;          // 55
-  countries: { code: string; lat: number; lon: number; weight: number }[];
-  dailyRequests: number[];       // 길이 30, 상대값
-  gauges: { id: string; label: { ko: string; en: string }; value: number; max?: number; unit?: string; evidence?: string }[];
-}
-interface ObservatoryAdapter { load(): Promise<ObservatorySnapshot> | ObservatorySnapshot; }
-```
-
-- 현재 구현 = `staticSnapshot` (하드코딩). 추후 Cloudflare Worker 공개 stats API가 생기면 어댑터만 교체.
-- `dailyRequests`·`countries.weight`는 시각화용 **상대 분포**(실측 일별 데이터 없음 — 합계만 검증됨). 화면에 개별 일값·국가별 수치를 **표기하지 않는다**(파형·아크의 형태 재료로만 사용, 수치 라벨은 검증된 합계·국가 수만).
+`npm run build` → dist grep 배터리(전화번호 `010-\d{4}-\d{4}`·`4.44`·복수전공·double major·gcp|nginx|flutter = 0 hit, 바이너리 제외) → preview 3경로(풀 스크롤·no-3d·EN) → 리뷰 레인 → push.

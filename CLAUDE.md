@@ -3,13 +3,14 @@
 조용민의 GitHub Pages 포트폴리오. AI 에이전트·인프라 엔지니어 포지셔닝. 한/영 병기.
 
 ## Stack
-- **Astro 5** (zero-JS 정적, CWV 우선). React/MDX 미사용 — Three.js 글로브 island는 후속(Phase 5). (npm `before` 핀 때문에 7.x 불가 → 5.x 고정.)
+- **Astro 5** (정적, CWV 우선) + **vanilla Three.js** (2026-07-28 Orbital Console — React/R3F 불도입, three는 lazy chunk). (npm `before` 핀 때문에 Astro 7.x 불가 → 5.x 고정.)
 - i18n = 2 라우트: `/`(ko 기본) · `/en/`. `prefixDefaultLocale: false`.
 - 배포: GitHub Actions(`withastro/action` → `actions/deploy-pages`). Settings→Pages Source = **GitHub Actions**.
 
-## 구조 (2026-07-11 Signal Observatory 리디자인 — 디자인 SSOT = `DESIGN.md`)
-- `src/data/site.ts` — **콘텐츠 SSOT**(ko/en 완전 분리). 모든 카피는 검증 사실만. `src/data/observatory.ts` — 관측 스냅샷(좌표·파형은 시각화용, 수치 라벨 금지).
-- `src/layouts/Base.astro` — head·hreflang·OG·셀프호스트 폰트(CDN 금지). `src/components/Portfolio.astro` — 섹션 오케스트레이터(`sections/` 6종 + `ui/` 4종 조립).
+## 구조 (2026-07-28 Orbital Console 리디자인 — 디자인 SSOT = `DESIGN.md` v3)
+- `src/data/site.ts` — **콘텐츠 SSOT**(ko/en 완전 분리). 모든 카피는 검증 사실만. `src/data/observatory.ts` — 관측 스냅샷(좌표·파형은 시각화용, 수치 라벨 금지). `src/data/worldDots.ts` — 점묘 지구 좌표.
+- `src/layouts/Base.astro` — head·hreflang·OG·셀프호스트 폰트(CDN 금지). `src/components/Portfolio.astro` — 6막 오케스트레이터(HUD·스크롤→actF 동기화·reveal·카운터). 구 `sections/`·`HeroCanvas.astro`는 삭제됨.
+- `src/scenes/console/` — Three.js 씬 엔진(`engine.ts` 6막 타임라인 + `boot.ts` capability probe/폴백). `src/styles/console.css` — `.oc-*` 네임스페이스(케이스스터디 페이지 global.css 불변).
 - `src/pages/index.astro`(ko) · `src/pages/en/index.astro`(en) · `/writing`(noindex 예약 stub).
 - `src/styles/tokens.css` + `global.css` — 다크 단일, accent 포스포 라임 #D7FF3F (구 cyan/violet 폐기).
 
@@ -25,6 +26,6 @@
 - 배포 전 점검: `dist/`에 전화번호·`gcp|nginx|flutter` grep → 0 hit.
 
 ## 후속 (미완)
-- Phase 5: Three.js 글로브 React island(`metiq-clone` 재사용) + 정적 poster fallback + reduced-motion.
+- ~~Phase 5: Three.js 글로브~~ → **2026-07-28 완료** (Orbital Console — vanilla three 씬 + no-3d poster fallback + reduced-motion, `metiq-clone` 셰이더 이식).
 - 폴리시: README↔사이트 크로스링크 확인, Lighthouse 패스. (OG 이미지·sitemap·robots.txt·JSON-LD·favicon = 2026-07-04 완료.)
 - 보류(사용자 결정 2026-07-04): Contact LinkedIn(검증 URL 확보 후), 이력서 PDF CTA(개인정보 리스크).
