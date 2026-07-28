@@ -218,7 +218,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           },
           {
             eyebrow: 'DATABASE',
-            title: 'RLS 정책 정리',
+            title: 'RLS 정책 린트 정리',
             value: '132 → 6',
             desc: '권한 매트릭스 적대적 검증으로 "누구의 접근도 변하지 않았음"을 증명하며 정리',
             href: '/projects/airlens#rls',
@@ -299,7 +299,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           evidence: { label: 'LIVE', url: AIRLENS },
         },
       ],
-      note: 'Healthcare Data Science 복수전공(GPA 4.44/4.5) 위에서, 프로덕션 데이터로 방법론을 검증합니다.',
+      note: 'Healthcare Data Science 융합전공 위에서, 프로덕션 데이터로 방법론을 검증합니다.',
     },
     timeline: {
       heading: '여정',
@@ -330,7 +330,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           body: '캡스톤 대기질 연구를 상용 SaaS로 고도화 — GPT-4o 에이전트 탑재, 30일 55개국에서 66,307 요청(사용자 수 아님) 처리. 멀티런타임 거버넌스 하네스 Agent 병행 운영.',
         },
       ],
-      edu: '학력 — <b>강릉원주대학교 · 헬스케어 데이터사이언스 복수전공</b> GPA 4.44 / 4.5 (주전공 산업경영공학)',
+      edu: '학력 — <b>강릉원주대학교 · 헬스케어 데이터사이언스 융합전공</b> (주전공 산업경영공학)',
     },
     contact: {
       heading: '연락처',
@@ -461,7 +461,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           },
           {
             eyebrow: 'DATABASE',
-            title: 'RLS policy consolidation',
+            title: 'RLS policy-lint consolidation',
             value: '132 → 6',
             desc: 'Adversarial access-matrix verification proved no principal gained or lost access',
             href: '/en/projects/airlens#rls',
@@ -542,7 +542,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           evidence: { label: 'LIVE', url: AIRLENS },
         },
       ],
-      note: 'Grounded in a Healthcare Data Science double major (GPA 4.44/4.5), validated on production data.',
+      note: 'Grounded in an interdisciplinary major in Healthcare Data Science, validated on production data.',
     },
     timeline: {
       heading: 'Journey',
@@ -573,7 +573,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           body: 'Grew a capstone air-quality study into a production SaaS — GPT-4o agent onboard, serving 66,307 requests (not users) across 55 countries in 30 days. Runs the multi-runtime governance harness Agent in parallel.',
         },
       ],
-      edu: 'Education — <b>Gangneung-Wonju National University · Healthcare Data Science (Double Major)</b> GPA 4.44 / 4.5 (Major: Industrial Engineering)',
+      edu: 'Education — <b>Gangneung-Wonju National University · Healthcare Data Science (Interdisciplinary Major)</b> (Major: Industrial Engineering)',
     },
     contact: {
       heading: 'Contact',
@@ -665,9 +665,9 @@ export const caseStudies: Record<
           },
           {
             id: 'rls',
-            title: 'RLS 권한 정책 폭증 정리 (132 → 6)',
+            title: 'RLS 권한 정책 폭증 정리 (린트 132 → 6)',
             hard:
-              'Supabase(Postgres) 성능 어드바이저가 24개 테이블에 걸쳐 중복된 permissive RLS 정책 132개를 경고했습니다. 같은 역할·동작에 정책이 여러 개면 OR로 모두 평가돼 성능 부담과 불필요한 공격면이 생깁니다. 특히 service_role용 정책 14개는 service_role이 애초에 RLS를 우회하기 때문에 실제로는 아무것도 막지 못하고 있었습니다.',
+              'Supabase(Postgres) 성능 어드바이저가 24개 테이블에 걸쳐 중복 permissive RLS 정책 경고(multiple_permissive 린트) 132건을 보고했습니다. 같은 역할·동작에 정책이 여러 개면 OR로 모두 평가돼 성능 부담과 불필요한 공격면이 생깁니다. 특히 service_role용 정책 14개는 service_role이 애초에 RLS를 우회하기 때문에 실제로는 아무것도 막지 못하고 있었습니다.',
             solution:
               '(1) 무의미한 service_role 정책 삭제, (2) 중복 SELECT 정책 병합, (3) 관리자 정책을 동작별로 분리했습니다. 그리고 24개 테이블 전부를 "누가 무엇에 접근 가능한가" 매트릭스로 적대적 검증해, 어느 사용자도 권한이 늘거나 줄지 않았음을 확인했습니다.',
             tech: ['Supabase RLS', '권한 매트릭스 적대적 검증', 'pgvector 하이브리드 RAG'],
@@ -821,9 +821,9 @@ export const caseStudies: Record<
           },
           {
             id: 'rls',
-            title: 'Taming RLS policy sprawl (132 → 6)',
+            title: 'Taming RLS policy sprawl (132 → 6 lint findings)',
             hard:
-              'Supabase’s (Postgres) performance advisor flagged 132 redundant permissive RLS policies across 24 tables. Multiple policies for the same role/action are OR-evaluated per row — a performance tax and unnecessary attack surface. In particular, 14 service_role policies gated nothing, because service_role bypasses RLS by design.',
+              'Supabase’s (Postgres) performance advisor flagged 132 multiple-permissive RLS lint findings across 24 tables. Multiple policies for the same role/action are OR-evaluated per row — a performance tax and unnecessary attack surface. In particular, 14 service_role policies gated nothing, because service_role bypasses RLS by design.',
             solution:
               '(1) dropped the meaningless service_role policies, (2) merged duplicate SELECT policies, (3) split admin policies per action — then adversarially verified all 24 tables with a “who can access what” matrix to prove no principal gained or lost access.',
             tech: ['Supabase RLS', 'adversarial access matrix', 'pgvector hybrid RAG'],
