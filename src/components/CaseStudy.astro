@@ -13,6 +13,7 @@ interface Props {
     tech: string;
     lesson: string;
     overview: string;
+    attribution: string;
     modern: string;
     footnote: string;
   };
@@ -66,6 +67,22 @@ const { cs, ui, backHref, altHref, altLabel } = Astro.props;
 </header>
 
 <main>
+  <section>
+    <div class="wrap">
+      <p class="eyebrow sig">{ui.attribution}</p>
+      <div class="case-section" style="margin-top: 0;">
+        {
+          cs.attribution.map((a) => (
+            <div class="case-block">
+              <span class="case-label">{a.label}</span>
+              <p>{a.body}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
   {
     cs.timeline && (
       <section>

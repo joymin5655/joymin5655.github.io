@@ -42,6 +42,8 @@ export type CaseStudy = {
   name: string;
   tagline: string;
   overview: string;
+  /** honest human/AI split — rendered as a 3-row block right after the overview */
+  attribution: { label: string; body: string }[];
   metrics?: { value: string; label: string }[];
   timeline?: { date: string; label: string }[];
   sections: { id: string; title: string; hard: string; solution: string; tech: string[]; lesson: string }[];
@@ -84,6 +86,8 @@ export type Locale = {
   depth: { heading: string; lead: string; rows: DepthRow[]; note: string };
   timeline: { heading: string; items: { period: string; title: string; body: string }[]; edu: string };
   contact: { heading: string; lead: string; items: Evidence[] };
+  /** "How I work with AI" disclosure — rendered inside Act 4 (AGENT GATE) */
+  aiNote: { title: string; body: string; rows: string[] };
 };
 
 const GITHUB = 'https://github.com/joymin5655';
@@ -107,14 +111,14 @@ export const site: Record<'ko' | 'en', Locale> = {
     meta: {
       title: '조용민 · AI 에이전트 / 인프라 엔지니어',
       description:
-        'AI를 프로덕션까지 도달시키는 엔지니어. 30일 55개국 66,307 요청(사용자 아님)을 처리하는 AirLens와 멀티런타임 거버넌스 하네스 Agent를 단독 구축·운영합니다.',
+        'AI를 프로덕션까지 도달시키는 엔지니어. 30일 55개국 66,307 요청(사용자 아님)을 처리하는 AirLens와 멀티런타임 거버넌스 하네스 Agent를 AI 에이전트 팀과 함께 만들고, 혼자 책임지고 운영합니다.',
     },
     nav: { board: '관측', work: 'Work', depth: 'DS Depth', timeline: '여정', contact: '연락처' },
     observedLabel: `LAST OBSERVED ${OBSERVED}`,
     hero: {
       role: 'AI 에이전트 · 인프라 엔지니어 — 조용민',
       headline: { before: 'AI를 ', em: '프로덕션', after: '까지 도달시키는 엔지니어' },
-      sub: '기획→모델→인프라→배포→운영 모니터링까지 혼자 끝까지 갑니다. 아래 수치는 전부 실측이며, 근거 링크로 역추적할 수 있습니다.',
+      sub: '기획→모델→인프라→배포→운영까지, AI 에이전트 팀을 지휘해 혼자서 끝까지 갑니다. 코드 작성의 대부분은 AI가 하고, 방향·검증·운영의 책임은 제가 집니다. 아래 수치는 전부 실측이며, 근거 링크로 역추적할 수 있습니다.',
       live: { label: 'LIVE · airlens.cloud', url: AIRLENS },
       metrics: [
         { value: '66,307', label: '요청 / 30일 · 55개국*' },
@@ -185,9 +189,9 @@ export const site: Record<'ko' | 'en', Locale> = {
       lead: '프로젝트 개수가 아니라 서브시스템의 깊이로 보여드립니다. 각 카드는 실제로 어려웠던 문제와 해결의 기록으로 연결됩니다.',
       flagship: {
         name: 'AirLens',
-        tag: '대기질 인텔리전스 SaaS · 단독 설계·구축·운영 · LIVE',
+        tag: '대기질 인텔리전스 SaaS · AI 에이전트 협업 · 1인 책임·운영 · LIVE',
         blurb:
-          '위성·지상 10개 데이터 소스를 통합해 PM2.5를 추정하고, GPT-4o 분석 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 플랫폼. 데이터 파이프라인부터 ML, 3D 글로브 프론트엔드, CI/CD 배포·운영 모니터링까지 혼자 구축해 30일 기준 55개국에서 66,307 요청(사용자 수 아님)을 처리했습니다.',
+          '위성·지상 10개 데이터 소스를 통합해 PM2.5를 추정하고, GPT-4o 분석 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 플랫폼. 데이터 파이프라인부터 ML, 3D 글로브 프론트엔드, CI/CD 배포·운영 모니터링까지 AI 에이전트 팀과 함께 만들고 혼자 책임지고 운영해, 30일 기준 55개국에서 66,307 요청(사용자 수 아님)을 처리했습니다.',
         links: [
           { label: 'airlens.cloud ↗', url: AIRLENS },
           { label: 'GitHub ↗', url: `${GITHUB}/AirLens` },
@@ -326,7 +330,7 @@ export const site: Record<'ko' | 'en', Locale> = {
         },
         {
           period: '2026.03 – 현재',
-          title: 'AirLens 제품 개발 (단독) · Agent 하네스',
+          title: 'AirLens 제품 개발 (1인 책임 · AI 에이전트 협업) · Agent 하네스',
           body: '캡스톤 대기질 연구를 상용 SaaS로 고도화 — GPT-4o 에이전트 탑재, 30일 55개국에서 66,307 요청(사용자 수 아님) 처리. 멀티런타임 거버넌스 하네스 Agent 병행 운영.',
         },
       ],
@@ -341,6 +345,16 @@ export const site: Record<'ko' | 'en', Locale> = {
         { label: 'airlens.cloud', url: AIRLENS },
       ],
     },
+    aiNote: {
+      title: 'AI와 함께 일하는 방식',
+      body:
+        '이 포트폴리오의 프로젝트들은 코드 작성의 대부분을 Claude Code 등 AI 에이전트가 수행했습니다. 저는 문제 정의·아키텍처 결정·검증 기준 설계·모든 머지 판단·프로덕션 운영을 담당하고, 그 협업 방식 자체를 시스템으로 만든 것이 위의 Agent 하네스입니다.',
+      rows: [
+        '방향 · 검증 · 운영 = 사람',
+        '코드 작성의 대부분 = AI 에이전트',
+        '모든 머지와 보안 게이트 = 사람의 결정',
+      ],
+    },
   },
 
   en: {
@@ -350,14 +364,14 @@ export const site: Record<'ko' | 'en', Locale> = {
     meta: {
       title: 'Yongmin Cho · AI Agent / Infrastructure Engineer',
       description:
-        'AI-native engineer who ships to production. Solo-builds and operates AirLens — 66,307 requests (not users) across 55 countries in 30 days — and the multi-runtime governance harness Agent.',
+        'AI-native engineer who ships to production. Directs AI agents to build — and single-handedly operates — AirLens (66,307 requests, not users, across 55 countries in 30 days) and the multi-runtime governance harness Agent.',
     },
     nav: { board: 'Observatory', work: 'Work', depth: 'DS Depth', timeline: 'Journey', contact: 'Contact' },
     observedLabel: `LAST OBSERVED ${OBSERVED}`,
     hero: {
       role: 'AI Agent · Infrastructure Engineer — Yongmin Cho',
       headline: { before: 'AI-native engineer who ships to ', em: 'production', after: '' },
-      sub: 'Planning → model → infra → deploy → operations monitoring, end to end and solo. Every number below is measured, and traceable through evidence links.',
+      sub: 'Planning → model → infra → deploy → operations, end to end — directing a team of AI agents. Most code is AI-written; direction, verification, and operational responsibility are mine. Every number below is measured, and traceable through evidence links.',
       live: { label: 'LIVE · airlens.cloud', url: AIRLENS },
       metrics: [
         { value: '66,307', label: 'requests / 30d · 55 countries*' },
@@ -428,9 +442,9 @@ export const site: Record<'ko' | 'en', Locale> = {
       lead: 'Depth over count: each card links to a record of a real hard problem and how it was solved.',
       flagship: {
         name: 'AirLens',
-        tag: 'Air-quality intelligence SaaS · designed, built & operated solo · LIVE',
+        tag: 'Air-quality intelligence SaaS · built with AI agents · one owner, operated solo · LIVE',
         blurb:
-          'Fuses 10 satellite & ground data sources to estimate PM2.5 and turns natural-language questions into code and insight via a GPT-4o analysis agent. Built solo — data pipeline, ML, a 3D-globe frontend, CI/CD and operations monitoring — serving 66,307 requests (not users) across 55 countries in 30 days.',
+          'Fuses 10 satellite & ground data sources to estimate PM2.5 and turns natural-language questions into code and insight via a GPT-4o analysis agent. Built with AI-agent collaboration and operated single-handedly — data pipeline, ML, a 3D-globe frontend, CI/CD and operations monitoring — serving 66,307 requests (not users) across 55 countries in 30 days.',
         links: [
           { label: 'airlens.cloud ↗', url: AIRLENS },
           { label: 'GitHub ↗', url: `${GITHUB}/AirLens` },
@@ -569,7 +583,7 @@ export const site: Record<'ko' | 'en', Locale> = {
         },
         {
           period: '2026.03 – Present',
-          title: 'AirLens (solo) · Agent harness',
+          title: 'AirLens (one owner · AI-agent collaboration) · Agent harness',
           body: 'Grew a capstone air-quality study into a production SaaS — GPT-4o agent onboard, serving 66,307 requests (not users) across 55 countries in 30 days. Runs the multi-runtime governance harness Agent in parallel.',
         },
       ],
@@ -582,6 +596,16 @@ export const site: Record<'ko' | 'en', Locale> = {
         { label: 'joymin5655@gmail.com', url: EMAIL },
         { label: 'github.com/joymin5655', url: GITHUB },
         { label: 'airlens.cloud', url: AIRLENS },
+      ],
+    },
+    aiNote: {
+      title: 'How I work with AI',
+      body:
+        'Most of the code in this portfolio was written by AI agents (Claude Code and others). My work is problem definition, architecture decisions, verification design, every merge decision, and production operations — and I built that collaboration itself into a system: the Agent harness above.',
+      rows: [
+        'Direction · verification · operations = human',
+        'Most code authorship = AI agents',
+        'Every merge and security gate = a human decision',
       ],
     },
   },
@@ -617,15 +641,30 @@ export const caseStudies: Record<
       tech: '적용 기술',
       lesson: '배운 점',
       overview: '개요',
+      attribution: '기여 분리 — 누가 무엇을 했나',
       modern: '중간에 반영한 최신 기술',
       footnote: `트래픽 수치는 요청 수 기준(사용자 수 아님) · 최종 관측 ${OBSERVED}`,
     },
     items: {
       airlens: {
         name: 'AirLens',
-        tagline: '대기질 인텔리전스 SaaS · 단독 개발 · 라이브',
+        tagline: '대기질 인텔리전스 SaaS · AI 에이전트 협업 · 1인 책임·운영 · 라이브',
         overview:
-          'AirLens는 위성·지상 10여 개 데이터 소스를 통합해 PM2.5를 추정하고, 정책 효과를 인과추론으로 분석하며, GPT-4o 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 대기질 인텔리전스 플랫폼입니다. 데이터 파이프라인부터 ML·프론트엔드·배포까지 혼자 구축해 55개국에서 라이브로 운영하고 있습니다. 가장 까다로웠던 문제들과 해결 방식, 그리고 진행 중 도입한 최신 기술입니다.',
+          'AirLens는 위성·지상 10여 개 데이터 소스를 통합해 PM2.5를 추정하고, 정책 효과를 인과추론으로 분석하며, GPT-4o 에이전트로 자연어 질의를 코드·인사이트로 바꾸는 대기질 인텔리전스 플랫폼입니다. 데이터 파이프라인부터 ML·프론트엔드·배포까지 AI 에이전트 팀과 함께 만들고, 혼자 책임지고 55개국에서 라이브로 운영하고 있습니다. 가장 까다로웠던 문제들과 해결 방식, 그리고 진행 중 도입한 최신 기술입니다.',
+        attribution: [
+          {
+            label: '내가 한 일',
+            body: '문제 정의와 도메인 리서치 · 아키텍처·기술 선택 · 데이터 소스 선정 · ML 방법론 선정(왜 SDID·TFT·CORN인가)과 검증 기준 설계 · 모든 PR 리뷰와 머지 판단 · 배포·장애 대응·비용 관리.',
+          },
+          {
+            label: 'AI 에이전트가 한 일',
+            body: '구현 코드의 대부분 — Claude Code 등 AI 에이전트가 작성했습니다. 아래 케이스들의 해결책도 방향과 판단은 제가 정하고, 구현은 AI 에이전트와 함께 했습니다.',
+          },
+          {
+            label: '내가 책임진 것',
+            body: '모든 머지 결정과 보안 게이트, 프로덕션에서 벌어지는 일의 최종 책임. AI 산출물은 기계 게이트(gitleaks·정책 훅)와 제 리뷰를 통과해야 main에 도달합니다.',
+          },
+        ],
         metrics: [
           { value: '3.5개월', label: '2026-03 → 06 구축' },
           { value: '10', label: '데이터 소스' },
@@ -707,6 +746,20 @@ export const caseStudies: Record<
         tagline: '멀티런타임 에이전트 거버넌스 하네스 · Claude Code 플러그인',
         overview:
           'Agent는 Claude Code·Codex·Gemini 세 AI 런타임을 하나의 정책으로 제어하는 멀티런타임 거버넌스 하네스입니다. "정책을 코드로" 강제해, 어떤 런타임을 쓰든 같은 보안·안전 규칙이 작동하게 만드는 것이 목표였습니다. 가장 까다로웠던 세 가지 문제입니다.',
+        attribution: [
+          {
+            label: '내가 한 일',
+            body: '위협 모델 정의(무엇을 막아야 하는가) · 훅 프로토콜과 락 설계 방향 · YAML 정책 규칙 설계 · 블라인드 벤치마크 등 검증 설계.',
+          },
+          {
+            label: 'AI 에이전트가 한 일',
+            body: '훅·어댑터·테스트 구현 코드의 대부분 — Claude Code 등 AI 에이전트가 작성했습니다.',
+          },
+          {
+            label: '내가 책임진 것',
+            body: '릴리스와 정책의 최종 결정. 이 하네스 자체가 "AI와 함께 일하는 방식"을 시스템으로 만든 결과물입니다.',
+          },
+        ],
         metrics: [
           { value: '296', label: '고위험 작업 차단' },
           { value: '0', label: '오탐' },
@@ -773,15 +826,30 @@ export const caseStudies: Record<
       tech: 'Tech applied',
       lesson: 'What I learned',
       overview: 'Overview',
+      attribution: 'Attribution — who did what',
       modern: 'Modern tech adopted along the way',
       footnote: `Traffic figures are requests, not users · last observed ${OBSERVED}`,
     },
     items: {
       airlens: {
         name: 'AirLens',
-        tagline: 'Air-quality intelligence SaaS · Solo · Live',
+        tagline: 'Air-quality intelligence SaaS · Built with AI agents · One owner · Live',
         overview:
-          'AirLens fuses 10 satellite & ground data sources to estimate PM2.5, analyzes policy impact via causal inference, and turns natural-language questions into code and insight through a GPT-4o agent. I built it solo — from data pipeline to ML, frontend, and deployment — and run it live across 55 countries. Here are the hardest problems, how I solved them, and the modern tech I adopted along the way.',
+          'AirLens fuses 10 satellite & ground data sources to estimate PM2.5, analyzes policy impact via causal inference, and turns natural-language questions into code and insight through a GPT-4o agent. I built it with a team of AI agents — from data pipeline to ML, frontend, and deployment — and I operate it solo, live across 55 countries. Here are the hardest problems, how they were solved, and the modern tech adopted along the way.',
+        attribution: [
+          {
+            label: 'What I did',
+            body: 'Problem definition and domain research · architecture and tech choices · data-source selection · ML methodology choices (why SDID, TFT, CORN) and verification design · every PR review and merge decision · deployment, incident response, and cost management.',
+          },
+          {
+            label: 'What AI agents did',
+            body: 'Most of the implementation code — written by Claude Code and other AI agents. For the cases below, direction and judgment were mine; implementation was done with AI agents.',
+          },
+          {
+            label: 'What I own',
+            body: 'Every merge decision, the security gates, and final accountability for what happens in production. AI output must pass machine gates (gitleaks · policy hooks) and my review before reaching main.',
+          },
+        ],
         metrics: [
           { value: '3.5 mo', label: 'built 2026-03 → 06' },
           { value: '10', label: 'data sources' },
@@ -863,6 +931,20 @@ export const caseStudies: Record<
         tagline: 'Multi-runtime agent governance harness · Claude Code plugin',
         overview:
           'Agent is a multi-runtime governance harness that controls three AI runtimes — Claude Code, Codex, and Gemini — under one policy. The goal was to enforce “policy as code” so the same security and safety rules apply no matter which runtime you use. Here are the three hardest problems.',
+        attribution: [
+          {
+            label: 'What I did',
+            body: 'Threat-model definition (what must be blocked) · direction of the hook protocol and lock design · YAML policy rules · verification design, including the blind benchmark.',
+          },
+          {
+            label: 'What AI agents did',
+            body: 'Most of the hook, adapter, and test implementation code — written by Claude Code and other AI agents.',
+          },
+          {
+            label: 'What I own',
+            body: 'Final decisions on releases and policy. This harness is itself the systematization of how I work with AI.',
+          },
+        ],
         metrics: [
           { value: '296', label: 'high-risk ops blocked' },
           { value: '0', label: 'false positives' },

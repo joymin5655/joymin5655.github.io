@@ -158,6 +158,13 @@ const toneClass = (p: { tone?: string; eyebrow: string }) =>
           )}
         </div>
       </div>
+      <div class="oc-panel oc-reveal">
+        <div class="oc-eyebrow">{data.aiNote.title}</div>
+        <p class="oc-body">{data.aiNote.body}</p>
+        <div class="oc-tags">
+          {data.aiNote.rows.map((r) => <span class="oc-tag">{r}</span>)}
+        </div>
+      </div>
     </div>
   </section>
 
