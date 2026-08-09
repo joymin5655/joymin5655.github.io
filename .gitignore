@@ -22,3 +22,8 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Claude harness runtime state/logs (never publish)
+.agent/
+.omc/
+.claude/logs/
