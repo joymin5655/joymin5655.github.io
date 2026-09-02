@@ -1,7 +1,7 @@
 # DESIGN.md — Orbital Console (redesign/v3)
 
 > 2026-07-28 확정. 이 문서가 사이트 디자인 SSOT. (구 v2 "Signal Observatory"를 대체 — 컬러·타이포 토큰과 진실성 규칙은 계승, 레이아웃·모션 문법은 전면 교체.)
-> 콘텐츠 진실성은 `CLAUDE.md` 진실성 게이트 + `/Volumes/WD_BLACK/취업/master/session_summary_report.md`가 우선.
+> 콘텐츠 진실성은 `CLAUDE.md` 진실성 게이트 + `~/Dev_joy/취업/master/session_summary_report.md`가 우선.
 
 ## 0. 컨셉
 
