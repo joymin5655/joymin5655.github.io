@@ -21,6 +21,9 @@
 - 노출 규칙(2026-07-11 갱신): **커밋 수치 화면 노출 전면 금지**(구 "1,200+" 규칙 대체 — 유일 예외는 gitleaks "1,402커밋 스캔 범위" 서술) · 트래픽 = 요청 단위만("사용자" 금지, 부인 각주 상시) · 데이터 소스 = **10**(정확값) · 미검증 항목 게시 금지(온라인 수료 3종·이어드림 LLM 부트캠프·빅데이터분석기사 예정 = 삭제됨) · 자격 섹션 미설치(2026-07-11 IA — 수상·자격 진열 금지, 학력은 타임라인 1줄만).
 - 학력 표기(2026-07-28 갱신): **"융합전공"**(성적표 실측 — "복수전공/double major" 오기 금지) · **GPA 4.44 노출 보류**(공식 증명서 확인 전 게시 금지, SSOT `취업/master/education_history.md`) · RLS 수치는 "multiple_permissive 린트 132→6건"으로만(정책 총수 아님 — 근거 커밋 AirLens `133a2604`/PR#594) · SDID 6→53은 검증됨(커밋 `a214fd84`/PR#687).
 
+## Resume PDF 파이프라인 (2026-09-02 — **로컬 전용**, 공개 보류 결정 유지)
+- SSOT = 루트 `resume.json`(JSON Resume v1.0.0) → `npm run build:resume`(`scripts/build-resume.mjs`, Puppeteer)이 `public/resume.pdf` 생성(git 미추적·**CI 미빌드**). PDF 공개는 2026-07-04 개인정보 리스크 보류 결정에 따라 **하지 않음**(2026-09-02 재확인) — deploy.yml에 resume 스텝 넣지 말 것. 공개하려면 사용자 결정 후 deploy.yml에 pre-build 스텝 추가(방법 = `~/Dev_joy/_docs-inbox/json-resume-pdf-automation.md`). 진실성 게이트 동일 적용(전화번호 금지, resume.json summary ↔ site.ts ↔ LinkedIn 동기화 체크).
+
 ## Dev / Build
 - `npm run dev` (localhost:4321) · `npm run build` → `dist/` · `npm run preview`.
 - 배포 전 점검: `dist/`에 전화번호·`gcp|nginx|flutter` grep → 0 hit.

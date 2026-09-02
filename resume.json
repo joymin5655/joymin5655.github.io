@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jsonresume/resume-schema/v1.0.0/schema.json",
+  "basics": {
+    "name": "Yongmin Cho",
+    "label": "AI Agent · Infrastructure Engineer",
+    "email": "joymin5655@gmail.com",
+    "url": "https://joymin5655.github.io",
+    "summary": "AI Agent and Infrastructure engineer covering planning, modeling, infrastructure, deployment, and operations end to end — directing a team of AI agents. Most code is AI-written; direction, verification, and operational responsibility are mine.",
+    "location": {
+      "city": "Seoul",
+      "countryCode": "KR"
+    },
+    "profiles": [
+      {
+        "network": "GitHub",
+        "username": "joymin5655",
+        "url": "https://github.com/joymin5655"
+      },
+      {
+        "network": "LinkedIn",
+        "username": "TODO-linkedin-username",
+        "url": "https://www.linkedin.com/in/TODO-linkedin-username"
+      }
+    ]
+  },
+  "work": [
+    {
+      "name": "AirLens",
+      "position": "Product Owner & Engineer (solo, AI-agent collaboration)",
+      "url": "https://airlens.cloud",
+      "startDate": "2026-03-01",
+      "summary": "Air-quality SaaS grown from a capstone research project.",
+      "highlights": [
+        "Build and operate a production air-quality SaaS with a GPT-4o agent, serving 66,307 requests from 55 countries in 30 days (request count, not users)",
+        "Operate a multi-runtime governance harness (Agent) for AI-assisted development in parallel"
+      ]
+    },
+    {
+      "name": "Sigma · Welodata (Google)",
+      "position": "AI Data QA & Evaluation",
+      "startDate": "2024-08-01",
+      "endDate": "2025-04-01",
+      "summary": "AI training-data pipeline (~8 months).",
+      "highlights": [
+        "Performed Korean speech transcription and language QA for AI training data",
+        "Evaluated ad and search relevance for model training pipelines"
+      ]
+    },
+    {
+      "name": "Eduinsoft",
+      "position": "Education Operations & Planning",
+      "startDate": "2024-07-01",
+      "endDate": "2025-01-01",
+      "highlights": [
+        "Operated data-certification courses (SQLD, ADsP): scheduling, progress tracking, and settlement administration",
+        "Assisted course proposal and curriculum planning"
+      ]
+    },
+    {
+      "name": "Logichain",
+      "position": "Planning Intern",
+      "startDate": "2023-01-01",
+      "endDate": "2023-05-01",
+      "highlights": [
+        "Authored a new-business proposal for an on-device AI vision analytics solution",
+        "Contributed structural and visual improvements that were adopted and helped the proposal pass"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "institution": "Gangneung-Wonju National University",
+      "area": "Healthcare Data Science (interdisciplinary major; primary major Industrial & Management Engineering)",
+      "studyType": "Bachelor's degree"
+    },
+    {
+      "institution": "KT AIVLE School",
+      "area": "AI Developer Track (840 hours)",
+      "studyType": "Bootcamp",
+      "startDate": "2023-08-01",
+      "endDate": "2024-01-01"
+    }
+  ],
+  "skills": [
+    {
+      "name": "AI Agents & LLM",
+      "keywords": ["Claude Code", "GPT-4o agents", "RAG", "agent harness governance"]
+    },
+    {
+      "name": "Infrastructure & CI/CD",
+      "keywords": ["GitHub Actions", "Cloudflare Pages", "Docker", "Oracle Cloud", "Tailscale"]
+    },
+    {
+      "name": "Web & Data",
+      "keywords": ["TypeScript", "React", "Astro", "Supabase", "Python"]
+    }
+  ],
+  "languages": [
+    {
+      "language": "Korean",
+      "fluency": "Native"
+    },
+    {
+      "language": "English",
+      "fluency": "TODO-fluency-level"
+    }
+  ],
+  "publications": [],
+  "awards": []
+}
