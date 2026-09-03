@@ -240,6 +240,27 @@ html.no-3d body {
 }
 .oc-tag--lime { color: var(--signal); border-color: rgba(215, 255, 63, 0.25); background: rgba(215, 255, 63, 0.06); }
 
+/* more systems grid (act 3) */
+.oc-more { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.oc-morecard {
+  display: block;
+  text-decoration: none;
+  background: rgba(13, 17, 23, 0.88);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 18px 20px 16px;
+  backdrop-filter: blur(6px);
+  transition: border-color var(--fast) var(--ease), transform var(--fast) var(--ease);
+}
+.oc-morecard:hover, .oc-morecard:focus-visible { border-color: rgba(215, 255, 63, 0.4); transform: translateY(-2px); }
+.oc-morecard-tag { font-family: var(--mono); font-size: 0.56rem; letter-spacing: 0.14em; color: var(--faint); }
+.oc-morecard h3 { margin: 6px 0 8px; font-size: 0.98rem; font-weight: 700; color: var(--ink); display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.oc-morecard-arrow { font-family: var(--mono); font-size: 0.8rem; color: var(--signal); opacity: 0; transform: translateX(-4px); transition: opacity var(--fast) var(--ease), transform var(--fast) var(--ease); }
+.oc-morecard:hover .oc-morecard-arrow { opacity: 1; transform: none; }
+.oc-morecard p { font-size: 0.76rem; color: var(--muted); line-height: 1.65; }
+.oc-morecard .oc-tags { margin-top: 12px; }
+.oc-morecard .oc-tag { color: var(--faint); border-color: var(--line); background: rgba(255, 255, 255, 0.02); }
+
 /* gate rows (act 4) */
 .oc-gaterows { display: flex; flex-direction: column; gap: 9px; margin-top: 18px; }
 .oc-gaterow {
@@ -256,47 +277,254 @@ html.no-3d body {
 .oc-gaterow .r { margin-left: auto; color: var(--muted); }
 .oc-gaterow.deny .r { color: var(--alert); }
 
-/* timeline (act 5) */
-.oc-miles { display: flex; flex-direction: column; margin-top: 8px; }
-.oc-mile {
-  position: relative;
-  padding: 16px 0 16px 32px;
-  border-left: 1px solid var(--line);
-  margin-left: 6px;
+/* ── act 4 · AI practice trajectory ─────────────────────────────────────── */
+.oc-aip-head { margin-top: 44px; }
+.oc-aip { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; border-top: 1px solid var(--line); }
+.oc-aip-item {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 0 18px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
 }
-.oc-mile::before {
+.oc-aip-date { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.16em; color: var(--signal); padding-top: 3px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.oc-aip-title { font-size: 0.92rem; font-weight: 650; color: var(--ink); line-height: 1.4; }
+.oc-aip-body { margin-top: 5px; font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+.oc-aip-theses { margin-top: 16px; }
+.oc-aip-thesis-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; }
+.oc-aip-thesis-list li { font-size: 0.82rem; color: var(--ink); line-height: 1.55; padding-left: 14px; position: relative; }
+.oc-aip-thesis-list li::before { content: '›'; position: absolute; left: 0; color: var(--signal); font-family: var(--mono); }
+
+/* ── act 5 · experience ledger ─────────────────────────────────────────── */
+.oc-col--wide { width: min(720px, 100%); }
+.oc-xp-lead { color: var(--muted); font-size: var(--t-sm); line-height: 1.75; max-width: 40em; margin: -6px 0 22px; }
+.oc-xp-sub { margin-top: 56px; }
+
+.oc-xp { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.oc-xp-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 18px 128px 1fr;
+  gap: 0 18px;
+  padding: 0 0 26px;
+}
+.oc-xp-rail { position: relative; }
+.oc-xp-rail::before {
   content: '';
   position: absolute;
-  left: -5px;
-  top: 22px;
+  left: 8px; top: 18px; bottom: -8px;
+  width: 1px;
+  background: linear-gradient(var(--line), var(--line) 70%, transparent);
+}
+.oc-xp-item:last-child .oc-xp-rail::before { display: none; }
+.oc-xp-rail i {
+  position: absolute;
+  left: 4px; top: 7px;
   width: 9px; height: 9px;
   border-radius: 50%;
   background: var(--bg);
   border: 2px solid var(--faint);
   transition: border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
 }
-.oc-mile.is-visible::before { border-color: var(--signal); box-shadow: 0 0 10px rgba(215, 255, 63, 0.4); }
-.oc-mile .d { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--signal); }
-.oc-mile h3 { font-size: 0.98rem; font-weight: 650; color: var(--ink); margin: 6px 0 4px; }
-.oc-mile p { color: var(--muted); font-size: 0.8rem; line-height: 1.65; max-width: 32em; }
-.oc-edu { margin-top: 20px; font-size: 0.78rem; color: var(--muted); }
-.oc-edu b { color: var(--ink); }
+.oc-xp-item.is-visible .oc-xp-rail i { border-color: var(--signal); box-shadow: 0 0 10px rgba(215, 255, 63, 0.4); }
+.oc-xp-item.is-build .oc-xp-rail i { border-radius: 2px; }
 
-/* compact work card (바른자세 등) */
-.oc-minicard {
-  margin-top: 24px;
+.oc-xp-meta { display: flex; flex-direction: column; gap: 6px; padding-top: 4px; }
+.oc-xp-period { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.16em; color: var(--signal); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.oc-xp-kind {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  padding: 3px 6px;
+  width: fit-content;
+  white-space: nowrap;
+}
+.oc-xp-item.is-build .oc-xp-kind { color: var(--signal); border-color: rgba(215, 255, 63, 0.3); background: rgba(215, 255, 63, 0.06); }
+.oc-xp-item.is-edu .oc-xp-kind { color: var(--ok); border-color: rgba(67, 217, 173, 0.3); }
+
+.oc-xp-body {
+  background: rgba(13, 17, 23, 0.88);
   border: 1px solid var(--line);
   border-radius: 8px;
-  padding: 18px 20px;
-  background: rgba(13, 17, 23, 0.85);
+  padding: 18px 20px 16px;
+  backdrop-filter: blur(6px);
+  transition: border-color var(--fast) var(--ease);
 }
-.oc-minicard .tag { font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.14em; color: var(--faint); }
-.oc-minicard h3 { font-size: 0.95rem; color: var(--ink); margin: 6px 0 8px; }
-.oc-minicard p { font-size: 0.76rem; color: var(--muted); line-height: 1.65; }
+.oc-xp-item:hover .oc-xp-body { border-color: rgba(215, 255, 63, 0.35); }
+.oc-xp-title { font-size: 1rem; font-weight: 700; color: var(--ink); letter-spacing: -0.01em; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 12px; }
+.oc-xp-link { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.08em; font-weight: 500; color: var(--signal); text-decoration: none; }
+.oc-xp-link:hover { text-decoration: underline; }
+.oc-xp-role { margin-top: 4px; font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.06em; color: var(--muted); }
+.oc-xp-text { margin-top: 10px; color: var(--muted); font-size: 0.82rem; line-height: 1.75; }
+.oc-xp-bullets { margin: 10px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.oc-xp-bullets li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: var(--ink);
+}
+.oc-xp-bullets li::before { content: '›'; position: absolute; left: 2px; color: var(--signal); font-family: var(--mono); }
+.oc-xp-tags { margin-top: 12px; }
+.oc-xp-tags .oc-tag { color: var(--faint); border-color: var(--line); background: rgba(255, 255, 255, 0.02); }
 
-/* reveal choreography (works with html.js gate from Base.astro) */
-html.js .oc-reveal { opacity: 0; transform: translateY(22px); }
-html.js .oc-reveal.is-visible { opacity: 1; transform: none; transition: opacity 0.55s var(--ease), transform 0.55s var(--ease); }
+.oc-edu-block { margin-top: 6px; padding-left: 36px; }
+.oc-edu { font-size: 0.78rem; color: var(--muted); line-height: 1.7; }
+.oc-edu b { color: var(--ink); }
+.oc-edu--thesis { margin-top: 4px; font-size: 0.74rem; color: var(--faint); }
+
+/* field notes — measured lessons */
+.oc-notes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.oc-note {
+  position: relative;
+  background: rgba(13, 17, 23, 0.9);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 20px 18px;
+  backdrop-filter: blur(6px);
+}
+.oc-note-idx { position: absolute; top: 16px; right: 18px; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.2em; color: var(--faint); }
+.oc-note-metric { font-family: var(--mono); font-size: clamp(1.4rem, 2.2vw, 1.8rem); font-weight: 600; color: var(--ink); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.oc-note.alert .oc-note-metric { color: var(--alert); }
+.oc-note.ok .oc-note-metric { color: var(--ok); }
+.oc-note-mlabel { margin-top: 4px; font-family: var(--mono); font-size: 0.58rem; letter-spacing: 0.1em; color: var(--faint); line-height: 1.5; }
+.oc-note-title { margin-top: 14px; font-size: 0.9rem; font-weight: 650; color: var(--ink); line-height: 1.4; text-wrap: balance; }
+.oc-note-body { margin-top: 8px; font-size: 0.76rem; line-height: 1.7; color: var(--muted); }
+
+/* recognition strip */
+.oc-recog {
+  margin-top: 40px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px 22px 18px;
+  background: rgba(13, 17, 23, 0.88);
+  backdrop-filter: blur(6px);
+}
+.oc-recog .oc-eyebrow { margin-bottom: 12px; }
+.oc-recog-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.oc-recog-list li {
+  display: grid;
+  grid-template-columns: 44px 1fr;
+  gap: 2px 14px;
+  padding: 9px 0;
+  border-top: 1px solid var(--line);
+  align-items: baseline;
+}
+.oc-recog-list li:first-child { border-top: 0; padding-top: 0; }
+.oc-recog-list .y { font-family: var(--mono); font-size: 0.62rem; letter-spacing: 0.1em; color: var(--signal); font-variant-numeric: tabular-nums; }
+.oc-recog-list .t { font-size: 0.84rem; font-weight: 600; color: var(--ink); }
+.oc-recog-list .o { grid-column: 2; font-size: 0.72rem; color: var(--faint); }
+.oc-recog-certs { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); display: flex; flex-wrap: wrap; align-items: center; gap: 7px; }
+.oc-recog-certs-label { font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.2em; color: var(--faint); margin-right: 6px; }
+.oc-recog-certs .oc-tag { color: var(--muted); border-color: var(--line); background: rgba(255, 255, 255, 0.02); }
+
+/* ── motion system (2026-09-03, "Apple-style") ─────────────────────────────
+   1. Reveal = blur-in + rise + settle on a spring-like curve, staggered per sibling.
+   2. Scroll-driven (native CSS animation-timeline: view()) where supported —
+      the ledger rail draws itself, act eyebrows drift in, no JS.
+   3. Pointer tilt on cards (JS, hover-capable devices only).
+   All of it collapses to "visible, still" under prefers-reduced-motion.  */
+:root {
+  --spring: cubic-bezier(0.22, 1, 0.36, 1);
+  --reveal-dur: 0.8s;
+  --stagger: 70ms;
+}
+html.js .oc-reveal {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0) scale(0.985);
+  filter: blur(6px);
+  will-change: opacity, transform, filter;
+}
+html.js .oc-reveal.is-visible {
+  opacity: 1;
+  transform: var(--tilt, none); /* .oc-tilt supplies --tilt so hover tilt survives the reveal rule */
+  filter: blur(0);
+  transition:
+    opacity var(--reveal-dur) var(--spring),
+    transform var(--reveal-dur) var(--spring),
+    filter calc(var(--reveal-dur) * 0.8) var(--spring);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+}
+/* sibling stagger — repeated items get --i from their position */
+.oc-xp-item:nth-child(1), .oc-note:nth-child(1), .oc-morecard:nth-child(1), .oc-aip-item:nth-child(1), .oc-subrow:nth-child(1) { --i: 0; }
+.oc-xp-item:nth-child(2), .oc-note:nth-child(2), .oc-morecard:nth-child(2), .oc-aip-item:nth-child(2), .oc-subrow:nth-child(2) { --i: 1; }
+.oc-xp-item:nth-child(3), .oc-note:nth-child(3), .oc-morecard:nth-child(3), .oc-aip-item:nth-child(3), .oc-subrow:nth-child(3) { --i: 2; }
+.oc-xp-item:nth-child(4), .oc-note:nth-child(4), .oc-morecard:nth-child(4), .oc-aip-item:nth-child(4), .oc-subrow:nth-child(4) { --i: 3; }
+.oc-xp-item:nth-child(5), .oc-aip-item:nth-child(5), .oc-subrow:nth-child(5) { --i: 4; }
+.oc-xp-item:nth-child(6), .oc-aip-item:nth-child(6), .oc-subrow:nth-child(6) { --i: 5; }
+.oc-aip-item:nth-child(7) { --i: 6; }
+.oc-aip-item:nth-child(8) { --i: 7; }
+.oc-aip-item:nth-child(9) { --i: 8; }
+.oc-metric:nth-child(2) { --i: 1; } .oc-metric:nth-child(3) { --i: 2; } .oc-metric:nth-child(4) { --i: 3; } .oc-metric:nth-child(5) { --i: 4; } .oc-metric:nth-child(6) { --i: 5; }
+/* hero: eyebrow → headline → sub → chips → foot → ctas */
+.oc-act--hero .oc-reveal:nth-child(1) { --i: 0; }
+.oc-act--hero .oc-reveal:nth-child(2) { --i: 1; }
+.oc-act--hero .oc-reveal:nth-child(3) { --i: 2; }
+.oc-act--hero .oc-reveal:nth-child(4) { --i: 3; }
+.oc-act--hero .oc-reveal:nth-child(5) { --i: 4; }
+.oc-act--hero .oc-reveal:nth-child(6) { --i: 5; }
+/* headline word-by-word: the em settles last, like a caret landing */
+.oc-h1 em { display: inline-block; }
+html.js .oc-reveal.is-visible .oc-h1 em,
+html.js .oc-h1.oc-reveal.is-visible em { animation: oc-em-land 0.9s var(--spring) both; animation-delay: calc(var(--i, 1) * var(--stagger) + 180ms); }
+@keyframes oc-em-land {
+  from { opacity: 0; transform: translate3d(0, 0.35em, 0); filter: blur(8px); }
+  to   { opacity: 1; transform: none; filter: blur(0); }
+}
+/* metric numbers: settle with a tiny overshoot after the roll-up */
+.oc-metric .v { transition: transform 0.6s var(--spring); }
+.oc-metric.is-visible .v { animation: oc-settle 0.7s var(--spring) both; }
+@keyframes oc-settle { 0% { transform: scale(0.96); } 60% { transform: scale(1.015); } 100% { transform: scale(1); } }
+
+/* scroll-driven, no JS — progressive enhancement */
+@supports (animation-timeline: view()) {
+  /* ledger rail draws itself as the list scrolls through the viewport */
+  .oc-xp-rail::before {
+    transform-origin: top;
+    animation: oc-rail-draw linear both;
+    animation-timeline: view();
+    animation-range: entry 10% entry 70%;
+  }
+  @keyframes oc-rail-draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  /* act eyebrows drift in from the left while their section enters */
+  .oc-act > .oc-col > .oc-eyebrow:first-child {
+    animation: oc-eyebrow-drift linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
+  }
+  @keyframes oc-eyebrow-drift { from { letter-spacing: 0.6em; opacity: 0; } to { letter-spacing: 0.32em; opacity: 1; } }
+  /* field-note metrics scale up as they cross the lower third of the viewport */
+  .oc-note-metric {
+    animation: oc-metric-in linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 45%;
+  }
+  @keyframes oc-metric-in { from { transform: translateY(10px) scale(0.92); opacity: 0.2; } to { transform: none; opacity: 1; } }
+}
+
+/* pointer tilt targets (JS sets --rx/--ry/--gx/--gy) */
+.oc-tilt {
+  --tilt: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateZ(0);
+  transform: var(--tilt);
+  will-change: transform;
+}
+html.js .oc-tilt.oc-reveal.is-visible { transition: opacity var(--reveal-dur) var(--spring), transform 0.35s var(--spring), filter calc(var(--reveal-dur) * 0.8) var(--spring); }
+html.js .oc-tilt.oc-reveal.is-visible.is-tilting, .oc-tilt.is-tilting { transition: transform 0.08s linear; }
+.oc-tilt::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(360px circle at var(--gx, 50%) var(--gy, 50%), rgba(215, 255, 63, 0.08), transparent 60%);
+  transition: opacity 0.35s var(--ease);
+}
+.oc-tilt:hover::after { opacity: 1; }
+.oc-note, .oc-morecard, .oc-xp-body, .oc-recog { position: relative; }
 
 /* footer */
 .oc-footer {
@@ -320,6 +548,14 @@ html.js .oc-reveal.is-visible { opacity: 1; transform: none; transition: opacity
   .oc-act { min-height: auto; padding: 14vh var(--pad); }
   .oc-col { margin-left: 0; }
   .oc-metrics { grid-template-columns: 1fr 1fr; }
+  .oc-xp-item { grid-template-columns: 18px 1fr; }
+  .oc-xp-meta { grid-column: 2; flex-direction: row; align-items: center; gap: 10px; margin-bottom: 8px; }
+  .oc-xp-body { grid-column: 2; }
+  .oc-edu-block { padding-left: 0; }
+  .oc-notes { grid-template-columns: 1fr; }
+  .oc-more { grid-template-columns: 1fr; }
+  .oc-aip-item { grid-template-columns: 1fr; gap: 4px; }
+  .oc-aip-thesis-list { grid-template-columns: 1fr; }
   /* scrim so text stays legible over the canvas */
   .oc-act .oc-col { position: relative; }
   .oc-act .oc-col::before {
@@ -333,5 +569,8 @@ html.js .oc-reveal.is-visible { opacity: 1; transform: none; transition: opacity
 
 @media (prefers-reduced-motion: reduce) {
   .oc-live::before { animation: none; }
-  html.js .oc-reveal { opacity: 1; transform: none; }
+  html.js .oc-reveal { opacity: 1; transform: none; filter: none; transition: none; }
+  html.js .oc-reveal.is-visible .oc-h1 em, .oc-metric.is-visible .v, .oc-xp-rail::before, .oc-act > .oc-col > .oc-eyebrow:first-child, .oc-note-metric { animation: none !important; }
+  .oc-tilt { transform: none !important; transition: none; }
+  .oc-tilt::after { display: none; }
 }

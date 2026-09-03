@@ -1,0 +1,120 @@
+---
+// /research — the same evidence, organised as a researcher's questions.
+// Reuses the case-study page vocabulary from global.css (.wrap, .eyebrow, .case-*).
+import type { Research } from '../data/site';
+
+interface Props { r: Research; backHref: string }
+const { r, backHref } = Astro.props;
+---
+
+<nav class="nav">
+  <div class="wrap">
+    <a class="brand" href={backHref}>{r.back}</a>
+    <div class="links">
+      <a class="lang" href={r.altHref} aria-label="language">{r.altLabel}</a>
+    </div>
+  </div>
+</nav>
+
+<header class="case-hero">
+  <div class="wrap">
+    <p class="eyebrow sig">{r.eyebrow}</p>
+    <h1><span class="sig">{r.title}</span></h1>
+    <p class="sub">{r.lead}</p>
+    <div class="rs-bg">
+      {r.background.map((b) => (
+        <div class="case-block">
+          <span class="case-label">{b.label}</span>
+          <p>{b.body}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</header>
+
+<main>
+  <section id="interests">
+    <div class="wrap">
+      <p class="eyebrow sig">INTERESTS</p>
+      <h2 class="section-title">{r.interestsHeading}</h2>
+      <p class="case-lead">{r.interestsLead}</p>
+      <div class="rs-interests">
+        {r.interests.map((it) => (
+          <article class="rs-interest">
+            <span class="rs-rank">{it.rank}</span>
+            <h3>{it.title}</h3>
+            <p class="rs-q">{it.question}</p>
+            <div class="case-block solution"><span class="case-label">DONE</span><p>{it.done}</p></div>
+            <div class="case-block"><span class="case-label">NEXT</span><p>{it.next}</p></div>
+            <div class="chips">{it.evidence.map((e) => <a class="chip" href={e.url}>{e.label} ↗</a>)}</div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="methods">
+    <div class="wrap">
+      <p class="eyebrow sig">METHODS</p>
+      <h2 class="section-title">{r.methodsHeading}</h2>
+      <p class="case-lead">{r.methodsLead}</p>
+      <div class="rs-methods">
+        {r.methods.map((m) => (
+          <a class="rs-method" href={m.evidence.url}>
+            <span class="rs-method-name">{m.method}</span>
+            <span class="rs-method-where">{m.where}</span>
+            <span class="rs-method-detail">{m.detail}</span>
+            <span class="rs-method-ev">{m.evidence.label} →</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="thesis">
+    <div class="wrap">
+      <p class="eyebrow sig">THESIS</p>
+      <h2 class="section-title">{r.thesisHeading}</h2>
+      <div class="rs-thesis">
+        <h3>{r.thesis.title}</h3>
+        <p class="rs-thesis-meta">{r.thesis.meta}</p>
+        <p>{r.thesis.body}</p>
+        <div class="chips">{r.thesis.coursework.map((c) => <span class="chip">{c}</span>)}</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="principles">
+    <div class="wrap">
+      <p class="eyebrow sig">PRINCIPLES</p>
+      <h2 class="section-title">{r.principlesHeading}</h2>
+      <p class="case-lead">{r.principlesLead}</p>
+      <div class="modern-grid">
+        {r.principles.map((p) => (
+          <div class="modern-item"><h3>{p.title}</h3><p>{p.body}</p></div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="status">
+    <div class="wrap">
+      <div class="rs-status">
+        <span class="case-label">{r.status.label}</span>
+        <p>{r.status.body}</p>
+        <div class="ctas">
+          {r.ctas.map((c, i) => (
+            <a class={i === 0 ? 'btn' : 'btn'} href={c.url} target={c.url.startsWith('mailto') || c.url.startsWith('/') ? undefined : '_blank'} rel="noopener">{c.label}</a>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap">
+    <a href={backHref} class="mono">{r.back}</a>
+    <span class="mono">© 2026 Yongmin Cho (조용민)</span>
+  </div>
+</footer>

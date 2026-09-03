@@ -1,0 +1,9 @@
+---
+import Base from '../layouts/Base.astro';
+import Research from '../components/Research.astro';
+import { research } from '../data/site';
+const r = research.ko;
+---
+<Base data={{ lang: 'ko', meta: r.meta }} path="/research/" altKo="/research/" altEn="/en/research/">
+  <Research r={r} backHref="/" />
+</Base>

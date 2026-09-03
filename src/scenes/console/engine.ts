@@ -305,11 +305,13 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
   });
 
   /* ── journey path (act 5, world space right side) ── */
+  // 6 markers = 6 experience-ledger entries (Act 05, site.ts timeline.items) — 2026-09-03
   const pathPts = [
-    new THREE.Vector3(-0.9, -0.75, 0.4),
-    new THREE.Vector3(-0.2, -0.3, 0.15),
-    new THREE.Vector3(0.55, -0.5, -0.1),
-    new THREE.Vector3(1.2, 0.0, -0.35),
+    new THREE.Vector3(-1.0, -0.8, 0.45),
+    new THREE.Vector3(-0.45, -0.45, 0.25),
+    new THREE.Vector3(0.1, -0.55, 0.0),
+    new THREE.Vector3(0.7, -0.2, -0.2),
+    new THREE.Vector3(1.3, 0.05, -0.4),
     new THREE.Vector3(2.0, 0.45, -0.6),
   ];
   const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPts);
@@ -447,7 +449,7 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
     pathGroup.visible = wPath > 0.02;
     (pathLine.material as THREE.LineDashedMaterial).opacity = 0.45 * wPath;
     markers.forEach((m, i) => {
-      const on = smooth(3.75 + i * 0.16, 3.95 + i * 0.16, actF);
+      const on = smooth(3.72 + i * 0.13, 3.9 + i * 0.13, actF); // 6 markers light up across the ledger
       (m.material as THREE.SpriteMaterial).opacity = wPath * (0.25 + 0.75 * on);
       (m.material as THREE.SpriteMaterial).color.copy(on > 0.5 ? SIG : new THREE.Color(0x5c6575));
     });

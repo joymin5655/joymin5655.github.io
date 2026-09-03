@@ -16,6 +16,10 @@ interface Props {
     attribution: string;
     modern: string;
     footnote: string;
+    decisions: string;
+    decisionsLead: string;
+    over: string;
+    status: string;
   };
   backHref: string;
   altHref: string;
@@ -38,6 +42,7 @@ const { cs, ui, backHref, altHref, altLabel } = Astro.props;
     <p class="eyebrow sig">CASE STUDY</p>
     <h1><span class="sig">{cs.name}</span></h1>
     <p class="case-tagline">{cs.tagline}</p>
+    {cs.status && <p class="case-status"><span class="case-status-label">{ui.status}</span>{cs.status}</p>}
     <p class="sub">{cs.overview}</p>
     <div class="ctas">
       {
@@ -59,7 +64,7 @@ const { cs, ui, backHref, altHref, altLabel } = Astro.props;
               </div>
             ))}
           </div>
-          <p class="footnote">{ui.footnote}</p>
+          {cs.name === 'AirLens' && <p class="footnote">{ui.footnote}</p>}
         </>
       )
     }
@@ -131,6 +136,30 @@ const { cs, ui, backHref, altHref, altLabel } = Astro.props;
       }
     </div>
   </section>
+
+  {
+    cs.decisions && (
+      <section>
+        <div class="wrap">
+          <p class="eyebrow sig">DECISION LOG</p>
+          <h2 class="section-title">{ui.decisions}</h2>
+          <p class="case-lead">{ui.decisionsLead}</p>
+          <div class="decision-list">
+            {cs.decisions.map((d, i) => (
+              <div class="decision">
+                <span class="decision-idx">{String(i + 1).padStart(2, '0')}</span>
+                <div class="decision-head">
+                  <b class="decision-choice">{d.choice}</b>
+                  <span class="decision-over"><i>{ui.over}</i> {d.over}</span>
+                </div>
+                <p class="decision-why">{d.why}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   <section>
     <div class="wrap">
