@@ -17,6 +17,7 @@
 - `src/styles/tokens.css` + `global.css` — 다크 단일, accent 포스포 라임 #D7FF3F (구 cyan/violet 폐기).
 
 ## 진실성 게이트 (필수)
+- **표현 규칙 SSOT = `~/Dev_joy/취업/master/WRITING_GUIDE.md`** (2026-09-04): 금지 표현·대시 금지·문제→역할→과정→결과 프레임·"왜 AI" 칸·수치 규칙. site.ts 카피를 고칠 때 이 가이드의 체크리스트(§6)를 먼저 돌린다.
 - 출처 SSOT = `~/Dev_joy/취업/master/session_summary_report.md` (2026-09-02 로컬 이주 — 구 `/Volumes/WD_BLACK/취업/`). 신규 주장은 여기 대조.
 - **전화번호 게시 금지. GCP·Nginx·Flutter·Tailwind 미보유 — 표기 금지**(R8).
 - Agent 하네스 수치는 정성 표기(부풀림 금지). 사설 pre-sanitization 수치(구 24·6·8) 게시 금지 — 공개 repo 기준만.
