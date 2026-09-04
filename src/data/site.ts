@@ -1,6 +1,6 @@
 // Portfolio content, single source of truth (bilingual). Signal Observatory v2.
 // Every claim here is cross-checked against the verified resume SSOT
-// (취업/master/session_summary_report.md). NO unverified tech (no GCP/Nginx/
+// (local, private: session_summary_report.md). NO unverified tech (no GCP/Nginx/
 // Flutter/Tailwind), NO phone number, NO commit-count figures on screen
 // (2026-07-11 user decision; 2026-09-03: the gitleaks scan-scope number was
 // dropped too). Traffic numbers always carry the requests≠users note.

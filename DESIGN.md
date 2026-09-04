@@ -1,7 +1,7 @@
 # DESIGN.md — Orbital Console (redesign/v3)
 
 > 2026-07-28 확정. 이 문서가 사이트 디자인 SSOT. (구 v2 "Signal Observatory"를 대체 — 컬러·타이포 토큰과 진실성 규칙은 계승, 레이아웃·모션 문법은 전면 교체.)
-> 콘텐츠 진실성은 `CLAUDE.md` 진실성 게이트 + `~/Dev_joy/취업/master/session_summary_report.md`가 우선.
+> 콘텐츠 진실성은 `CLAUDE.md` 진실성 게이트 + 로컬 비공개 `session_summary_report.md`가 우선.
 
 ## 0. 컨셉
 
@@ -61,11 +61,11 @@ v2는 "3D 글로브는 무겁고 흔해서 기각, 2D 캔버스 히어로"였다
 
 ## 7. 진실성 게이트 (불변 — CLAUDE.md가 SSOT)
 
-- 커밋 수치 화면 노출 금지(유일 예외 gitleaks 스캔 범위 서술) · 트래픽 = 요청 단위 + 부인 각주 · 데이터 소스 10 정확값 · GPA 4.44 보류 · 융합전공 · 전화번호 금지 · GCP/Nginx/Flutter/Tailwind 금지.
+- 커밋 수치 화면 노출 금지(유일 예외 gitleaks 스캔 범위 서술) · 트래픽 = 요청 단위 + 부인 각주 · 데이터 소스 10 정확값 · 특정 GPA 수치 보류 · 융합전공 · 전화번호 금지 · GCP/Nginx/Flutter/Tailwind 금지.
 - observatory.ts 국가별 가중치는 시각화용 — 수치 라벨로 렌더 금지.
 - act4 PASS/DENIED 행은 디자인 데모(aria-hidden) — 실로그 수치 주장 아님.
 - **AI 기여 공개 (2026-08-03 사용자 결정)**: "단독 구축/설계/개발"·"built solo"·"designed, built & operated solo" 류의 *제작* 단독 주장 금지 — 제작은 항상 "AI 에이전트 협업"과 병기하고, 단독 주장은 *운영·책임*("1인 책임·운영"·"operated solo")에만 허용. AI 기여율 수치(~N%) 날조 금지 — 정성 서술만. 케이스스터디의 `attribution` 3분할(내가 한 일/AI가 한 일/내가 책임진 것)과 `aiNote`(Act 4)는 이 결정의 렌더 표면 — 제거 금지.
 
 ## 8. 검증 절차 (배포 전)
 
-`npm run build` → dist grep 배터리(전화번호 `010-\d{4}-\d{4}`·`4.44`·복수전공·double major·gcp|nginx|flutter = 0 hit, **단독 구축|단독 설계|단독 개발|built solo|operated solo(운영 문맥 제외)|Solo-builds = 0 hit** — AI-공개 병기 없는 제작-단독 주장 재유입 차단, 바이너리 제외) → preview 3경로(풀 스크롤·no-3d·EN) → 리뷰 레인 → push.
+`npm run build` → dist grep 배터리(전화번호 `010-\d{4}-\d{4}`·`(보류 GPA 수치)`·복수전공·double major·gcp|nginx|flutter = 0 hit, **단독 구축|단독 설계|단독 개발|built solo|operated solo(운영 문맥 제외)|Solo-builds = 0 hit** — AI-공개 병기 없는 제작-단독 주장 재유입 차단, 바이너리 제외) → preview 3경로(풀 스크롤·no-3d·EN) → 리뷰 레인 → push.
