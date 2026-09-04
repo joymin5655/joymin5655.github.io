@@ -20,6 +20,7 @@ interface Props {
     decisionsLead: string;
     over: string;
     status: string;
+    frame: { heading: string; problem: string; role: string; process: string; result: string; whyAI: string };
   };
   backHref: string;
   altHref: string;
@@ -72,6 +73,25 @@ const { cs, ui, backHref, altHref, altLabel } = Astro.props;
 </header>
 
 <main>
+  {
+    cs.frame && (
+      <section>
+        <div class="wrap">
+          <p class="eyebrow sig">{ui.frame.heading}</p>
+          <div class="frame">
+            <div class="frame-row"><span class="frame-k">{ui.frame.problem}</span><p>{cs.frame.problem}</p></div>
+            <div class="frame-row"><span class="frame-k">{ui.frame.role}</span><p>{cs.frame.role}</p></div>
+            <div class="frame-row"><span class="frame-k">{ui.frame.process}</span><p>{cs.frame.process}</p></div>
+            <div class="frame-row is-result"><span class="frame-k">{ui.frame.result}</span><p>{cs.frame.result}</p></div>
+            {cs.frame.whyAI && (
+              <div class="frame-row is-ai"><span class="frame-k">{ui.frame.whyAI}</span><p>{cs.frame.whyAI}</p></div>
+            )}
+          </div>
+        </div>
+      </section>
+    )
+  }
+
   <section>
     <div class="wrap">
       <p class="eyebrow sig">{ui.attribution}</p>
