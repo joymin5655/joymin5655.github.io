@@ -175,7 +175,7 @@ export const site: Record<'ko' | 'en', Locale> = {
       metrics: [
         { value: '66,307', label: '요청 / 30일 · 55개국*' },
         { value: '296', label: '고위험 작업 차단 · 오탐 0' },
-        { value: '121', label: 'DB 마이그레이션' },
+        { value: '13', label: 'ML 모델 워크스페이스' },
       ],
       footnote: `* 요청 수 기준, 사용자 수가 아닙니다. 최종 관측 ${OBSERVED}.`,
       ctas: [
@@ -289,8 +289,8 @@ export const site: Record<'ko' | 'en', Locale> = {
           {
             eyebrow: 'INFRA / CI',
             title: '배포·관측 자동화',
-            value: '41 pipelines',
-            desc: 'GitHub Actions 41개, 배포·Lighthouse·시각 회귀·스토리지 비용 모니터링',
+            value: '58 pipelines',
+            desc: 'GitHub Actions 58개 · 3개 레포(수집·ML·웹), 배포·ML 크론·보안 스캔·모니터링 — self-hosted 러너 3대',
             href: AIRLENS_WEB_REPO,
           },
         ],
@@ -563,7 +563,7 @@ export const site: Record<'ko' | 'en', Locale> = {
       metrics: [
         { value: '66,307', label: 'requests / 30d · 55 countries*' },
         { value: '296', label: 'high-risk ops blocked · 0 false positives' },
-        { value: '121', label: 'DB migrations' },
+        { value: '13', label: 'ML model workspaces' },
       ],
       footnote: `* Requests, not users. Last observed ${OBSERVED}.`,
       ctas: [
@@ -677,8 +677,8 @@ export const site: Record<'ko' | 'en', Locale> = {
           {
             eyebrow: 'INFRA / CI',
             title: 'Deploy & observability automation',
-            value: '41 pipelines',
-            desc: '41 GitHub Actions, deploy, Lighthouse, visual regression, storage-cost monitoring',
+            value: '58 pipelines',
+            desc: '58 GitHub Actions across 3 repos (ingest, ML, web) — deploys, ML crons, security scans, monitoring on 3 self-hosted runners',
             href: AIRLENS_WEB_REPO,
           },
         ],
