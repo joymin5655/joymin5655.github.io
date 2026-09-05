@@ -142,14 +142,15 @@ export type Locale = {
 };
 
 const GITHUB = 'https://github.com/joymin5655';
+const AIRLENS_WEB_REPO = 'https://github.com/AirLens-cloud/airlens-web';
 const AIRLENS = 'https://airlens.cloud';
 const EMAIL = 'mailto:joymin5655@gmail.com';
-export const OBSERVED = '2026-07-11';
+export const OBSERVED = '2026-09-06';
 
 const STACK_CHIPS = [
   'Python', 'TypeScript', 'SQL',
   'OpenAI GPT-4o', 'Anthropic Claude', 'Model Context Protocol', 'LangChain', 'PyTorch', 'ONNX', 'RAG',
-  'FastAPI', 'Docker', 'Supabase', 'GitHub Actions', 'Cloudflare Pages', 'Redis', 'Sentry', 'PostHog',
+  'FastAPI', 'Docker', 'Hugging Face', 'Cloudflare Workers', 'GitHub Actions', 'Cloudflare Pages', 'Redis', 'Sentry', 'PostHog',
   'scikit-learn', 'pandas', 'XGBoost', 'GTWR', 'PINN', 'SDID',
   'React 19', 'Vite', 'Three.js',
 ];
@@ -188,11 +189,11 @@ export const site: Record<'ko' | 'en', Locale> = {
       panels: [
         {
           eyebrow: 'EDGE RUNTIME',
-          value: '35',
-          unit: 'Edge Functions',
-          label: 'Supabase 위에서 121 마이그레이션 · GitHub Actions 41 파이프라인으로 배포·모니터링 자동화',
+          value: '3',
+          unit: 'self-hosted 러너',
+          label: 'Hugging Face 데이터셋 위에서 Cloudflare Workers API · self-hosted 러너 3대(Mac 1·Oracle VM 2)로 CI/배포 자동화',
           span: 8,
-          evidence: { label: 'github.com/joymin5655/AirLens', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'github.com/AirLens-cloud/airlens-web', url: AIRLENS_WEB_REPO },
         },
         {
           eyebrow: 'GOVERNANCE',
@@ -207,7 +208,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           value: '10',
           label: '위성·지상 관측·기상 실데이터 융합 파이프라인',
           span: 4,
-          evidence: { label: 'AirLens 데이터 파이프라인', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'AirLens 데이터 파이프라인', url: AIRLENS },
         },
         {
           eyebrow: 'SECURITY SCAN',
@@ -245,7 +246,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           '학부 논문에서 정책 효과를 분석하며, 흩어진 위성·지상 관측을 한 화면에서 신뢰도와 함께 볼 방법이 없다는 문제를 봤습니다. 기획부터 ML 방법론 선정, 아키텍처, 배포·운영까지 혼자 맡았고 구현은 AI 에이전트와 함께했습니다. 10개 소스 융합 파이프라인 위에 모든 ML 출력에 불확실성과 품질 배지를 붙이는 Glass-box 원칙을 택했고, 정책 효과는 단일 소스 패널로 재구축해 추정 가능 국가를 6에서 53으로 늘렸습니다. 30일 기준 55개국 66,307 요청(사용자 수 아님)을 1인 운영으로 처리하는 라이브 서비스입니다.',
         links: [
           { label: 'airlens.cloud ↗', url: AIRLENS },
-          { label: 'GitHub ↗', url: `${GITHUB}/AirLens` },
+          { label: 'GitHub ↗', url: AIRLENS_WEB_REPO },
         ],
         caseLabel: '케이스스터디 →',
         caseHref: '/projects/airlens',
@@ -283,14 +284,14 @@ export const site: Record<'ko' | 'en', Locale> = {
             title: '하이브리드 RAG',
             value: 'BM25+벡터+RRF',
             desc: 'pgvector 하이브리드 검색 + Haiku 재랭킹으로 분석 챗봇의 검색 품질 개선',
-            href: `${GITHUB}/AirLens`,
+            href: AIRLENS,
           },
           {
             eyebrow: 'INFRA / CI',
             title: '배포·관측 자동화',
             value: '41 pipelines',
             desc: 'GitHub Actions 41개, 배포·Lighthouse·시각 회귀·스토리지 비용 모니터링',
-            href: `${GITHUB}/AirLens`,
+            href: AIRLENS_WEB_REPO,
           },
         ],
       },
@@ -360,17 +361,17 @@ export const site: Record<'ko' | 'en', Locale> = {
         {
           method: 'GTWR-XGBoost',
           where: '시공간 가중 PM2.5 추정 엔진',
-          evidence: { label: 'REPO', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'LIVE', url: AIRLENS },
         },
         {
           method: 'PINN',
           where: '물리 제약을 결합한 모델링 엔진',
-          evidence: { label: 'REPO', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'LIVE', url: AIRLENS },
         },
         {
           method: '하이브리드 RAG (BM25 + 벡터 + RRF)',
           where: 'pgvector 검색 + Haiku 재랭킹 · 분석 챗봇 검색 품질',
-          evidence: { label: 'REPO', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'LIVE', url: AIRLENS },
         },
         {
           method: 'Quantile Regression · Glass-box',
@@ -390,14 +391,14 @@ export const site: Record<'ko' | 'en', Locale> = {
           kindLabel: 'PRODUCT · OSS',
           title: 'AirLens 제품 개발 · Agent 하네스',
           role: '1인 책임 · AI 에이전트 협업',
-          body: '학부 캡스톤(대기질·공중보건 연구)을 상용 SaaS로 고도화. 위성·지상 10개 소스 파이프라인, ML 엔진 5종, GPT-4o 분석 에이전트, Supabase·FastAPI 백엔드, 3D 글로브 프론트를 AI 에이전트 팀과 함께 만들고 혼자 책임지고 운영합니다.',
+          body: '학부 캡스톤(대기질·공중보건 연구)을 상용 SaaS로 고도화. 위성·지상 10개 소스 파이프라인, ML 엔진 5종, GPT-4o 분석 에이전트, HF 데이터 플레인·Cloudflare Workers 백엔드, 3D 글로브 프론트를 AI 에이전트 팀과 함께 만들고 혼자 책임지고 운영합니다.',
           bullets: [
             '30일 기준 55개국에서 66,307 요청(사용자 수 아님) 처리 · Cloudflare 실측',
             'SDID 인과추론 추정 가능 국가 6 → 53 · RLS 중복 정책 린트 132 → 6건(접근 권한 무변경 증명)',
             'RAGAS 골든셋 기준 faithfulness 0.958 · 하늘 분할 mIoU 91.5% · 카메라 PM2.5 인접등급 정확도 92.9%',
             '멀티런타임 거버넌스 하네스 Agent 병행 · 고위험 작업 296건 실차단 · 오탐 0 · 블라인드 벤치마크 8/8',
           ],
-          tags: ['GPT-4o', 'FastAPI', 'Supabase', 'React 19', 'Three.js', 'ONNX', 'GitHub Actions'],
+          tags: ['GPT-4o', 'FastAPI', 'Cloudflare Workers', 'React 19', 'Three.js', 'ONNX', 'GitHub Actions'],
           link: { label: 'airlens.cloud ↗', url: AIRLENS },
         },
         {
@@ -576,11 +577,11 @@ export const site: Record<'ko' | 'en', Locale> = {
       panels: [
         {
           eyebrow: 'EDGE RUNTIME',
-          value: '35',
-          unit: 'Edge Functions',
-          label: 'Runs on Supabase · 121 migrations · 41 GitHub Actions pipelines automate deploy & monitoring',
+          value: '3',
+          unit: 'self-hosted runners',
+          label: 'Runs on a Hugging Face dataset · Cloudflare Workers API · 3 self-hosted runners (1 Mac, 2 Oracle VMs) automate CI & deploy',
           span: 8,
-          evidence: { label: 'github.com/joymin5655/AirLens', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'github.com/AirLens-cloud/airlens-web', url: AIRLENS_WEB_REPO },
         },
         {
           eyebrow: 'GOVERNANCE',
@@ -595,7 +596,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           value: '10',
           label: 'satellite · ground-station · weather real-data fusion pipeline',
           span: 4,
-          evidence: { label: 'AirLens data pipeline', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'AirLens data pipeline', url: AIRLENS },
         },
         {
           eyebrow: 'SECURITY SCAN',
@@ -633,7 +634,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           'Analysing policy effects for my thesis, I saw no way to view scattered satellite and ground observations on one screen with a measure of trust. I owned planning, ML method choice, architecture, deployment and operations alone, building with AI agents. On a 10-source fusion pipeline I fixed a glass-box rule (every ML output carries an uncertainty band and a quality badge) and rebuilt the policy-effect panel from a single source, raising estimable countries from 6 to 53. A live service handling 66,307 requests (not users) from 55 countries in 30 days, operated by one person.',
         links: [
           { label: 'airlens.cloud ↗', url: AIRLENS },
-          { label: 'GitHub ↗', url: `${GITHUB}/AirLens` },
+          { label: 'GitHub ↗', url: AIRLENS_WEB_REPO },
         ],
         caseLabel: 'Case study →',
         caseHref: '/en/projects/airlens',
@@ -671,14 +672,14 @@ export const site: Record<'ko' | 'en', Locale> = {
             title: 'Hybrid RAG',
             value: 'BM25+vector+RRF',
             desc: 'pgvector hybrid search + Haiku re-ranking for the analysis chatbot',
-            href: `${GITHUB}/AirLens`,
+            href: AIRLENS,
           },
           {
             eyebrow: 'INFRA / CI',
             title: 'Deploy & observability automation',
             value: '41 pipelines',
             desc: '41 GitHub Actions, deploy, Lighthouse, visual regression, storage-cost monitoring',
-            href: `${GITHUB}/AirLens`,
+            href: AIRLENS_WEB_REPO,
           },
         ],
       },
@@ -748,17 +749,17 @@ export const site: Record<'ko' | 'en', Locale> = {
         {
           method: 'GTWR-XGBoost',
           where: 'Spatio-temporally weighted PM2.5 estimation engine',
-          evidence: { label: 'REPO', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'LIVE', url: AIRLENS },
         },
         {
           method: 'PINN',
           where: 'Physics-constrained modeling engine',
-          evidence: { label: 'REPO', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'LIVE', url: AIRLENS },
         },
         {
           method: 'Hybrid RAG (BM25 + vector + RRF)',
           where: 'pgvector retrieval + Haiku re-ranking · analysis-chatbot search quality',
-          evidence: { label: 'REPO', url: `${GITHUB}/AirLens` },
+          evidence: { label: 'LIVE', url: AIRLENS },
         },
         {
           method: 'Quantile Regression · Glass-box',
@@ -778,14 +779,14 @@ export const site: Record<'ko' | 'en', Locale> = {
           kindLabel: 'PRODUCT · OSS',
           title: 'AirLens product development · Agent harness',
           role: 'One owner · AI-agent collaboration',
-          body: 'Grew an undergraduate capstone (air quality × public health) into a production SaaS: a 10-source satellite/ground pipeline, 5 ML engines, a GPT-4o analysis agent, a Supabase + FastAPI backend and a 3D-globe frontend, built with a team of AI agents, operated by one person.',
+          body: 'Grew an undergraduate capstone (air quality × public health) into a production SaaS: a 10-source satellite/ground pipeline, 5 ML engines, a GPT-4o analysis agent, a Hugging Face data-plane + Cloudflare Workers backend and a 3D-globe frontend, built with a team of AI agents, operated by one person.',
           bullets: [
             '66,307 requests (not users) from 55 countries in 30 days · Cloudflare measured',
             'SDID causal inference: estimable countries 6 → 53 · RLS duplicate-policy lint 132 → 6 with proof that no access changed',
             'RAGAS golden set faithfulness 0.958 · sky segmentation mIoU 91.5% · camera PM2.5 within-one-band accuracy 92.9%',
             'Agent, the multi-runtime governance harness, running alongside · 296 high-risk ops blocked · 0 false positives · 8/8 blind benchmark',
           ],
-          tags: ['GPT-4o', 'FastAPI', 'Supabase', 'React 19', 'Three.js', 'ONNX', 'GitHub Actions'],
+          tags: ['GPT-4o', 'FastAPI', 'Cloudflare Workers', 'React 19', 'Three.js', 'ONNX', 'GitHub Actions'],
           link: { label: 'airlens.cloud ↗', url: AIRLENS },
         },
         {
@@ -1009,8 +1010,8 @@ export const caseStudies: Record<
           { value: '3.5개월', label: '2026-03 → 06 구축' },
           { value: '10', label: '데이터 소스' },
           { value: '5', label: 'ML 엔진' },
-          { value: '35', label: 'Edge Functions' },
-          { value: '121', label: 'DB 마이그레이션' },
+          { value: '13', label: 'ML 모델 워크스페이스' },
+          { value: '4', label: '데이터 계약 (HF 발행물)' },
           { value: '55개국', label: '66,307 요청 / 30일' },
         ],
         timeline: [
@@ -1046,7 +1047,7 @@ export const caseStudies: Record<
             id: 'rls',
             title: 'RLS 권한 정책 폭증 정리 (린트 132 → 6)',
             hard:
-              'Supabase(Postgres) 성능 어드바이저가 24개 테이블에 걸쳐 중복 permissive RLS 정책 경고(multiple_permissive 린트) 132건을 보고했습니다. 같은 역할·동작에 정책이 여러 개면 OR로 모두 평가돼 성능 부담과 불필요한 공격면이 생깁니다. 특히 service_role용 정책 14개는 service_role이 애초에 RLS를 우회하기 때문에 실제로는 아무것도 막지 못하고 있었습니다.',
+              '당시 데이터베이스였던 Supabase(Postgres)의 성능 어드바이저가 24개 테이블에 걸쳐 중복 permissive RLS 정책 경고(multiple_permissive 린트) 132건을 보고했습니다. 같은 역할·동작에 정책이 여러 개면 OR로 모두 평가돼 성능 부담과 불필요한 공격면이 생깁니다. 특히 service_role용 정책 14개는 service_role이 애초에 RLS를 우회하기 때문에 실제로는 아무것도 막지 못하고 있었습니다.',
             solution:
               '(1) 무의미한 service_role 정책 삭제, (2) 중복 SELECT 정책 병합, (3) 관리자 정책을 동작별로 분리했습니다. 그리고 24개 테이블 전부를 "누가 무엇에 접근 가능한가" 매트릭스로 적대적 검증해, 어느 사용자도 권한이 늘거나 줄지 않았음을 확인했습니다.',
             tech: ['Supabase RLS', '권한 매트릭스 적대적 검증', 'pgvector 하이브리드 RAG'],
@@ -1103,6 +1104,11 @@ export const caseStudies: Record<
             over: '매번 사람이 잡기',
             why: '기록을 안 보고 추측 · 검증 없이 "완료" 단정 · 한 조각만 보고 판단, AI 협업에서 가장 비싼 실수는 코드 버그가 아니라 이미 결정된 것을 추측으로 뒤집는 것이었습니다. 사람이 매번 잡는 대신 memory-discipline 룰과 검증 게이트가 잡게 만들었고, 그 체계가 Agent 하네스가 됐습니다.',
           },
+          {
+            choice: '레포 3분리 + Supabase 완전 은퇴 → Hugging Face 데이터 플레인',
+            over: '단일 모노레포 + Supabase 유지',
+            why: '데이터·ML·웹의 경계가 흐려지며 배포 위험이 한 레포에 뒤섞였습니다. AirLens(데이터·ML, private) · airlens-data(수집, private) · airlens-web(웹 제품, public)으로 분리하고, Supabase는 완전히 은퇴시켜 Hugging Face 데이터셋(read-only 소비) + Cloudflare Workers로 데이터 플레인을 재구성했습니다.',
+          },
         ],
         meta: {
           title: 'AirLens 케이스스터디 · 조용민',
@@ -1110,7 +1116,7 @@ export const caseStudies: Record<
         },
         links: [
           { label: 'airlens.cloud', url: AIRLENS },
-          { label: 'GitHub', url: `${GITHUB}/AirLens` },
+          { label: 'GitHub', url: AIRLENS_WEB_REPO },
         ],
       },
       agent: {
@@ -1640,8 +1646,8 @@ export const caseStudies: Record<
           { value: '3.5 mo', label: 'built 2026-03 → 06' },
           { value: '10', label: 'data sources' },
           { value: '5', label: 'ML engines' },
-          { value: '35', label: 'Edge Functions' },
-          { value: '121', label: 'DB migrations' },
+          { value: '13', label: 'ML model workspaces' },
+          { value: '4', label: 'data contracts (HF publications)' },
           { value: '55', label: 'countries · 66,307 req/30d' },
         ],
         timeline: [
@@ -1677,7 +1683,7 @@ export const caseStudies: Record<
             id: 'rls',
             title: 'Taming RLS policy sprawl (132 → 6 lint findings)',
             hard:
-              'Supabase’s (Postgres) performance advisor flagged 132 multiple-permissive RLS lint findings across 24 tables. Multiple policies for the same role/action are OR-evaluated per row · a performance tax and unnecessary attack surface. In particular, 14 service_role policies gated nothing, because service_role bypasses RLS by design.',
+              'Supabase (Postgres), the database at the time, had its performance advisor flag 132 multiple-permissive RLS lint findings across 24 tables. Multiple policies for the same role/action are OR-evaluated per row · a performance tax and unnecessary attack surface. In particular, 14 service_role policies gated nothing, because service_role bypasses RLS by design.',
             solution:
               '(1) dropped the meaningless service_role policies, (2) merged duplicate SELECT policies, (3) split admin policies per action · then adversarially verified all 24 tables with a “who can access what” matrix to prove no principal gained or lost access.',
             tech: ['Supabase RLS', 'adversarial access matrix', 'pgvector hybrid RAG'],
@@ -1734,6 +1740,11 @@ export const caseStudies: Record<
             over: 'catching them by hand every time',
             why: 'Guessing instead of reading the record · declaring “done” without verification · judging from one fragment, the most expensive mistake in AI collaboration was not a code bug but overturning a settled decision by guesswork. Instead of me catching it each time, a memory-discipline rule and verification gates catch it; that system became the Agent harness.',
           },
+          {
+            choice: 'Split into 3 repos + fully retired Supabase → Hugging Face data plane',
+            over: 'one monorepo + keeping Supabase',
+            why: 'The data/ML/web boundaries had blurred and deploy risk pooled into a single repo. I split into AirLens (data/ML, private) · airlens-data (ingestion, private) · airlens-web (product, public), and retired Supabase entirely, rebuilding the data plane on a read-only Hugging Face dataset plus Cloudflare Workers.',
+          },
         ],
         meta: {
           title: 'AirLens Case Study · Yongmin Cho',
@@ -1741,7 +1752,7 @@ export const caseStudies: Record<
         },
         links: [
           { label: 'airlens.cloud', url: AIRLENS },
-          { label: 'GitHub', url: `${GITHUB}/AirLens` },
+          { label: 'GitHub', url: AIRLENS_WEB_REPO },
         ],
       },
       agent: {
