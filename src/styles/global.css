@@ -1,7 +1,7 @@
 /* Signal Observatory — global styles (redesign/v2). Tokens in tokens.css. */
 @import './tokens.css';
 
-/* IBM Plex Mono — self-hosted (numbers / gauges / labels). Pretendard's
+/* IBM Plex Mono, served from /fonts (numbers / gauges / labels). Pretendard's
    dynamic-subset css is linked directly from Base.astro. */
 @font-face {
   font-family: 'IBM Plex Mono';
@@ -102,10 +102,6 @@ svg {
 .num {
   font-family: var(--mono);
   font-variant-numeric: tabular-nums;
-}
-.footnote {
-  font-size: 0.72rem;
-  color: var(--faint);
 }
 section {
   padding-block: clamp(3.5rem, 8vw, 6rem) 0;
@@ -474,7 +470,7 @@ html.js .reveal.is-visible {
 }
 @media (max-width: 480px) {
   .stamp {
-    display: none; /* observed date still shown in the hero footnote */
+    display: none;
   }
 }
 .pval {
@@ -817,6 +813,7 @@ html.js .reveal:not(.is-visible) .gauge-arc {
   font-size: clamp(2.1rem, 5vw, 3.2rem);
   font-weight: 800;
   letter-spacing: -0.03em;
+  word-break: keep-all;
 }
 .case-hero h1 .sig {
   color: var(--signal);
