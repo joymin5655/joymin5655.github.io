@@ -17,10 +17,11 @@ Agent → journey → contact); a fallback ladder (`prefers-reduced-motion`, no 
 runtime engine failure) drops to a static poster background so every section stays fully
 readable without WebGL.
 
-Every number on the page (requests/30 days, DB migrations, blocked operations, etc.) is a
-measured figure with an evidence link back to the source repo — the same "glass-box, no
-fabricated numbers" discipline I apply to [AirLens](https://airlens.cloud) itself. Content
-is bilingual at the data layer (`src/data/site.ts`), not machine-translated per page.
+Every number on the page is a measured figure, and each numeric panel on the operations
+board links to its evidence. Numbers that are easy to misread, such as commit counts, are
+left out. It is the same "glass-box, no fabricated numbers" discipline I apply to
+[AirLens](https://airlens.cloud) itself. Content is bilingual at the data layer
+(`src/data/site.ts`), not machine-translated per page.
 
 - **`/`** and **`/en/`** — the Orbital Console home page (ko / en)
 - **`/projects/:slug`** and **`/en/projects/:slug`** — case studies (hard problem →
@@ -34,7 +35,7 @@ is bilingual at the data layer (`src/data/site.ts`), not machine-translated per 
 |---|---|
 | Framework | [Astro 5](https://astro.build) (static output, zero client JS by default) |
 | 3D scene | [Three.js](https://threejs.org) — vanilla, no React/Vue renderer |
-| Fonts | [Pretendard](https://github.com/orioncactus/pretendard) (sans) · [IBM Plex Mono](https://github.com/IBM/plex) (mono), both self-hosted — no CDN font loading |
+| Fonts | [Pretendard](https://github.com/orioncactus/pretendard) (sans) · [IBM Plex Mono](https://github.com/IBM/plex) (mono), both served from `public/fonts/` — no CDN font loading |
 | SEO | [`@astrojs/sitemap`](https://docs.astro.build/en/guides/integrations-guide/sitemap/) |
 | Geo data | `world-atlas` + `topojson-client` (globe dot rendering) |
 
@@ -69,7 +70,6 @@ src/
 │   └── ui/                         # Panel, Gauge, StatusDot, EvidenceLink
 ├── data/
 │   ├── site.ts                     # bilingual content SSOT (hero, board, work, case studies)
-│   ├── observatory.ts              # operations-board panel data
 │   └── worldDots.ts                # globe dot-field coordinates
 ├── scenes/console/
 │   ├── boot.ts                     # capability probe → lazy-load the engine
@@ -108,8 +108,8 @@ Live at **[joymin5655.github.io](https://joymin5655.github.io)**.
 여정 → 연락처)로 반응합니다. `prefers-reduced-motion`, WebGL 미지원, 또는 엔진 실행
 실패 시 정적 포스터 배경으로 폴백해 WebGL 없이도 모든 섹션이 읽힙니다.
 
-페이지에 노출되는 모든 수치(30일 요청 수, DB 마이그레이션 수, 차단된 작업 수 등)는
-실측값이며 근거 저장소로 역추적 가능한 링크가 함께 붙습니다 — [AirLens](https://airlens.cloud)
+페이지에 노출되는 모든 수치는 실측값이고, 운영 관측 보드의 수치 칸마다 근거 링크가
+붙습니다. 커밋 수처럼 오해를 부르는 숫자는 싣지 않습니다. [AirLens](https://airlens.cloud)
 자체에 적용하는 "glass-box, 숫자 지어내지 않기" 원칙을 이 사이트에도 그대로 적용했습니다.
 이중언어는 페이지별 기계번역이 아니라 데이터 레이어(`src/data/site.ts`)에서 관리합니다.
 

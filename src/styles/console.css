@@ -36,23 +36,11 @@ html.no-3d body {
 }
 .oc-hud-top a,
 .oc-hud-top details { pointer-events: auto; }
-.oc-brand { color: var(--ink); text-decoration: none; font-weight: 600; letter-spacing: 0.14em; }
+.oc-brand { margin-right: auto; color: var(--ink); text-decoration: none; font-weight: 600; letter-spacing: 0.14em; }
 .oc-brand b { color: var(--signal); }
 .oc-hud-links { display: flex; gap: 18px; margin-left: auto; }
 .oc-hud-links a { color: var(--muted); text-decoration: none; transition: color var(--fast) var(--ease); }
 .oc-hud-links a:hover, .oc-hud-links a:focus-visible { color: var(--signal); }
-.oc-live { color: var(--ok); }
-.oc-live::before {
-  content: '';
-  display: inline-block;
-  width: 6px; height: 6px;
-  margin-right: 6px;
-  border-radius: 50%;
-  background: var(--ok);
-  box-shadow: 0 0 8px var(--ok);
-  animation: oc-pulse 2.4s ease-in-out infinite;
-}
-@keyframes oc-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
 
 .oc-actnav {
   position: fixed;
@@ -568,7 +556,6 @@ html.js .oc-tilt.oc-reveal.is-visible.is-tilting, .oc-tilt.is-tilting { transiti
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .oc-live::before { animation: none; }
   html.js .oc-reveal { opacity: 1; transform: none; filter: none; transition: none; }
   html.js .oc-reveal.is-visible .oc-h1 em, .oc-metric.is-visible .v, .oc-xp-rail::before, .oc-act > .oc-col > .oc-eyebrow:first-child, .oc-note-metric { animation: none !important; }
   .oc-tilt { transform: none !important; transition: none; }

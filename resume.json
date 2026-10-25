@@ -5,7 +5,7 @@
     "label": "AI Agent · Infrastructure Engineer",
     "email": "joymin5655@gmail.com",
     "url": "https://joymin5655.github.io",
-    "summary": "AI Agent and Infrastructure engineer covering planning, modeling, infrastructure, deployment, and operations end to end — directing a team of AI agents. Most code is AI-written; direction, verification, and operational responsibility are mine.",
+    "summary": "AI Agent and Infrastructure engineer covering planning, modeling, infrastructure, deployment, and operations end to end, directing a team of AI agents. Direction, verification, every merge approval, and operational responsibility are mine, and AI agents write most of the implementation inside those controls.",
     "location": {
       "city": "Seoul",
       "countryCode": "KR"
@@ -29,21 +29,12 @@
       "position": "Product Owner & Engineer (solo, AI-agent collaboration)",
       "url": "https://airlens.cloud",
       "startDate": "2026-03-01",
-      "summary": "Air-quality SaaS grown from a capstone research project.",
+      "summary": "Live air-quality web service with a keyless public API, grown from a capstone research project.",
       "highlights": [
-        "Build and operate a production air-quality SaaS with a GPT-4o agent, serving 66,307 requests from 55 countries in 30 days (request count, not users)",
-        "Operate a multi-runtime governance harness (Agent) for AI-assisted development in parallel"
-      ]
-    },
-    {
-      "name": "Sigma · Welodata (Google)",
-      "position": "AI Data QA & Evaluation",
-      "startDate": "2024-08-01",
-      "endDate": "2025-04-01",
-      "summary": "AI training-data pipeline (~8 months).",
-      "highlights": [
-        "Performed Korean speech transcription and language QA for AI training data",
-        "Evaluated ad and search relevance for model training pipelines"
+        "Build and operate AirLens end to end: problem definition, evaluation design, release decisions and every merge approval are mine, and AI agents write most of the implementation inside those controls",
+        "Found that a 0.99 R2 was circular (a satellite feature computed from the target) and fixed it; found 88 of 581 stations serving stale readings and added a record-age filter",
+        "Re-estimated policy effects for 119 countries on a ground-calibrated panel (88 estimable); every PM2.5 estimate carries a p10 to p90 interval and an A to F confidence grade",
+        "Operate Agent in parallel, a governance harness for AI coding agents (27 hooks across Claude Code, Codex and Antigravity)"
       ]
     },
     {
@@ -52,8 +43,8 @@
       "startDate": "2024-07-01",
       "endDate": "2025-01-01",
       "highlights": [
-        "Operated data-certification courses (SQLD, ADsP): scheduling, progress tracking, and settlement administration",
-        "Assisted course proposal and curriculum planning"
+        "Operated data-certification courses (SQLD, ADsP) for about 30 university students: progress tracking and settlement administration",
+        "Assisted with course proposals and planning"
       ]
     },
     {
@@ -62,8 +53,8 @@
       "startDate": "2023-01-01",
       "endDate": "2023-05-01",
       "highlights": [
-        "Authored a new-business proposal for an on-device AI vision analytics solution",
-        "Contributed structural and visual improvements that were adopted and helped the proposal pass"
+        "Wrote five new-business proposals for on-device AI and vision-analysis solutions",
+        "Contributed structural and visual improvements that were adopted and helped a proposal pass"
       ]
     }
   ],
@@ -84,15 +75,15 @@
   "skills": [
     {
       "name": "AI Agents & LLM",
-      "keywords": ["Claude Code", "GPT-4o agents", "RAG", "agent harness governance"]
+      "keywords": ["Claude Code", "Codex", "Model Context Protocol", "Workers AI", "agent harness governance"]
     },
     {
       "name": "Infrastructure & CI/CD",
-      "keywords": ["GitHub Actions", "Cloudflare Pages", "Docker", "Oracle Cloud", "Tailscale"]
+      "keywords": ["GitHub Actions", "Cloudflare Pages", "Cloudflare Workers", "Hugging Face"]
     },
     {
       "name": "Web & Data",
-      "keywords": ["TypeScript", "React", "Astro", "Supabase", "Python"]
+      "keywords": ["TypeScript", "React", "Three.js", "Astro", "Python", "XGBoost", "LightGBM"]
     }
   ],
   "languages": [

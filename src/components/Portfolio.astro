@@ -28,7 +28,6 @@ const toneClass = (p: { tone?: string; eyebrow: string }) =>
 
 <header class="oc-hud-top">
   <a class="oc-brand" href={data.lang === 'ko' ? '/' : '/en/'}>YONGMIN <b>CHO</b></a>
-  <span class="oc-live">{data.observedLabel}</span>
   <nav class="oc-hud-links" aria-label="sections">
     <a href="#board">{nav.board}</a>
     <a href="#work">{nav.work}</a>
@@ -58,11 +57,7 @@ const toneClass = (p: { tone?: string; eyebrow: string }) =>
       <p class="oc-sub oc-reveal">{data.hero.sub}</p>
       <div class="oc-chips oc-reveal">
         <a class="oc-chip" href={data.hero.live.url} target="_blank" rel="noopener"><b>{data.hero.live.label}</b></a>
-        {data.hero.metrics.map((m) => (
-          <span class="oc-chip"><b>{m.value}</b> {m.label}</span>
-        ))}
       </div>
-      <p class="oc-foot oc-reveal">{data.hero.footnote}</p>
       <div class="oc-ctas oc-reveal">
         {data.hero.ctas.map((c) => (
           <a class={`oc-btn ${c.primary ? 'oc-btn--pri' : 'oc-btn--sec'}`} href={c.url}>{c.label}</a>
@@ -84,7 +79,9 @@ const toneClass = (p: { tone?: string; eyebrow: string }) =>
             </div>
             <div class="l">{p.label}</div>
             {p.evidence && (
-              <div class="l"><a href={p.evidence.url} target="_blank" rel="noopener">{p.evidence.label} ↗</a></div>
+              <div class="l">{/^https?:\/\//.test(p.evidence.url)
+                ? <a href={p.evidence.url} target="_blank" rel="noopener">{p.evidence.label} ↗</a>
+                : <a href={p.evidence.url}>{p.evidence.label}</a>}</div>
             )}
           </div>
         ))}

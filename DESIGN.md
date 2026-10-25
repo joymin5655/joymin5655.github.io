@@ -10,12 +10,12 @@
 
 | 막 | id | 씬 | 콘텐츠 |
 |---|---|---|---|
-| 01 ORBIT ENTRY | `#top` | 점묘 지구 + fresnel 림 + 요청 아크(55개국→서울) | 헤드라인·실측 칩·CTA |
+| 01 ORBIT ENTRY | `#top` | 점묘 지구 + fresnel 림 | 헤드라인·CTA (접속 수치·아크 없음) |
 | 02 OBSERVATORY | `#board` | 풀백, 지구 축소 | 검증 지표 5타일 + STACK 타일 (카운터 롤업) |
-| 03 AIRLENS ORBIT | `#work` | 궤도 링 3 + 데이터 소스 노드 10 | 플래그십 + 서브시스템 6 + DS Depth |
+| 03 AIRLENS ORBIT | `#work` | 궤도 링 3 + 장식 노드 10 (데이터 소스 수와 무관) | 플래그십 + 서브시스템 6 + DS Depth |
 | 04 AGENT GATE | `#agent` | 파티클 재배열 → 게이트 회랑(3레인, 위험 파티클 차단·산란) | Agent 하네스 + PASS/DENIED 데모 |
-| 05 TRAJECTORY | `#timeline` | 지구 축소, 항적 라인 + 마일스톤 마커 5 | 타임라인 5 + 학력 1줄 + 바른자세 미니카드 |
-| 06 RE-ENTRY | `#contact` | 지구 재중심, 여명(dawn) 라이팅, 아크 복귀 | 연락 CTA |
+| 05 TRAJECTORY | `#timeline` | 지구 축소, 항적 라인 + 마일스톤 마커 4 (경험 원장 항목 수와 동기) | 경험 원장 4항목 + 학력 1줄 + 실측 교훈 4건 + 수상·자격 |
+| 06 RE-ENTRY | `#contact` | 지구 재중심, 여명(dawn) 라이팅 | 연락 CTA |
 
 ## 1. WebGL 재결정 (구 v2의 "WebGL 기각" 번복 — 2026-07-28)
 
@@ -56,16 +56,16 @@ v2는 "3D 글로브는 무겁고 흔해서 기각, 2D 캔버스 히어로"였다
 ## 6. 컬러·타이포 토큰 (v2 계승)
 
 - 다크 단일: bg `#07090D` 계열, accent 포스포 라임 `#D7FF3F`, ok `#43D9AD`, alert `#FF6B4A`, ink `#AEB8C9`.
-- Pretendard(본문) + IBM Plex Mono(수치·라벨) 셀프호스트 — CDN 금지.
+- Pretendard(본문) + IBM Plex Mono(수치·라벨), 사이트에 포함(`public/fonts/`) — CDN 금지.
 - `.oc-*` 네임스페이스(`src/styles/console.css`). 케이스스터디 페이지의 구 global.css 클래스는 불변.
 
 ## 7. 진실성 게이트 (불변 — CLAUDE.md가 SSOT)
 
-- 커밋 수치 화면 노출 금지(유일 예외 gitleaks 스캔 범위 서술) · 트래픽 = 요청 단위 + 부인 각주 · 데이터 소스 10 정확값 · 특정 GPA 수치 보류 · 융합전공 · 전화번호 금지 · GCP/Nginx/Flutter/Tailwind 금지.
-- observatory.ts 국가별 가중치는 시각화용 — 수치 라벨로 렌더 금지.
+- 커밋 수치 화면 노출 전면 금지 · 트래픽 수치(접속·요청·국가·사용자)는 각주·메타·OG 포함 어떤 형태로도 게시 금지(2026-10-25 사용자 결정) · 데이터 소스·엔진·워크스페이스 개수 게시 금지 · 경력·프로젝트 주장은 로컬 사실표(`facts-2026-10-25.md`)에 있는 것만 · 특정 GPA 수치 보류 · 융합전공 · 전화번호 금지 · GCP/Nginx/Flutter/Tailwind 금지.
+- 글로브 점·궤도 노드·항적 마커는 시각화용 — 수치나 개수를 주장하는 라벨로 렌더 금지(Act 05 마커 4 = 경험 원장 항목 수).
 - act4 PASS/DENIED 행은 디자인 데모(aria-hidden) — 실로그 수치 주장 아님.
 - **AI 기여 공개 (2026-08-03 사용자 결정)**: "단독 구축/설계/개발"·"built solo"·"designed, built & operated solo" 류의 *제작* 단독 주장 금지 — 제작은 항상 "AI 에이전트 협업"과 병기하고, 단독 주장은 *운영·책임*("1인 책임·운영"·"operated solo")에만 허용. AI 기여율 수치(~N%) 날조 금지 — 정성 서술만. 케이스스터디의 `attribution` 3분할(내가 한 일/AI가 한 일/내가 책임진 것)과 `aiNote`(Act 4)는 이 결정의 렌더 표면 — 제거 금지.
 
 ## 8. 검증 절차 (배포 전)
 
-`npm run build` → dist grep 배터리(전화번호 `010-\d{4}-\d{4}`·`(보류 GPA 수치)`·복수전공·double major·gcp|nginx|flutter = 0 hit, **단독 구축|단독 설계|단독 개발|built solo|operated solo(운영 문맥 제외)|Solo-builds = 0 hit** — AI-공개 병기 없는 제작-단독 주장 재유입 차단, 바이너리 제외) → preview 3경로(풀 스크롤·no-3d·EN) → 리뷰 레인 → push.
+`npm run build` → dist grep 배터리(전화번호 `010-\d{4}-\d{4}`·`(보류 GPA 수치)`·복수전공·double major·gcp|nginx|flutter = 0 hit, **단독 구축|단독 설계|단독 개발|built solo|operated solo(운영 문맥 제외)|Solo-builds = 0 hit** — AI-공개 병기 없는 제작-단독 주장 재유입 차단, 바이너리 제외, 금지 문구 정규식 묶음은 `CLAUDE.md` "배포 전 점검" 참조 — `dist/ src/ resume.json README.md DESIGN.md CLAUDE.md` 전체 0 hit) → preview 3경로(풀 스크롤·no-3d·EN) → 리뷰 레인 → push.
