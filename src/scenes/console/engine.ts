@@ -8,7 +8,6 @@
 // metiq-clone (CityPoints.tsx / Atmosphere.tsx), recolored to Signal tokens.
 import * as THREE from 'three';
 import { worldDots } from '../../data/worldDots';
-import { observatory } from '../../data/observatory';
 
 export interface ConsoleHandle {
   setActF(actF: number): void;
@@ -225,36 +224,7 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
   );
   scene.add(stars);
 
-  /* ── request arcs: destinations → Seoul (observatory snapshot, real coords) ── */
-  const snap = observatory.load();
-  const target = latLonToV3(snap.target.lat, snap.target.lon, 1).normalize();
-  const arcSources = snap.countries.filter((c) => c.w >= 0.5).slice(0, 12);
-  const ARC_SEG = 30;
-  const arcGroup = new THREE.Group();
-  globe.add(arcGroup);
-  const arcHeads: { line: THREE.Line; head: THREE.Sprite; phase: number }[] = [];
   const headTex = makeDotTexture();
-  for (let a = 0; a < arcSources.length; a++) {
-    const from = latLonToV3(arcSources[a].lat, arcSources[a].lon, 1).normalize();
-    const pts: THREE.Vector3[] = [];
-    for (let i = 0; i <= ARC_SEG; i++) {
-      const t = i / ARC_SEG;
-      const v = from.clone().lerp(target, t).normalize(); // chord-lerp ≈ great circle for display
-      v.multiplyScalar(1 + Math.sin(Math.PI * t) * 0.2);
-      pts.push(v);
-    }
-    const g = new THREE.BufferGeometry().setFromPoints(pts);
-    const line = new THREE.Line(
-      g,
-      new THREE.LineBasicMaterial({ color: SIG, transparent: true, opacity: 0.3, depthWrite: false })
-    );
-    const head = new THREE.Sprite(
-      new THREE.SpriteMaterial({ map: headTex, color: SIG, transparent: true, depthWrite: false })
-    );
-    head.scale.setScalar(0.05);
-    arcGroup.add(line, head);
-    arcHeads.push({ line, head, phase: a / arcSources.length });
-  }
 
   /* ── AirLens orbit rings (act 3) ── */
   const orbitGroup = new THREE.Group();
@@ -305,13 +275,11 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
   });
 
   /* ── journey path (act 5, world space right side) ── */
-  // 6 markers = 6 experience-ledger entries (Act 05, site.ts timeline.items) — 2026-09-03
+  // 4 markers = 4 experience-ledger entries (Act 05, site.ts timeline.items) — 2026-10-25
   const pathPts = [
     new THREE.Vector3(-1.0, -0.8, 0.45),
-    new THREE.Vector3(-0.45, -0.45, 0.25),
-    new THREE.Vector3(0.1, -0.55, 0.0),
-    new THREE.Vector3(0.7, -0.2, -0.2),
-    new THREE.Vector3(1.3, 0.05, -0.4),
+    new THREE.Vector3(-0.1, -0.5, 0.1),
+    new THREE.Vector3(0.95, -0.1, -0.3),
     new THREE.Vector3(2.0, 0.45, -0.6),
   ];
   const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPts);
@@ -407,21 +375,6 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
     dotMat.uniforms.uAlpha.value = Math.max(globeAlpha, wGate);
     atmoMat.uniforms.uAlpha.value = globeAlpha * (1 - wGate);
 
-    // arcs — spin with the shader's rotation so they track the land dots.
-    // NOTE: shader applies spin(Y) then tilt(X); Euler 'XYZ' applies X after Y
-    // in world terms, matching that composition.
-    arcGroup.rotation.set(tilt, spin, 0, 'XYZ');
-    const wArc = Math.max(wHero, wEnd * 0.8, wAir * 0.35) * globeAlpha;
-    for (const a of arcHeads) {
-      const headT = (t * 0.14 + a.phase) % 1;
-      (a.line.material as THREE.LineBasicMaterial).opacity = 0.3 * wArc;
-      a.line.geometry.setDrawRange(0, Math.max(2, Math.floor(headT * ARC_SEG)));
-      const posAttr = a.line.geometry.getAttribute('position');
-      const i = Math.floor(headT * ARC_SEG);
-      a.head.position.set(posAttr.getX(i), posAttr.getY(i), posAttr.getZ(i));
-      (a.head.material as THREE.SpriteMaterial).opacity = 0.9 * wArc;
-    }
-
     // orbit rings + nodes
     orbitGroup.visible = wAir > 0.03;
     orbitGroup.rotation.set(tilt, 0, 0);
@@ -449,7 +402,7 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
     pathGroup.visible = wPath > 0.02;
     (pathLine.material as THREE.LineDashedMaterial).opacity = 0.45 * wPath;
     markers.forEach((m, i) => {
-      const on = smooth(3.72 + i * 0.13, 3.9 + i * 0.13, actF); // 6 markers light up across the ledger
+      const on = smooth(3.72 + i * 0.2, 3.9 + i * 0.2, actF); // 4 markers light up across the ledger
       (m.material as THREE.SpriteMaterial).opacity = wPath * (0.25 + 0.75 * on);
       (m.material as THREE.SpriteMaterial).color.copy(on > 0.5 ? SIG : new THREE.Color(0x5c6575));
     });
