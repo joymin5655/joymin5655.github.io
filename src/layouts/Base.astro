@@ -44,7 +44,7 @@ const url = `${origin}${path ?? (data.lang === 'ko' ? '/' : '/en/')}`;
     <meta name="twitter:description" content={data.meta.description} />
     <meta name="twitter:image" content={`${origin}/og.png`} />
 
-    <!-- self-hosted fonts only — no CDN (DESIGN.md §2) -->
+    <!-- fonts ship with the site, no CDN (DESIGN.md §6) -->
     <link rel="preload" href="/fonts/plex-mono/IBMPlexMono-Regular.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/fonts/pretendard/pretendardvariable-dynamic-subset.css" />
     <script is:inline>
