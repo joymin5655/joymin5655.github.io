@@ -437,7 +437,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           metric: '65.6%',
           metricLabel: '가이드라인 충실도 · 게이트 80% 미달 (운영에 반영하지 않은 실험)',
           title: '통과 지표를 잘못 고르면 불량이 그대로 통과한다',
-          body: 'LLM 조언 생성물 게이트에서 금지어 0% · 페르소나 일관성 98% 이상 · 파싱 실패 0%는 전부 통과였습니다. LLM judge로 "실제 가이드라인 충실도"를 재는 지표를 추가하자 65.6%가 나와 전체 판정이 FAIL로 뒤집혔고, 프롬프트 수정 후에도 66.2%에 그쳤습니다.',
+          body: 'LLM 조언 생성물 게이트에서 금지어 0% · 페르소나 일관성 98% 이상 · 파싱 실패 0%는 전부 통과였습니다. LLM judge로 "실제 가이드라인 충실도"를 재는 지표를 추가하자 69.2%로 기준 80%에 못 미쳐 전체 판정이 FAIL로 뒤집혔고, 프롬프트 보강(66.2%)과 재학습(65.6%, 다른 평가셋)으로도 기준을 넘지 못했습니다.',
           tone: 'alert',
         },
         {
@@ -802,7 +802,7 @@ export const site: Record<'ko' | 'en', Locale> = {
           metric: '65.6%',
           metricLabel: 'guideline fidelity · below the 80% gate (experiment never put into operation)',
           title: 'Pick the wrong pass metric and defects walk through',
-          body: 'The LLM advice-generation gate passed on banned-word rate 0%, persona consistency 98% or higher and parse failures 0%. Adding an LLM-judge metric for actual guideline fidelity returned 65.6% and flipped the whole verdict to FAIL; a prompt revision only reached 66.2%.',
+          body: 'The LLM advice-generation gate passed on banned-word rate 0%, persona consistency 98% or higher and parse failures 0%. Adding an LLM-judge metric for actual guideline fidelity returned 69.2%, below the 80% gate, and flipped the whole verdict to FAIL; neither a prompt revision (66.2%) nor retraining (65.6%, on a different evaluation set) cleared the gate.',
           tone: 'alert',
         },
         {
@@ -2240,7 +2240,7 @@ export const research: Record<'ko' | 'en', Research> = {
         rank: '02',
         title: 'ML 시스템의 신뢰성과 평가 · 지표가 숨기는 실패',
         question: '통과한 지표는 무엇을 보증하고 무엇을 보증하지 못하는가? 집계는 어떤 구간의 실패를 가리는가?',
-        done: '관측소 단위 leave-station-out 교차검증(484개 관측소)에서 PM2.5 80% 예측구간은 전체 관측의 93%를 담았지만 150 µg/m³ 이상 구간에서는 14%만 담았고, 이 구간별 결과를 파일에 남겼습니다. 그에 앞서 모델 레지스트리의 R² 0.99가 순환이었다는 것도 직접 찾아 고쳤습니다. 위성 특성 병합이 조용히 실패해 정답에서 계산한 값이 모든 학습 행에 들어가 있었습니다. 과거에 돌린 LLM 조언 생성 시험에서는 표면 지표 3개가 모두 통과했는데 LLM-judge 충실도 지표를 추가하자 65.6%로 전체 판정이 FAIL로 뒤집혔습니다.',
+        done: '관측소 단위 leave-station-out 교차검증(484개 관측소)에서 PM2.5 80% 예측구간은 전체 관측의 93%를 담았지만 150 µg/m³ 이상 구간에서는 14%만 담았고, 이 구간별 결과를 파일에 남겼습니다. 그에 앞서 모델 레지스트리의 R² 0.99가 순환이었다는 것도 직접 찾아 고쳤습니다. 위성 특성 병합이 조용히 실패해 정답에서 계산한 값이 모든 학습 행에 들어가 있었습니다. 과거에 돌린 LLM 조언 생성 시험에서는 표면 지표 3개가 모두 통과했는데 LLM-judge 충실도 지표를 추가하자 69.2%로 전체 판정이 FAIL로 뒤집혔고, 프롬프트 보강과 재학습 뒤에도 기준 80%를 넘지 못했습니다.',
         next: '분포 이동 하의 보정(calibration)과 conformal prediction, 평가 지표 자체의 검증(meta-evaluation), LLM-as-judge의 신뢰도 측정을 깊이 공부하고 싶습니다.',
         evidence: [
           { label: '실측 노트', url: '/#timeline' },
@@ -2339,7 +2339,7 @@ export const research: Record<'ko' | 'en', Research> = {
         rank: '02',
         title: 'Reliability and evaluation of ML systems · the failures metrics hide',
         question: 'What does a passing metric guarantee, and what does it not? Which bands of failure does an aggregate conceal?',
-        done: 'With leave-station-out cross-validation over 484 stations, 80% prediction intervals covered 93% of observations overall but only 14% at PM2.5 of 150 µg/m³ or more, and I committed that split to a file. Before that, I found that the model registry’s R² of 0.99 was circular: a silent satellite-feature merge failure had filled every training row with a value computed from the target, and I fixed the merge. In an earlier experiment with an LLM advice-generation gate, three surface metrics all passed until an LLM-judge fidelity metric returned 65.6% and flipped the verdict to FAIL.',
+        done: 'With leave-station-out cross-validation over 484 stations, 80% prediction intervals covered 93% of observations overall but only 14% at PM2.5 of 150 µg/m³ or more, and I committed that split to a file. Before that, I found that the model registry’s R² of 0.99 was circular: a silent satellite-feature merge failure had filled every training row with a value computed from the target, and I fixed the merge. In an earlier experiment with an LLM advice-generation gate, three surface metrics all passed until an LLM-judge fidelity metric returned 69.2% and flipped the verdict to FAIL; a prompt revision and retraining still fell short of the 80% gate.',
         next: 'I want to go deeper into calibration under distribution shift and conformal prediction, meta-evaluation of the metrics themselves, and measuring the reliability of LLM-as-judge.',
         evidence: [
           { label: 'Field notes', url: '/en/#timeline' },
