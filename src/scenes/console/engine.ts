@@ -2,8 +2,8 @@
 // One fixed fullscreen canvas behind the document; scroll drives the act
 // timeline (actF ∈ [0,5]). Camera policy (user decision 2026-07-28): the globe
 // stays anchored on the RIGHT with micro-drift only — act changes are expressed
-// through zoom/tilt/scene dressing; the single centering move in the final act
-// is the deliberate landing, not ping-pong.
+// through zoom/tilt/scene dressing around the globe; the single move away from
+// the right in the final act is the deliberate landing (a horizon), not ping-pong.
 // Shader lineage: dot-sprite point material and fresnel atmosphere ported from
 // metiq-clone (CityPoints.tsx / Atmosphere.tsx), recolored to Signal tokens.
 import * as THREE from 'three';
@@ -17,18 +17,27 @@ export interface ConsoleHandle {
 const SIG = new THREE.Color('#d7ff3f');
 const OK = new THREE.Color('#43d9ad');
 const ALERT = new THREE.Color('#ff6b4a');
-const INK = new THREE.Color('#aeb8c9');
 const LAND = new THREE.Color('#8cb4a0');
+const DIM = new THREE.Color(0x5c6575);
 
-// per-act globe transform: x/y in world units, s = scale (globe R = 1)
-const CAM = [
+type Cam = { x: number; y: number; s: number };
+// per-act globe transform: x/y in world units, s = scale (globe R = 1).
+// Acts 4–5 keep the globe right of the text column (design values hold from 1440 wide; fitCams fits
+// narrower windows); act 6 lands on a horizon below the contact CTA.
+const CAM: Cam[] = [
   { x: 1.05, y: 0.08, s: 1.0 },
   { x: 1.1, y: 0.0, s: 0.74 },
   { x: 1.15, y: 0.04, s: 0.78 },
-  { x: 0.85, y: 0.0, s: 0.85 },
-  { x: 1.15, y: -0.2, s: 0.38 },
-  { x: 0.0, y: 0.12, s: 0.9 },
+  { x: 1.62, y: 0.02, s: 0.6 },
+  { x: 1.65, y: -0.05, s: 0.5 },
+  { x: 0.0, y: -1.82, s: 1.55 },
 ];
+// phones (portrait): only a sliver of the act-4/5 globe shows at the right edge; the horizon drops below the CTA buttons
+const CAM_PORTRAIT: Record<number, Cam> = {
+  3: { x: 1.25, y: 0.32, s: 0.55 },
+  4: { x: 1.15, y: -0.28, s: 0.45 },
+  5: { x: 0.0, y: -2.75, s: 1.55 },
+};
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
 const clamp01 = (x: number) => Math.min(1, Math.max(0, x));
@@ -38,6 +47,7 @@ const smooth = (a: number, b: number, x: number) => {
 };
 const tri = (center: number, halfWidth: number, x: number) =>
   1 - Math.min(1, Math.abs(x - center) / halfWidth);
+const wrapPi = (a: number) => Math.atan2(Math.sin(a), Math.cos(a));
 
 function latLonToV3(latDeg: number, lonDeg: number, r: number): THREE.Vector3 {
   const lat = (latDeg * Math.PI) / 180;
@@ -62,6 +72,18 @@ function makeDotTexture(): THREE.Texture {
   return new THREE.CanvasTexture(c);
 }
 
+function makeRingTexture(): THREE.Texture {
+  const c = document.createElement('canvas');
+  c.width = c.height = 64;
+  const ctx = c.getContext('2d')!;
+  ctx.strokeStyle = '#fff';
+  ctx.lineWidth = 4;
+  ctx.beginPath();
+  ctx.arc(32, 32, 25, 0, Math.PI * 2);
+  ctx.stroke();
+  return new THREE.CanvasTexture(c);
+}
+
 export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean }): ConsoleHandle {
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
   renderer.setPixelRatio(Math.min(devicePixelRatio || 1, opts.mobile ? 1.5 : 2));
@@ -78,7 +100,6 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
   for (let i = 0; i < worldDots.length; i += stride) dots.push(worldDots[i]);
   const N = dots.length;
   const pos = new Float32Array(N * 3);
-  const meta = new Float32Array(N * 3); // lane, seed, risky
   const col = new Float32Array(N * 3);
   const size = new Float32Array(N);
   for (let i = 0; i < N; i++) {
@@ -87,37 +108,26 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
     const lat = 90 - v * 180;
     const p = latLonToV3(lat, lon, 1.002);
     pos.set([p.x, p.y, p.z], i * 3);
-    const seed = Math.random();
-    meta.set([i % 3, seed, i % 23 === 0 ? 1 : 0], i * 3);
-    const c = seed > 0.86 ? SIG : LAND;
+    const c = Math.random() > 0.86 ? SIG : LAND;
     col.set([c.r, c.g, c.b], i * 3);
     size[i] = 0.038 + Math.random() * 0.034;
   }
   const dotGeo = new THREE.BufferGeometry();
   dotGeo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  dotGeo.setAttribute('aMeta', new THREE.BufferAttribute(meta, 3));
   dotGeo.setAttribute('color', new THREE.BufferAttribute(col, 3));
   dotGeo.setAttribute('size', new THREE.BufferAttribute(size, 1));
 
   const dotMat = new THREE.ShaderMaterial({
     uniforms: {
       uTex: { value: makeDotTexture() },
-      uTime: { value: 0 },
       uSpin: { value: 0 },
       uTilt: { value: -0.42 },
-      uGateMix: { value: 0 },
       uAlpha: { value: 1 },
       uSizeScale: { value: 1 },
-      uSig: { value: SIG },
-      uOk: { value: OK },
-      uAlert: { value: ALERT },
-      uInk: { value: INK },
     },
     vertexShader: /* glsl */ `
       attribute float size;
-      attribute vec3 aMeta; // lane, seed, risky
-      uniform float uTime, uSpin, uTilt, uGateMix, uSizeScale;
-      uniform vec3 uSig, uOk, uAlert, uInk;
+      uniform float uSpin, uTilt, uSizeScale;
       varying vec3 vColor;
       varying float vFade;
 
@@ -128,31 +138,10 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
         return vec3(p.x, p.y * ct - p.z * st, p.y * st + p.z * ct);
       }
 
-      vec3 corridor(out float risky) {
-        float lane = aMeta.x, seed = aMeta.y;
-        risky = aMeta.z;
-        float cyc = fract(seed + uTime * 0.1 * (1.0 + lane * 0.13));
-        float z = mix(2.4, -2.6, cyc);
-        float x = (lane - 1.0) * 0.62 + (seed - 0.5) * 0.18;
-        float y = (fract(seed * 7.0) - 0.5) * 0.36;
-        if (risky > 0.5 && z < 0.45) {
-          z = 0.45;
-          x += (seed - 0.5) * 0.9 * (0.5 + 0.5 * sin(uTime * 3.0 + seed * 9.0));
-        }
-        return vec3(x, y, z);
-      }
-
       void main() {
-        vec3 gp = spinTilt(position);
-        float risky;
-        vec3 cp = corridor(risky);
-        vec3 p = mix(gp, cp, uGateMix);
-
-        vec3 laneCol = aMeta.x < 0.5 ? uSig : (aMeta.x < 1.5 ? uOk : uInk);
-        vec3 streamCol = risky > 0.5 ? uAlert : laneCol;
-        vColor = mix(color, streamCol, uGateMix);
-        // back-hemisphere fade only applies while in globe form
-        vFade = mix(smoothstep(-0.55, 0.35, gp.z), 1.0, uGateMix);
+        vec3 p = spinTilt(position);
+        vColor = color;
+        vFade = smoothstep(-0.55, 0.35, p.z); // back hemisphere fades
 
         vec4 mv = modelViewMatrix * vec4(p, 1.0);
         gl_PointSize = size * uSizeScale * (300.0 / -mv.z);
@@ -225,6 +214,7 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
   scene.add(stars);
 
   const headTex = makeDotTexture();
+  const ringTex = makeRingTexture();
 
   /* ── AirLens orbit rings (act 3) ── */
   const orbitGroup = new THREE.Group();
@@ -257,53 +247,87 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
     }
   });
 
-  /* ── gate rings (act 4, world space — not rotating with globe) ── */
-  const gateGroup = new THREE.Group();
-  scene.add(gateGroup);
-  [0.9, 0.15, -0.7].forEach((z, i) => {
-    const geo = new THREE.RingGeometry(0.86, i === 0 ? 0.9 : 0.875, 72);
-    const mat = new THREE.MeshBasicMaterial({
-      color: i === 0 ? SIG : 0x8a93a6,
-      transparent: true,
-      opacity: 0,
-      side: THREE.DoubleSide,
-      depthWrite: false,
-    });
-    const ring = new THREE.Mesh(geo, mat);
-    ring.position.z = z;
-    gateGroup.add(ring);
-  });
+  // acts 4–5 dressing follows the globe position/scale (world space, not spinning with the dots)
+  const anchor = new THREE.Group();
+  scene.add(anchor);
 
-  /* ── journey path (act 5, world space right side) ── */
-  // 4 markers = 4 experience-ledger entries (Act 05, site.ts timeline.items) — 2026-10-25
-  const pathPts = [
-    new THREE.Vector3(-1.0, -0.8, 0.45),
-    new THREE.Vector3(-0.1, -0.5, 0.1),
-    new THREE.Vector3(0.95, -0.1, -0.3),
-    new THREE.Vector3(2.0, 0.45, -0.6),
-  ];
-  const pathGeo = new THREE.BufferGeometry().setFromPoints(pathPts);
-  const pathLine = new THREE.Line(
-    pathGeo,
-    new THREE.LineDashedMaterial({ color: SIG, transparent: true, opacity: 0, dashSize: 0.05, gapSize: 0.09, depthWrite: false })
+  /* ── checkpoint orbit (act 4): packets pass a lime gate, one red packet is held ── */
+  const ORBIT_R = 1.25;
+  const GATE_A = Math.PI * 0.55; // front of the orbit, below the globe — away from the text column
+  const orbitRoll = new THREE.Group();
+  orbitRoll.rotation.z = -0.3;
+  const orbitIncl = new THREE.Group();
+  orbitIncl.rotation.x = 0.4;
+  orbitRoll.add(orbitIncl);
+  anchor.add(orbitRoll);
+  const onOrbit = (a: number, out: THREE.Vector3) => out.set(Math.cos(a) * ORBIT_R, 0, Math.sin(a) * ORBIT_R);
+  const orbitLinePts: THREE.Vector3[] = [];
+  for (let i = 0; i <= 160; i++) orbitLinePts.push(onOrbit((i / 160) * Math.PI * 2, new THREE.Vector3()));
+  const orbitLine = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(orbitLinePts),
+    new THREE.LineBasicMaterial({ color: 0x8a93a6, transparent: true, opacity: 0, depthWrite: false })
   );
-  pathLine.computeLineDistances();
-  const pathGroup = new THREE.Group();
-  pathGroup.position.x = 0.55;
-  pathGroup.add(pathLine);
-  const markers: THREE.Sprite[] = pathPts.map((p) => {
-    const m = new THREE.Sprite(new THREE.SpriteMaterial({ map: headTex, color: 0x5c6575, transparent: true, depthWrite: false }));
-    m.position.copy(p);
-    m.scale.setScalar(0.09);
-    pathGroup.add(m);
-    return m;
-  });
-  scene.add(pathGroup);
+  orbitIncl.add(orbitLine);
+  const gate = new THREE.Sprite(new THREE.SpriteMaterial({ map: ringTex, color: SIG, transparent: true, opacity: 0, depthWrite: false }));
+  onOrbit(GATE_A, gate.position);
+  gate.scale.setScalar(0.34);
+  orbitIncl.add(gate);
+  const PACKETS = 9;
+  const packets: THREE.Sprite[] = [];
+  for (let i = 0; i < PACKETS; i++) {
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: headTex, color: OK, transparent: true, opacity: 0, depthWrite: false }));
+    s.scale.setScalar(0.1);
+    orbitIncl.add(s);
+    packets.push(s);
+  }
+  const held = new THREE.Sprite(new THREE.SpriteMaterial({ map: headTex, color: ALERT, transparent: true, opacity: 0, depthWrite: false }));
+  onOrbit(GATE_A - 0.17, held.position);
+  held.scale.setScalar(0.12);
+  orbitIncl.add(held);
 
-  /* ── dawn glow (act 6) ── */
+  /* ── inbound trajectory (act 5): spirals in toward the surface ── */
+  // 4 waypoints = 4 experience-ledger entries (Act 05, site.ts timeline.items) — 2026-10-25
+  const TRAJ_N = 180;
+  const trajPts: THREE.Vector3[] = [];
+  for (let i = 0; i <= TRAJ_N; i++) {
+    const u = i / TRAJ_N;
+    const th = lerp(1.95, -2.15, u);
+    const r = lerp(1.7, 1.05, u);
+    trajPts.push(new THREE.Vector3(Math.cos(th) * r, Math.sin(th) * r * 0.82, Math.sin(u * Math.PI) * 0.35));
+  }
+  const trajGhost = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(trajPts),
+    new THREE.LineDashedMaterial({ color: 0x8a93a6, transparent: true, opacity: 0, dashSize: 0.05, gapSize: 0.08, depthWrite: false })
+  );
+  trajGhost.computeLineDistances();
+  anchor.add(trajGhost);
+  const trajLine = new THREE.Line(
+    new THREE.BufferGeometry().setFromPoints(trajPts),
+    new THREE.LineBasicMaterial({ color: SIG, transparent: true, opacity: 0, depthWrite: false })
+  );
+  anchor.add(trajLine);
+  const PATH_START = 3.62; // actF where the line starts drawing; it is complete PATH_SPAN later
+  const PATH_SPAN = 0.9;
+  const WAY_U = [0.21, 0.43, 0.66, 0.88]; // marker positions along the line; each lights up as the line reaches it
+  const waypoints = WAY_U.map((u) => {
+    const at = trajPts[Math.round(u * TRAJ_N)];
+    const ring = new THREE.Sprite(new THREE.SpriteMaterial({ map: ringTex, color: DIM.clone(), transparent: true, opacity: 0, depthWrite: false }));
+    ring.position.copy(at);
+    ring.scale.setScalar(0.2);
+    const dot = new THREE.Sprite(new THREE.SpriteMaterial({ map: headTex, color: SIG, transparent: true, opacity: 0, depthWrite: false }));
+    dot.position.copy(at);
+    dot.scale.setScalar(0.09);
+    anchor.add(ring, dot);
+    return { ring, dot };
+  });
+  const trajHead = new THREE.Sprite(new THREE.SpriteMaterial({ map: headTex, color: SIG, transparent: true, opacity: 0, depthWrite: false }));
+  trajHead.scale.setScalar(0.1);
+  anchor.add(trajHead);
+
+  /* ── dawn (act 6): a flat glow along the horizon's top edge ── */
   const dawn = new THREE.Sprite(new THREE.SpriteMaterial({ map: headTex, color: SIG, transparent: true, opacity: 0, depthWrite: false }));
-  dawn.scale.setScalar(5.5);
-  dawn.position.set(0, -1.6, -1.5);
+  dawn.scale.set(7.0, 1.6, 1);
+  dawn.position.z = -0.6; // y tracks the horizon each frame
   scene.add(dawn);
 
   /* ── frame loop ── */
@@ -314,6 +338,7 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
   let raf = 0;
   let last = performance.now();
   let running = true;
+  let portrait = false;
 
   const onPointer = (e: PointerEvent) => {
     mouseX = e.clientX / innerWidth - 0.5;
@@ -330,12 +355,43 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
   };
   document.addEventListener('visibilitychange', onVis);
 
+  // Landscape: the act-4/5 dressing shrinks and slides into the free band between the text column
+  // and the act-nav dots, measured on every resize. Where even S_MIN does not fit (narrow windows,
+  // landscape phones) it hugs the nav side at S_MIN and stays faint. Portrait uses CAM_PORTRAIT.
+  const HALF_H = Math.tan((camera.fov * Math.PI) / 360) * camera.position.z; // visible half-height at z = 0
+  // projected x-extent of the dressing in globe units, perspective included (globe rim, orbit, act-5 marker rings)
+  const FIT: Record<number, [number, number]> = { 3: [-1.25, 1.36], 4: [-1.22, 1.7] };
+  const S_MIN = 0.26;
+  let cams: Cam[] = CAM;
+  let cramped = false;
+  const fitCams = (w: number, h: number) => {
+    cramped = false;
+    if (portrait) {
+      cams = CAM.map((c, i) => CAM_PORTRAIT[i] || c);
+      return;
+    }
+    const ppu = h / 2 / HALF_H;
+    const col = document.querySelector('#agent .oc-col')?.getBoundingClientRect();
+    const dots = [...document.querySelectorAll('#oc-actnav i')].map((d) => d.getBoundingClientRect()).filter((b) => b.width > 0);
+    const l = ((col ? col.right : w / 2) + 20 - w / 2) / ppu;
+    const r = ((dots.length ? Math.min(...dots.map((b) => b.left)) : w) - 20 - w / 2) / ppu;
+    cramped = r - l < S_MIN * (FIT[3][1] - FIT[3][0]);
+    cams = CAM.map((c, i) => {
+      const f = FIT[i];
+      if (!f) return c;
+      const s = Math.max(S_MIN, Math.min(c.s, (r - l) / (f[1] - f[0])));
+      return { x: Math.min(r - f[1] * s, Math.max(l - f[0] * s, c.x)), y: c.y, s };
+    });
+  };
+
   const resize = () => {
     const w = innerWidth;
     const h = innerHeight;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
     camera.updateProjectionMatrix();
+    portrait = w / h < 0.9;
+    fitCams(w, h);
   };
   addEventListener('resize', resize);
   resize();
@@ -347,16 +403,20 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
     const t = now / 1000;
 
     const ai = Math.min(CAM.length - 2, Math.floor(actF));
-    const at = smooth(0, 1, actF - ai);
-    const gx = lerp(CAM[ai].x, CAM[ai + 1].x, at);
-    const gy = lerp(CAM[ai].y, CAM[ai + 1].y, at);
-    const gs = lerp(CAM[ai].s, CAM[ai + 1].s, at);
+    // act 5 holds the globe still while the ledger is read; the landing starts halfway to act 6
+    const at = smooth(ai === 4 ? 0.5 : 0, 1, actF - ai);
+    const c0 = cams[ai];
+    const c1 = cams[ai + 1];
+    const gx = lerp(c0.x, c1.x, at);
+    const gy = lerp(c0.y, c1.y, at);
+    const gs = lerp(c0.s, c1.s, at);
 
     const wHero = tri(0, 0.8, actF);
     const wAir = tri(2, 0.75, actF);
-    const wGate = smooth(2.45, 2.95, actF) * (1 - smooth(3.55, 4.05, actF));
-    const wPath = smooth(3.6, 4.15, actF) * (1 - smooth(4.6, 5.0, actF));
-    const wEnd = smooth(4.55, 5.0, actF);
+    const wGate = smooth(2.45, 2.95, actF) * (1 - smooth(3.5, 3.85, actF));
+    const wPath = smooth(3.55, 3.95, actF) * (1 - smooth(4.55, 4.85, actF));
+    const wEnd = smooth(4.5, 5.0, actF);
+    const quiet = portrait || cramped ? 0.6 : 1; // phones and cramped windows: dressing stays faint behind the text
 
     rot += dt * (0.1 + wHero * 0.05);
     const spin = rot + mouseX * 0.18 + actF * 0.35;
@@ -364,16 +424,16 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
 
     globe.position.set(gx, gy, 0);
     globe.scale.setScalar(gs);
-    gateGroup.position.set(gx * 0.7, gy, 0);
-    gateGroup.scale.setScalar(gs);
+    anchor.position.set(gx, gy, 0);
+    anchor.scale.setScalar(gs);
 
-    const globeAlpha = Math.max(0.05, 1 - wGate - wPath * 0.85);
-    dotMat.uniforms.uTime.value = t;
+    const globeAlpha = 1 - 0.45 * wGate - 0.4 * wPath;
     dotMat.uniforms.uSpin.value = spin;
     dotMat.uniforms.uTilt.value = tilt;
-    dotMat.uniforms.uGateMix.value = wGate;
-    dotMat.uniforms.uAlpha.value = Math.max(globeAlpha, wGate);
-    atmoMat.uniforms.uAlpha.value = globeAlpha * (1 - wGate);
+    dotMat.uniforms.uAlpha.value = globeAlpha;
+    dotMat.uniforms.uSizeScale.value = 1 + 0.35 * wEnd; // horizon dots grow with the landing
+    atmoMat.uniforms.uAlpha.value = globeAlpha;
+    (atmoMat.uniforms.uColor.value as THREE.Color).copy(OK).lerp(SIG, 0.55 * wEnd);
 
     // orbit rings + nodes
     orbitGroup.visible = wAir > 0.03;
@@ -391,24 +451,53 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
       (n.sprite.material as THREE.SpriteMaterial).opacity = 0.95 * wAir;
     }
 
-    // gate rings
-    gateGroup.visible = wGate > 0.02;
-    gateGroup.children.forEach((c, i) => {
-      const m = (c as THREE.Mesh).material as THREE.MeshBasicMaterial;
-      m.opacity = (i === 0 ? 0.6 : 0.3) * wGate;
+    // checkpoint orbit — the gate pulses as each packet passes
+    orbitIncl.visible = wGate > 0.01;
+    (orbitLine.material as THREE.LineBasicMaterial).opacity = 0.34 * wGate * quiet;
+    let pulse = 0;
+    packets.forEach((s, i) => {
+      const a = (i / PACKETS + t * 0.045) * Math.PI * 2;
+      onOrbit(a, s.position);
+      pulse = Math.max(pulse, 1 - Math.abs(wrapPi(a - GATE_A)) / 0.22);
+      const depth = 0.3 + 0.7 * smooth(-0.4, 0.3, Math.sin(a)); // far side of the orbit dims
+      (s.material as THREE.SpriteMaterial).opacity = 0.9 * depth * wGate * quiet;
+    });
+    (gate.material as THREE.SpriteMaterial).opacity = (0.55 + 0.45 * pulse) * wGate * quiet;
+    gate.scale.setScalar(0.34 * (1 + 0.22 * pulse));
+    (held.material as THREE.SpriteMaterial).opacity = (0.55 + 0.45 * (0.5 + 0.5 * Math.sin(t * 4.2))) * wGate * quiet;
+
+    // inbound trajectory — drawn with the scroll, markers light up per ledger entry
+    const showPath = wPath > 0.01;
+    trajLine.visible = showPath;
+    trajGhost.visible = showPath;
+    trajHead.visible = showPath;
+    const prog = clamp01((actF - PATH_START) / PATH_SPAN);
+    const count = Math.max(2, Math.round(prog * TRAJ_N) + 1);
+    trajLine.geometry.setDrawRange(0, count);
+    const pathA = wPath * quiet;
+    (trajLine.material as THREE.LineBasicMaterial).opacity = 0.75 * pathA;
+    (trajGhost.material as THREE.LineDashedMaterial).opacity = 0.3 * pathA;
+    trajHead.position.copy(trajPts[Math.min(TRAJ_N, count - 1)]);
+    (trajHead.material as THREE.SpriteMaterial).opacity = (prog < 1 ? 0.95 : 0.5) * pathA;
+    const lightAt = (i: number) => {
+      if (i >= WAY_U.length) return 0;
+      const reach = PATH_START + WAY_U[i] * PATH_SPAN; // actF when the drawn line reaches marker i
+      return smooth(reach - 0.09, reach + 0.09, actF);
+    };
+    waypoints.forEach(({ ring, dot }, i) => {
+      ring.visible = dot.visible = showPath;
+      const on = lightAt(i);
+      const lit = on * (1 - 0.6 * lightAt(i + 1)); // the newest marker stays brightest
+      const rm = ring.material as THREE.SpriteMaterial;
+      rm.opacity = pathA * (0.55 + 0.35 * lit);
+      rm.color.copy(DIM).lerp(SIG, lit);
+      (dot.material as THREE.SpriteMaterial).opacity = pathA * (0.35 * on + 0.65 * lit);
     });
 
-    // journey path
-    pathGroup.visible = wPath > 0.02;
-    (pathLine.material as THREE.LineDashedMaterial).opacity = 0.45 * wPath;
-    markers.forEach((m, i) => {
-      const on = smooth(3.72 + i * 0.2, 3.9 + i * 0.2, actF); // 4 markers light up across the ledger
-      (m.material as THREE.SpriteMaterial).opacity = wPath * (0.25 + 0.75 * on);
-      (m.material as THREE.SpriteMaterial).color.copy(on > 0.5 ? SIG : new THREE.Color(0x5c6575));
-    });
-
-    // dawn
-    (dawn.material as THREE.SpriteMaterial).opacity = 0.22 * wEnd;
+    // dawn rides the horizon's top edge (globe top = gy + gs), so it also fits the portrait horizon
+    dawn.visible = wEnd > 0.01;
+    dawn.position.y = gy + gs + 0.12;
+    (dawn.material as THREE.SpriteMaterial).opacity = 0.1 * wEnd;
 
     // stars drift
     stars.rotation.y = actF * 0.04 + mouseX * 0.02;
@@ -438,6 +527,7 @@ export function createConsole(canvas: HTMLCanvasElement, opts: { mobile: boolean
       });
       (dotMat.uniforms.uTex.value as THREE.Texture).dispose();
       headTex.dispose();
+      ringTex.dispose();
       renderer.dispose();
       renderer.forceContextLoss();
     },
