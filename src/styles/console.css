@@ -61,10 +61,12 @@ html.no-3d body {
 }
 .oc-actnav a.on i { background: var(--signal); border-color: var(--signal); box-shadow: 0 0 10px rgba(215, 255, 63, 0.55); }
 .oc-actnav span {
+  padding: 2px 6px;
   font-family: var(--mono);
   font-size: 0.56rem;
   letter-spacing: 0.15em;
   color: var(--faint);
+  background: rgba(6, 8, 11, 0.75);
   opacity: 0;
   transition: opacity var(--fast) var(--ease);
 }
@@ -527,6 +529,19 @@ html.js .oc-tilt.oc-reveal.is-visible.is-tilting, .oc-tilt.is-tilting { transiti
   font-size: 0.7rem;
   font-family: var(--mono);
   letter-spacing: 0.08em;
+  background: linear-gradient(to bottom, transparent, rgba(6, 8, 11, 0.88) 45%);
+}
+
+/* desktop: acts 4–5 keep scene dressing right of the column — scrim the column edge */
+@media (min-width: 861px) {
+  #agent .oc-col, #timeline .oc-col { position: relative; }
+  #agent .oc-col::before, #timeline .oc-col::before {
+    content: '';
+    position: absolute;
+    inset: -56px -88px;
+    z-index: -1;
+    background: radial-gradient(closest-side, rgba(6, 8, 11, 0.8), rgba(6, 8, 11, 0.55) 62%, transparent);
+  }
 }
 
 /* mobile */
@@ -553,6 +568,7 @@ html.js .oc-tilt.oc-reveal.is-visible.is-tilting, .oc-tilt.is-tilting { transiti
     z-index: -1;
     background: radial-gradient(closest-side, rgba(6, 8, 11, 0.82), transparent);
   }
+  .oc-footer { background: linear-gradient(to bottom, transparent, rgba(6, 8, 11, 0.95) 35%); }
 }
 
 @media (prefers-reduced-motion: reduce) {
