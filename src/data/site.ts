@@ -325,7 +325,7 @@ export const site: Record<'ko' | 'en', Locale> = {
         {
           name: 'Design · Web Craft',
           tag: 'FABLE 65p · ALL-IN-ONE IA · Wardenkit',
-          blurb: 'AI로 페이지를 대량 제작하자 병목이 검증으로 옮겨갔습니다. 디자인 규칙과 하네스 판정 기준을 맡아, 고치기 전에 87 스윕으로 문제가 레이아웃이 아닌 대비임을 확인했고 모션은 라이브러리 대신 모델만 이식해 수치로 검증했습니다. 65페이지가 195/195 통과로 라이브이고 운영 사이트 홈은 6섹션에서 4블록이 됐습니다.',
+          blurb: 'AI로 페이지를 대량 제작하자 병목이 검증으로 옮겨갔습니다. 디자인 규칙과 하네스 판정 기준을 맡아, 고치기 전에 87 스윕으로 문제가 레이아웃이 아닌 대비임을 확인했고 모션은 라이브러리 대신 모델만 이식해 수치로 검증했습니다. 65페이지가 195/195 통과 뒤 비공개로 보관 중이고 운영 사이트 홈은 6섹션에서 4블록이 됐습니다.',
           chips: ['Playwright 스윕', '스프링 모션 모델', 'Next.js 16', 'gitleaks'],
           links: [],
           caseHref: '/projects/craft',
@@ -690,7 +690,7 @@ export const site: Record<'ko' | 'en', Locale> = {
         {
           name: 'Design · Web Craft',
           tag: 'FABLE 65p · ALL-IN-ONE IA · Wardenkit',
-          blurb: 'Once AI could build pages in volume, the bottleneck moved to verification. I owned the design rules and the harness pass criteria; before fixing anything, 87 sweeps showed the fault was contrast, not layout, and motion was ported as a model and verified numerically. 65 pages are live at 195/195 checks, and the production home went from six sections to four blocks.',
+          blurb: 'Once AI could build pages in volume, the bottleneck moved to verification. I owned the design rules and the harness pass criteria; before fixing anything, 87 sweeps showed the fault was contrast, not layout, and motion was ported as a model and verified numerically. 65 pages passed 195/195 checks (now kept private), and the production home went from six sections to four blocks.',
           chips: ['Playwright sweeps', 'Spring motion model', 'Next.js 16', 'gitleaks'],
           links: [],
           caseHref: '/en/projects/craft',
@@ -1454,14 +1454,14 @@ export const caseStudies: Record<
       craft: {
         name: 'Design · Web Craft',
         tagline: 'FABLE 컬렉션 65페이지 · ALL-IN-ONE 라이브 IA 재설계 · Wardenkit · AI로 대량 제작하고 기계로 검증하는 방식',
-        status: 'FABLE LIVE (2026-07) · ALL-IN-ONE LIVE · Wardenkit 스캐폴드 (2026-07-29 개시)',
+        status: 'FABLE 비공개 보관 (2026-10 전환) · ALL-IN-ONE LIVE · Wardenkit 스캐폴드 (2026-07-29 개시)',
         overview:
           '세 프로젝트를 하나의 방법으로 묶었습니다 · AI 에이전트로 빠르게 많이 만들되, 사람의 눈 대신 검증 하네스가 먼저 판정한다는 것. FABLE은 사이트 35 + 데이터 그래프 10 + 대시보드 15 + 애니메이션 프리미티브 라이브러리의 디자인 쇼케이스이고, ALL-IN-ONE은 운영 중인 Next.js 16 트렌드·딜 사이트의 정보구조 재설계이며, Wardenkit은 AirLens에서 쓰던 보안 훅을 남이 쓰는 킷으로 옮기는 상업 프로젝트입니다.',
         frame: {
           problem: 'AI로 페이지를 빠르게 많이 만들 수 있게 되자 병목이 제작이 아니라 검증으로 옮겨갔습니다. "디자인이 깨진다"는 제보는 왔지만 무엇이 깨졌는지 아무도 특정하지 못했고, 운영 중인 사이트는 기능이 계속 증축돼 정신없다는 체감이 있었습니다.',
           role: '디자인 방향과 토큰 규칙, 검증 하네스의 판정 기준, 물리·모션 모델 이식 판단, 정보구조 재설계의 결정, Wardenkit의 라이선스 규칙을 맡았습니다. 65페이지 구현과 스윕 스크립트, Next.js 리팩토링의 대부분은 AI 에이전트가 썼습니다.',
           process: '고치기 전에 87 page×viewport를 스윕해 레이아웃이 아니라 대비 토큰이 문제임을 먼저 확인했습니다. 모션은 Swift 라이브러리를 번역하는 대신 파라미터 모델만 옮겨 수치로 검증했고, 정보구조는 선택형 인터뷰로 결정 지점을 드러낸 뒤 토큰은 불변으로 두고 층위만 바꿨습니다.',
-          result: 'FABLE 65페이지가 195/195 검증을 통과한 채 라이브이고, ALL-IN-ONE 홈은 6섹션에서 4블록으로 줄어 리뷰가 잡은 버그 2건을 배포 전에 되돌렸습니다. Wardenkit은 테스트 9 suites·225 checks의 스캐폴드 단계입니다.',
+          result: 'FABLE 65페이지는 195/195 검증을 통과한 뒤 비공개로 보관 중이고, ALL-IN-ONE 홈은 6섹션에서 4블록으로 줄어 리뷰가 잡은 버그 2건을 배포 전에 되돌렸습니다. Wardenkit은 테스트 9 suites·225 checks의 스캐폴드 단계입니다.',
           whyAI: 'AI는 제작 속도를 올리지만 판정은 못 합니다. 그래서 검증 하네스를 사람의 눈보다 먼저 두고, 하네스 자체가 틀린 네 번의 오탐도 기록했습니다.',
         },
         attribution: [
@@ -1535,7 +1535,6 @@ export const caseStudies: Record<
           description: 'FABLE 65페이지 쇼케이스, ALL-IN-ONE IA 재설계, Wardenkit · AI로 대량 제작하고 검증 하네스로 먼저 판정하는 방식.',
         },
         links: [
-          { label: 'FABLE 컬렉션', url: 'https://fable-collection.netlify.app' },
           { label: 'Wardenkit', url: `${GITHUB}/Wardenkit` },
         ],
       },
@@ -2085,14 +2084,14 @@ export const caseStudies: Record<
       craft: {
         name: 'Design · Web Craft',
         tagline: 'FABLE collection, 65 pages · ALL-IN-ONE live IA redesign · Wardenkit · build at volume with AI, verify by machine',
-        status: 'FABLE LIVE (2026-07) · ALL-IN-ONE LIVE · Wardenkit scaffold (started 2026-07-29)',
+        status: 'FABLE kept private (since 2026-10) · ALL-IN-ONE LIVE · Wardenkit scaffold (started 2026-07-29)',
         overview:
           'Three projects tied by one method: build fast and in volume with AI agents, but let a verification harness judge before a human eye does. FABLE is a design showcase of 35 sites, 10 data graphs, 15 dashboards and an animation-primitive library; ALL-IN-ONE is an information-architecture redesign of a live Next.js 16 trends-and-deals site; Wardenkit is a commercial project turning the security hooks I used in AirLens into a kit other teams can use.',
         frame: {
           problem: 'Once AI could produce pages quickly and in volume, the bottleneck moved from building to verifying. Reports said "the design is broken" but nobody could say what; and a live site kept growing bolt-on features until it felt chaotic.',
           role: 'I owned design direction and token rules, the harness’s pass criteria, the call to port physics/motion models, the information-architecture decisions and Wardenkit’s licensing rules. AI agents wrote most of the 65 pages, the sweep scripts and the Next.js refactor.',
           process: 'Before fixing anything I swept 87 page×viewport combinations and found contrast tokens, not layout, were at fault. Motion was ported as a parameter model rather than a translated Swift library and verified numerically; the IA was redesigned after a forced-choice interview surfaced the decisions, with tokens left untouched.',
-          result: 'FABLE’s 65 pages are live with 195/195 checks passing, the ALL-IN-ONE home went from six sections to four blocks with two review-caught bugs reverted before deploy, and Wardenkit is a scaffold with 9 test suites and 225 checks.',
+          result: 'FABLE’s 65 pages passed 195/195 checks and are now kept private, the ALL-IN-ONE home went from six sections to four blocks with two review-caught bugs reverted before deploy, and Wardenkit is a scaffold with 9 test suites and 225 checks.',
           whyAI: 'AI raises build speed but cannot judge. So the verification harness sits ahead of the human eye, and the four times the harness itself was wrong are on record too.',
         },
         attribution: [
@@ -2166,7 +2165,6 @@ export const caseStudies: Record<
           description: 'The FABLE 65-page showcase, the ALL-IN-ONE IA redesign and Wardenkit · building at volume with AI and letting a verification harness judge first.',
         },
         links: [
-          { label: 'FABLE collection', url: 'https://fable-collection.netlify.app' },
           { label: 'Wardenkit', url: `${GITHUB}/Wardenkit` },
         ],
       },
